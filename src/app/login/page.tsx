@@ -1,6 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
-import { login, signup } from "./actions";
+import { login, resendConfirmation, signup } from "./actions";
 
 export default async function LoginPage({
   searchParams,
@@ -36,6 +36,10 @@ export default async function LoginPage({
             <button formAction={login} className="button primary">登入 <span>→</span></button>
             <button formAction={signup} className="button ghost">建立帳號</button>
           </div>
+        </form>
+        <form action={resendConfirmation} className="resend-form">
+          <label>沒有收到驗證信？<input name="resendEmail" type="email" placeholder="輸入註冊信箱" required /></label>
+          <button className="button ghost">重寄驗證信</button>
         </form>
         <small>第一位完成註冊的使用者將成為系統管理者。</small>
       </section>

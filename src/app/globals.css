@@ -151,6 +151,10 @@ button { cursor:pointer; }
 .auth-form label { display:block; font-size:10px; color:var(--muted); margin-top:18px; }
 .auth-form input { display:block; width:100%; border:0; border-bottom:1px solid var(--ink); background:transparent; padding:11px 0; outline:0; color:var(--ink); }
 .auth-actions { display:flex; gap:9px; margin:30px 0 18px; }
+.resend-form { display:grid; grid-template-columns:1fr auto; gap:10px; align-items:end; margin:4px 0 20px; padding-top:18px; border-top:1px solid var(--line); }
+.resend-form label { font-size:10px; color:var(--muted); }
+.resend-form input { display:block; width:100%; border:0; border-bottom:1px solid var(--line); background:transparent; padding:9px 0; outline:0; }
+.resend-form .button { min-height:37px; }
 .notice { padding:12px 14px; margin:16px 0; font-size:11px; border-left:3px solid; }
 .notice.error { background:#f1dfda; border-color:var(--red); }
 .notice.success { background:#e1e9df; border-color:var(--green); }
