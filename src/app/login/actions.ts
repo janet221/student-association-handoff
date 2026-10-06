@@ -3,6 +3,14 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 
+function authErrorMessage(message: string) {
+  if (message.includes("security purposes")) return "請稍候約一分鐘再試，短時間內無法重複寄送驗證信。";
+  if (message.includes("already registered")) return "此信箱已註冊，請直接登入。";
+  if (message.includes("Invalid login credentials")) return "信箱或密碼不正確。";
+  if (message.includes("Email not confirmed")) return "請先至信箱完成驗證後再登入。";
+  return message;
+}
+
 export async function login(formData: FormData) {
   const supabase = await createClient();
   const email = String(formData.get("email") ?? "");
@@ -28,7 +36,7 @@ export async function signup(formData: FormData) {
     },
   });
 
-  if (error) redirect(`/login?error=${encodeURIComponent(error.message)}`);
+  if (error) redirect(`/login?error=${encodeURIComponent(authErrorMessage(error.message))}`);
   redirect(`/login?message=${encodeURIComponent("註冊完成，請至信箱點擊驗證連結。")}`);
 }
 
