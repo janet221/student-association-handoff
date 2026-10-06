@@ -3,7 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 import { SectionHeading } from "@/components/section-heading";
 import { updateTaskStatus } from "../actions";
 
-type Task = { id: string; name: string; description: string | null; status: string; priority: string; deadline_type: string | null; fixed_deadline: string | null; relative_days: number | null; assignments: { members: { name: string } | null }[]; experiences: { id: string; kind: string; content: string }[]; task_dependencies: { tasks: { id: string; name: string; status: string } | null }[] };
+type Task = { id: string; name: string; description: string | null; status: string; priority: string; deadline_type: string | null; fixed_deadline: string | null; relative_days: number | null; assignments: { members: { name: string } | null }[]; experiences: { id: string; kind: string; content: string }[]; task_dependencies: { depends_on: { id: string; name: string; status: string } | null }[] };
 type Phase = { id: string; name: string; description: string | null; tasks: Task[] };
 type Activity = { id: string; name: string; description: string | null; status: string; activity_date: string | null; terms: { name: string; ordinal: number } | null; phases: Phase[]; equipment: { id: string; name: string; quantity: number; is_confirmed: boolean; note: string | null }[]; document_links: { id: string; name: string; url: string; document_type: string }[]; experiences: { id: string; kind: string; content: string }[] };
 
@@ -17,7 +17,9 @@ export default async function ActivityDetailPage({ params }: { params: Promise<{
     phases(id, name, description, position, tasks(
       id, name, description, status, priority, deadline_type, fixed_deadline, relative_days, position,
       assignments(members(name)), experiences(id, kind, content),
-      task_dependencies(tasks:depends_on_task_id(id, name, status))
+      task_dependencies!task_dependencies_task_id_fkey(
+        depends_on:tasks!task_dependencies_depends_on_task_id_fkey(id, name, status)
+      )
     )), equipment(id, name, quantity, is_confirmed, note),
     document_links(id, name, url, document_type), experiences(id, kind, content)
   `).eq("id", id).order("position", { referencedTable: "phases", ascending: true }).single();
@@ -41,7 +43,7 @@ export default async function ActivityDetailPage({ params }: { params: Promise<{
             <header><span>{String(phaseIndex + 1).padStart(2, "0")}</span><div><small>PHASE</small><h2>{phase.name}</h2><p>{phase.description}</p></div></header>
             <div className="phase-tasks">
               {phase.tasks.map((task) => {
-                const waiting = task.task_dependencies.map((item) => item.tasks).filter((item) => item && item.status !== "completed");
+                const waiting = task.task_dependencies.map((item) => item.depends_on).filter((item) => item && item.status !== "completed");
                 return (
                   <div className={`detail-task ${task.status === "completed" ? "done" : ""}`} key={task.id}>
                     <span className="task-state">{task.status === "completed" ? "✓" : waiting.length ? "○" : "●"}</span>
