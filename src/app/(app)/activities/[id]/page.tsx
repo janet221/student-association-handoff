@@ -69,6 +69,8 @@ export default async function ActivityDetailPage({ params, searchParams }: { par
   const done = tasks.filter((task) => task.status === "completed").length;
   const percent = tasks.length ? Math.round(done / tasks.length * 100) : 0;
 
+  if (activity.status === "archived") return <ArchivedActivityView activity={activity} />;
+
   return (
     <main className="page-wrap activity-detail">
       {created && <div className="notice success">{created === "existing" ? `已開啟既有的本屆${activity.name}。` : `已從上一屆建立本屆${activity.name}。日期、場地、人員、狀態與執行情況都已重設，請依本屆情況調整。`}</div>}
@@ -96,6 +98,21 @@ export default async function ActivityDetailPage({ params, searchParams }: { par
 
     </main>
   );
+}
+
+function ArchivedActivityView({ activity }: { activity: Activity }) {
+  const notes = activity.experiences.filter((item) => !item.task_id);
+  const highlights = [
+    activity.activity_schedule_items.length ? `留下 ${activity.activity_schedule_items.length} 筆活動日程與場地紀錄。` : "目前沒有整理好的日程紀錄。",
+    activity.equipment.length ? `器材資料共 ${activity.equipment.length} 項，可作為本屆準備時的參考。` : "目前沒有器材紀錄。",
+    activity.document_links.length ? `共有 ${activity.document_links.length} 份歷屆文件。` : "目前沒有掛上的文件。",
+  ];
+  return <main className="page-wrap archive-detail">
+    <section className="archive-detail-hero"><SectionHeading number="04" label="ARCHIVE DETAIL" title={`${activity.terms?.ordinal ?? "—"}th ${activity.name}`} description={`第 ${activity.terms?.ordinal ?? "—"} 屆${activity.name}留下的文件與交接內容。`} /></section>
+    {notes.length > 0 && <section className="archive-notes"><div className="section-number">01 <span /> NOTES</div><h2>學長姐留下的話</h2>{notes.map((note) => <blockquote key={note.id}>{siteCopy(note.content)}</blockquote>)}</section>}
+    {activity.document_links.length > 0 && <section className="archive-documents"><div className="section-number">02 <span /> FILES</div><h2>歷屆文件</h2>{activity.document_links.map((file) => <a key={file.id} href={file.url} target="_blank" rel="noreferrer"><span>FILE</span><b>{file.name}</b><em>查看 →</em></a>)}</section>}
+    <section className="archive-highlights"><div className="section-number">03 <span /> SUMMARY</div><h2>歷屆資料重點</h2><div>{highlights.map((item) => <p key={item}>{item}</p>)}</div></section>
+  </main>;
 }
 
 function ActivityTaskOverview({ tasks }: { tasks: Task[] }) {

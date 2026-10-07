@@ -3,23 +3,19 @@ import { createClient } from "@/lib/supabase/server";
 import { SectionHeading } from "@/components/section-heading";
 import { siteCopy } from "@/lib/site-copy";
 import { activityDepartment } from "@/lib/activity-departments";
-import { InheritActivityForm } from "@/components/inherit-activity-form";
 
 type HistoricalActivity = { id: string; name: string; description: string | null; activity_date: string | null; terms: { name: string; ordinal: number } | null; phases: { id: string }[]; equipment: { id: string }[]; experiences: { id: string }[] };
 
 export default async function HistoryPage({ searchParams }: { searchParams: Promise<{ error?: string }> }) {
   const supabase = await createClient();
-  const [{ data }, { data: currentTerm }] = await Promise.all([
-    supabase.from("activities").select("id, name, description, activity_date, terms(name, ordinal), phases(id), equipment(id), experiences(id)").eq("status", "archived").order("activity_date", { ascending: false }),
-    supabase.from("terms").select("id, name, ordinal").eq("is_current", true).maybeSingle(),
-  ]);
+  const { data } = await supabase.from("activities").select("id, name, description, activity_date, terms(name, ordinal), phases(id), equipment(id), experiences(id)").eq("status", "archived").order("activity_date", { ascending: false });
   const history = (data ?? []) as unknown as HistoricalActivity[];
   const { error } = await searchParams;
   const departments = Array.from(new Set(history.map((activity) => activityDepartment(activity.name))));
 
   return (
     <main className="page-wrap">
-      <section className="page-intro"><SectionHeading number="03" label="ARCHIVE" title="歷屆紀錄" description={currentTerm ? `目前工作屆別：第 ${currentTerm.ordinal} 屆。從以前的活動建立新的本屆版本。` : "從以前的活動建立新的本屆版本。"} /></section>
+      <section className="page-intro"><SectionHeading number="03" label="ARCHIVE" title="歷屆紀錄" description="查看以前留下的文件、提醒與活動資料。" /></section>
       {error && <div className="notice error">{error}</div>}
       <section className="department-directory archive-list">
         {departments.map((department) => <details className="department-menu" key={department}>
@@ -32,7 +28,6 @@ export default async function HistoryPage({ searchParams }: { searchParams: Prom
             <div className="archive-counts"><span><b>{activity.phases.length}</b>階段</span><span><b>{activity.equipment.length}</b>器材</span><span><b>{activity.experiences.length}</b>經驗</span></div>
             <div className="archive-actions">
               <Link href={`/activities/${activity.id}`} className="button ghost">查看內容</Link>
-              {currentTerm && <InheritActivityForm sourceActivity={activity.id} targetTerm={currentTerm.id} targetOrdinal={currentTerm.ordinal} activityName={activity.name} />}
             </div>
           </article>
         ))}
