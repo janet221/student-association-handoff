@@ -6,7 +6,7 @@ import { experienceLabel, siteCopy } from "@/lib/site-copy";
 import { archiveFolderLinks } from "@/lib/archive-folders";
 import {
   createChecklistItem, createTask,
-  deleteTask, moveTask, setTaskAssignee, toggleChecklistItem,
+  deleteTask, moveTask, setTaskAssignee,
   updateTask, updateTaskStatus,
   updateArchiveOverview, updateDocumentHandoverNote, updateArchivedTask,
 } from "../actions";
@@ -112,7 +112,7 @@ function TaskCard({ task, activity, members, editable, source, allTasks }: { tas
     <span className="task-state">{task.status === "completed" ? "✓" : waiting.length ? "○" : "●"}</span>
     <div className="task-main"><small>{task.category ? `${task.category} · ` : ""}{task.priority.toUpperCase()} · {statusLabel[task.status]}</small><h3>{task.name}</h3><p>{siteCopy(task.description)}</p>
       {waiting.length > 0 && <div className="dependency-note">前置工作：{waiting.map((item) => item?.name).join("、")}</div>}
-      {!!task.task_checklist_items.length && <ul className="checklist">{task.task_checklist_items.sort((a, b) => a.position - b.position).map((item) => <li key={item.id} className={item.is_completed ? "checked" : ""}><form action={toggleChecklistItem}><input type="hidden" name="activityId" value={activity.id} /><input type="hidden" name="itemId" value={item.id} /><input type="hidden" name="completed" value={String(item.is_completed)} /><button disabled={activity.status === "archived"}>{item.is_completed ? "☑" : "☐"}</button></form><span>{item.content}</span></li>)}</ul>}
+      {!!task.task_checklist_items.length && <div className="checklist-text">{task.task_checklist_items.sort((a, b) => a.position - b.position).map((item) => <p key={item.id}>{item.content}</p>)}</div>}
       {task.experiences.map((note) => <div className="experience-note" key={note.id}>本屆{experienceLabel[note.kind] ?? "紀錄"}：{siteCopy(note.content)}</div>)}
       {previousTask?.experiences.map((note) => <div className="experience-note previous" key={note.id}>上一屆{experienceLabel[note.kind] ?? "紀錄"}：{siteCopy(note.content)}</div>)}
       {source && archiveFolderLinks[activity.name] && <a className="task-reference-link" href={archiveFolderLinks[activity.name]} target="_blank" rel="noreferrer">查看歷屆雲端文件 <span>→</span></a>}
