@@ -19,6 +19,12 @@ export default async function DashboardPage() {
   });
   const ready = tasks.filter((task) => !task.waiting_for.length);
   const waiting = tasks.filter((task) => task.waiting_for.length);
+  const today = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Taipei" }).format(new Date());
+  const nextWeek = new Date(`${today}T00:00:00+08:00`);
+  nextWeek.setDate(nextWeek.getDate() + 7);
+  const nextWeekKey = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Taipei" }).format(nextWeek);
+  const dueSoon = ready.filter((task) => task.effective_deadline && task.effective_deadline >= today && task.effective_deadline <= nextWeekKey);
+  const overdue = ready.filter((task) => task.effective_deadline && task.effective_deadline < today);
 
   return (
     <main className="page-wrap">
@@ -27,6 +33,8 @@ export default async function DashboardPage() {
         <div className="hero-summary">
           <span className="term-mark">{term ? `${term.ordinal}th` : "—"}<small>{term?.name ?? "尚未建立本屆資料"}</small></span>
           <div className="summary-stat"><b>{ready.length}</b><span>現在可執行</span></div>
+          <div className="summary-stat"><b>{dueSoon.length}</b><span>7 天內到期</span></div>
+          <div className="summary-stat"><b>{overdue.length}</b><span>已逾期</span></div>
           <div className="summary-stat"><b>{waiting.length}</b><span>仍在等待</span></div>
           <div className="summary-stat"><b>{tasks.length}</b><span>未完成工作</span></div>
         </div>
@@ -65,5 +73,5 @@ function TaskRow({ task, index }: { task: DashboardTask; index: number }) {
 }
 
 function EmptyState() {
-  return <section className="empty-state"><b>尚未有本屆工作</b><p>完成 Seed Data 後，這裡會直接告訴你現在最該做什麼。</p><Link href="/history">查看歷屆紀錄 →</Link></section>;
+  return <section className="empty-state"><b>尚未有本屆工作</b><p>請從歷屆紀錄的上一屆系運建立本屆版本，這裡就會依期限與前置條件排列。</p><Link href="/history">查看歷屆紀錄 →</Link></section>;
 }

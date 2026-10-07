@@ -29,13 +29,13 @@ export default async function HistoryPage({ searchParams }: { searchParams: Prom
               {currentTerm && <form action={inheritActivity}>
                 <input type="hidden" name="sourceActivity" value={activity.id} />
                 <input type="hidden" name="targetTerm" value={currentTerm.id} />
-                <label>本屆活動日期<input name="activityDate" type="date" /></label>
-                <button className="button primary">以此建立本屆工作 →</button>
+                <small>日期、場地、負責人與執行狀態會重新設定</small>
+                <button className="button primary">以此建立本屆{activity.name} →</button>
               </form>}
             </div>
           </article>
         ))}
-        {!history.length && <div className="empty-state"><b>尚未有封存活動</b><p>Phase 8 載入 Seed Data 後，上一屆系運與商管盃會出現在這裡。</p></div>}
+        {!history.length && <div className="empty-state"><b>尚未有封存活動</b><p>完成歷屆資料匯入後，上一屆系運會出現在這裡。</p></div>}
       </section>
     </main>
   );

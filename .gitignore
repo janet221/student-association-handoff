@@ -20,6 +20,9 @@
 # production
 /build
 
+# local historical source data
+reference-data/
+
 # misc
 .DS_Store
 *.pem
