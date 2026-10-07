@@ -263,6 +263,17 @@ export async function updateArchiveOverview(formData: FormData) {
   refreshActivity(activityId);
 }
 
+export async function updateArchivedTask(formData: FormData) {
+  const taskId = value(formData, "taskId");
+  const activityId = value(formData, "activityId");
+  const supabase = await requireAdmin();
+  const { data: task } = await supabase.from("tasks").select("id, phases!inner(activity_id)").eq("id", taskId).eq("phases.activity_id", activityId).maybeSingle();
+  if (!task) throw new Error("找不到這項歷屆工作");
+  const { error } = await supabase.from("tasks").update({ name: value(formData, "name"), category: optional(formData, "category"), description: optional(formData, "description") }).eq("id", taskId);
+  if (error) throw new Error(error.message);
+  refreshActivity(activityId);
+}
+
 export async function updateDocumentHandoverNote(formData: FormData) {
   const activityId = value(formData, "activityId");
   const documentId = value(formData, "documentId");
