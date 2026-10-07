@@ -39,9 +39,18 @@ function refreshActivity(activityId: string) {
 
 export async function inheritActivity(formData: FormData) {
   const supabase = await requireAdmin();
+  const sourceActivity = value(formData, "sourceActivity");
+  const targetTerm = value(formData, "targetTerm");
+  const { data: source } = await supabase.from("activities").select("name").eq("id", sourceActivity).maybeSingle();
+  if (!source) redirect("/history?error=找不到要建立的歷屆活動");
+  const { data: existing } = await supabase.from("activities").select("id").eq("term_id", targetTerm).eq("name", source.name).maybeSingle();
+  if (existing) {
+    revalidatePath("/activities");
+    redirect(`/activities/${existing.id}?created=existing`);
+  }
   const { data, error } = await supabase.rpc("inherit_activity", {
-    source_activity: value(formData, "sourceActivity"),
-    target_term: value(formData, "targetTerm"),
+    source_activity: sourceActivity,
+    target_term: targetTerm,
     target_activity_date: null,
   });
   if (error) redirect(`/history?error=${encodeURIComponent(error.message)}`);

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { SectionHeading } from "@/components/section-heading";
 import { siteCopy } from "@/lib/site-copy";
+import { activityDepartment } from "@/lib/activity-departments";
 
 type Activity = {
   id: string; name: string; description: string | null; status: string; activity_date: string | null;
@@ -15,6 +16,7 @@ export default async function DashboardPage() {
     ? await supabase.from("activities").select("id, name, description, status, activity_date, phases(tasks(status))").eq("term_id", term.id).neq("status", "archived").order("created_at")
     : { data: [] };
   const activities = (data ?? []) as Activity[];
+  const departments = Array.from(new Set(activities.map((activity) => activityDepartment(activity.name))));
 
   return (
     <main className="page-wrap home-hub">
@@ -40,8 +42,11 @@ export default async function DashboardPage() {
 
       <section className="home-activities">
         <div className="home-section-head"><div><span>02 / CURRENT WORK</span><h2>這一屆正在準備的活動</h2><p>點進活動後，才會看到該活動的工作儀表板與完整執行內容。</p></div><Link href="/activities">查看全部本屆工作 →</Link></div>
-        <div className="home-activity-grid">
-          {activities.map((activity, index) => {
+        <div className="department-directory home-departments">
+          {departments.map((department) => <details className="department-menu" key={department}>
+            <summary><span>DEPARTMENT</span><b>{department}</b><small>{activities.filter((activity) => activityDepartment(activity.name) === department).map((activity) => activity.name).join("、")}</small><i>＋</i></summary>
+            <div className="home-activity-grid">
+          {activities.filter((activity) => activityDepartment(activity.name) === department).map((activity, index) => {
             const tasks = activity.phases.flatMap((phase) => phase.tasks);
             const done = tasks.filter((task) => task.status === "completed").length;
             return <Link href={`/activities/${activity.id}`} className="home-activity-card" key={activity.id}>
@@ -50,6 +55,8 @@ export default async function DashboardPage() {
               <footer><em>{done} / {tasks.length} 已完成</em><em>{activity.activity_date ?? "日期待確認"}</em><b>→</b></footer>
             </Link>;
           })}
+            </div>
+          </details>)}
           {!activities.length && <div className="empty-state"><b>尚未建立本屆活動</b><p>請先進入歷屆資料，從上一屆活動建立本屆版本。</p></div>}
         </div>
       </section>

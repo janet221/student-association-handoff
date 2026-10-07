@@ -72,7 +72,7 @@ export default async function ActivityDetailPage({ params, searchParams }: { par
 
   return (
     <main className="page-wrap activity-detail">
-      {created && <div className="notice success">已從上一屆建立本屆{activity.name}。日期、場地、人員、狀態與執行結果都已重設，請依本屆情況調整。</div>}
+      {created && <div className="notice success">{created === "existing" ? `已開啟既有的本屆${activity.name}。` : `已從上一屆建立本屆${activity.name}。日期、場地、人員、狀態與執行情況都已重設，請依本屆情況調整。`}</div>}
       <section className="detail-hero">
         <SectionHeading number="04" label={activity.status === "archived" ? "ARCHIVE DETAIL" : "ACTIVE PROJECT"} title={`${activity.terms?.ordinal ?? "—"}th ${activity.name}`} description={siteCopy(activity.description) || "尚未填寫活動說明"} />
         <div className="detail-score"><b>{percent}%</b><span>完成進度</span><i><em style={{ width: `${percent}%` }} /></i></div>

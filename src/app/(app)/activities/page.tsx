@@ -2,6 +2,7 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { SectionHeading } from "@/components/section-heading";
 import { siteCopy } from "@/lib/site-copy";
+import { activityDepartment } from "@/lib/activity-departments";
 
 type Activity = { id: string; name: string; description: string | null; status: string; activity_date: string | null; terms: { name: string; ordinal: number } | null; phases: { tasks: { status: string }[] }[] };
 
@@ -9,12 +10,16 @@ export default async function ActivitiesPage() {
   const supabase = await createClient();
   const { data } = await supabase.from("activities").select("id, name, description, status, activity_date, terms(name, ordinal), phases(tasks(status))").neq("status", "archived").order("created_at");
   const activities = (data ?? []) as unknown as Activity[];
+  const departments = Array.from(new Set(activities.map((activity) => activityDepartment(activity.name))));
 
   return (
     <main className="page-wrap">
       <section className="page-intro"><SectionHeading number="02" label="CURRENT WORK" title="本屆工作專區" /><Link href="/history" className="button primary">從歷屆建立 <span>→</span></Link></section>
-      <section className="activity-grid">
-        {activities.map((activity, index) => {
+      <section className="department-directory">
+        {departments.map((department) => <details className="department-menu" key={department}>
+          <summary><span>DEPARTMENT</span><b>{department}</b><small>{activities.filter((activity) => activityDepartment(activity.name) === department).map((activity) => activity.name).join("、")}</small><i>＋</i></summary>
+          <div className="activity-grid">
+        {activities.filter((activity) => activityDepartment(activity.name) === department).map((activity, index) => {
           const tasks = activity.phases.flatMap((phase) => phase.tasks);
           const done = tasks.filter((task) => task.status === "completed").length;
           const percent = tasks.length ? Math.round(done / tasks.length * 100) : 0;
@@ -30,6 +35,8 @@ export default async function ActivitiesPage() {
             </Link>
           );
         })}
+          </div>
+        </details>)}
         {!activities.length && <div className="empty-state"><b>尚未建立活動</b><p>請先由歷屆紀錄建立本屆工作，或在下一階段載入展示資料。</p></div>}
       </section>
     </main>
