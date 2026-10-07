@@ -3,8 +3,8 @@ import { createClient } from "@/lib/supabase/server";
 import { SectionHeading } from "@/components/section-heading";
 import { experienceLabel, siteCopy } from "@/lib/site-copy";
 import {
-  createChecklistItem, createEquipment, createExperience, createScheduleItem, createTask,
-  deleteTask, moveTask, setTaskAssignee, toggleChecklistItem, updateEquipment,
+  createChecklistItem, createScheduleItem, createTask,
+  deleteTask, moveTask, setTaskAssignee, toggleChecklistItem,
   updateScheduleItem, updateTask, updateTaskStatus,
 } from "../actions";
 
@@ -30,7 +30,6 @@ type Activity = {
 type Member = { id: string; name: string };
 
 const statusLabel: Record<string, string> = { todo: "待處理", in_progress: "進行中", blocked: "等待前置工作", completed: "已完成" };
-const equipmentStatusLabel: Record<string, string> = { to_confirm: "待確認", to_borrow: "待借用", requested: "已申請", borrowed: "已借用", to_buy: "待購買", purchased: "已購買", returned: "已歸還" };
 
 export default async function ActivityDetailPage({ params, searchParams }: { params: Promise<{ id: string }>; searchParams: Promise<{ created?: string }> }) {
   const { id } = await params;
@@ -143,22 +142,6 @@ function TaskCard({ task, activity, members, editable, source, allTasks }: { tas
       {editable && <div className="task-admin-buttons"><form action={moveTask}><input type="hidden" name="activityId" value={activity.id} /><input type="hidden" name="taskId" value={task.id} /><input type="hidden" name="direction" value="-1" /><button title="上移">↑</button></form><form action={moveTask}><input type="hidden" name="activityId" value={activity.id} /><input type="hidden" name="taskId" value={task.id} /><input type="hidden" name="direction" value="1" /><button title="下移">↓</button></form><form action={deleteTask}><input type="hidden" name="activityId" value={activity.id} /><input type="hidden" name="taskId" value={task.id} /><button className="danger-button">刪除</button></form></div>}
     </div>
   </div>;
-}
-
-function EquipmentSection({ activity, editable }: { activity: Activity; editable: boolean }) {
-  return <div><div className="section-number">A <span /> EQUIPMENT</div><h2>器材</h2>{activity.equipment.map((item) => <div className="equipment-row" key={item.id}><p><b>{item.name}</b><span>× {item.quantity}</span><small>{equipmentStatusLabel[item.preparation_status] ?? "待確認"}</small></p>{item.source && <em>來源：{item.source}</em>}{item.note && <em>{siteCopy(item.note)}</em>}{editable && <form action={updateEquipment} className="equipment-edit"><input type="hidden" name="activityId" value={activity.id} /><input type="hidden" name="equipmentId" value={item.id} /><input type="number" min="1" name="quantity" defaultValue={item.quantity} /><input name="source" defaultValue={item.source ?? ""} placeholder="來源" /><select name="preparationStatus" defaultValue={item.preparation_status}>{Object.entries(equipmentStatusLabel).map(([entry, label]) => <option key={entry} value={entry}>{label}</option>)}</select><input name="note" defaultValue={item.note ?? ""} placeholder="備註" /><button>更新</button></form>}</div>)}{editable && <form action={createEquipment} className="inline-create-form small"><input type="hidden" name="activityId" value={activity.id} /><input name="name" placeholder="新增器材" required /><input type="number" min="1" name="quantity" defaultValue="1" /><input name="source" placeholder="借用來源" /><button>新增</button></form>}</div>;
-}
-
-function ExperienceSection({ activity, editable }: { activity: Activity; editable: boolean }) {
-  return <div><div className="section-number">C <span /> EXPERIENCE</div><h2>{activity.status === "archived" ? "歷屆經驗" : "本屆紀錄"}</h2>{activity.experiences.filter((item) => !item.task_id).map((item) => <blockquote key={item.id}>{item.kind === "warning" ? "⚠" : "✦"} {experienceLabel[item.kind]}：{siteCopy(item.content)}</blockquote>)}{editable && <form action={createExperience} className="admin-form experience-form"><input type="hidden" name="activityId" value={activity.id} /><input type="hidden" name="termId" value={activity.term_id} /><select name="kind"><option value="note">紀錄</option><option value="tip">做法建議</option><option value="warning">注意事項</option><option value="outcome">執行情況</option></select><textarea name="content" placeholder="留下本屆執行後的真實經驗" required /><button>新增紀錄</button></form>}</div>;
-}
-
-function ReferenceSection({ source }: { source: Activity }) {
-  const sourceExperiences = Array.from(new Map(
-    [...source.experiences, ...source.phases.flatMap((phase) => phase.tasks.flatMap((task) => task.experiences))]
-      .map((item) => [item.id, item]),
-  ).values());
-  return <section className="previous-reference"><div className="section-number">R <span /> LAST YEAR</div><h2>上一屆怎麼做</h2><p>以下整理上一屆的執行紀錄，提供本屆規劃時參考；本屆的完成狀態、日期、負責人與執行結果仍以今年實際情況為準。</p><div className="reference-grid"><div><h3>實際日程與場地</h3>{source.activity_schedule_items.map((item) => <p key={item.id}><b>{item.name}</b><span>{formatDateTime(item.starts_at)}：{item.venue ?? "未記載"}</span></p>)}</div><div><h3>器材需求</h3>{source.equipment.map((item) => <p key={item.id}><b>{item.name} × {item.quantity}</b><span>{item.source ?? "來源未記載"}</span></p>)}</div><div><h3>文件</h3>{source.document_links.map((item) => <a key={item.id} href={item.url} target="_blank" rel="noreferrer">{item.document_type}：{item.name} ↗</a>)}</div><div><h3>經驗與注意事項</h3>{sourceExperiences.map((item) => <blockquote key={item.id}>{experienceLabel[item.kind] ?? "紀錄"}：{siteCopy(item.content)}</blockquote>)}</div></div></section>;
 }
 
 function formatDeadline(task: Task, activityDate: string | null) {
