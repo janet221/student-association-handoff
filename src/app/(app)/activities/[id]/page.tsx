@@ -72,7 +72,7 @@ export default async function ActivityDetailPage({ params, searchParams }: { par
 
   return (
     <main className="page-wrap activity-detail">
-      {created && <div className="notice success">已從上一屆建立本屆系運。日期、場地、人員、狀態與執行結果都已重設，請依本屆情況調整。</div>}
+      {created && <div className="notice success">已從上一屆建立本屆{activity.name}。日期、場地、人員、狀態與執行結果都已重設，請依本屆情況調整。</div>}
       <section className="detail-hero">
         <SectionHeading number="04" label={activity.status === "archived" ? "ARCHIVE DETAIL" : "ACTIVE PROJECT"} title={`${activity.terms?.ordinal ?? "—"}th ${activity.name}`} description={activity.description ?? "接續歷屆經驗，完成本屆工作。"} />
         <div className="detail-score"><b>{percent}%</b><span>完成進度</span><i><em style={{ width: `${percent}%` }} /></i></div>
@@ -156,7 +156,10 @@ function ExperienceSection({ activity, editable }: { activity: Activity; editabl
 }
 
 function ReferenceSection({ source }: { source: Activity }) {
-  const sourceExperiences = [...source.experiences, ...source.phases.flatMap((phase) => phase.tasks.flatMap((task) => task.experiences))];
+  const sourceExperiences = Array.from(new Map(
+    [...source.experiences, ...source.phases.flatMap((phase) => phase.tasks.flatMap((task) => task.experiences))]
+      .map((item) => [item.id, item]),
+  ).values());
   return <section className="previous-reference"><div className="section-number">R <span /> LAST YEAR</div><h2>上一屆怎麼做</h2><p>以下內容只供本屆執行時參考，不會變成本屆的完成狀態、日期、負責人或執行結果。</p><div className="reference-grid"><div><h3>實際日程與場地</h3>{source.activity_schedule_items.map((item) => <p key={item.id}><b>{item.name}</b><span>{formatDateTime(item.starts_at)}｜{item.venue ?? "未記載"}</span></p>)}</div><div><h3>器材需求</h3>{source.equipment.map((item) => <p key={item.id}><b>{item.name} × {item.quantity}</b><span>{item.source ?? "來源未記載"}</span></p>)}</div><div><h3>文件</h3>{source.document_links.map((item) => <a key={item.id} href={item.url} target="_blank" rel="noreferrer">{item.document_type}｜{item.name} ↗</a>)}</div><div><h3>經驗與注意事項</h3>{sourceExperiences.map((item) => <blockquote key={item.id}>{experienceLabel[item.kind] ?? "紀錄"}｜{item.content}</blockquote>)}</div></div></section>;
 }
 
