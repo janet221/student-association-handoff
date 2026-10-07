@@ -4,10 +4,10 @@ import { SectionHeading } from "@/components/section-heading";
 import { experienceLabel, siteCopy } from "@/lib/site-copy";
 import { archiveFolderLinks } from "@/lib/archive-folders";
 import {
-  createChecklistItem, createScheduleItem, createTask,
+  createChecklistItem, createTask,
   deleteTask, moveTask, setTaskAssignee, toggleChecklistItem,
-  updateScheduleItem, updateTask, updateTaskStatus,
-  updateActivityNote, archiveActivity, updateArchiveOverview, updateDocumentHandoverNote,
+  updateTask, updateTaskStatus,
+  updateActivityNote, updateArchiveOverview, updateDocumentHandoverNote,
 } from "../actions";
 
 type ChecklistItem = { id: string; content: string; is_completed: boolean; position: number };
@@ -84,11 +84,7 @@ export default async function ActivityDetailPage({ params, searchParams }: { par
         <div className="detail-score neutral-summary"><b>{tasks.length}</b><span>本屆工作項目</span></div>
         <dl><div><dt>待確認</dt><dd>{statusCounts.pending}</dd></div><div><dt>已處理</dt><dd>{statusCounts.handled}</dd></div><div><dt>本屆不採用</dt><dd>{statusCounts.notApplicable}</dd></div></dl>
       </section>
-      {editable && <form action={archiveActivity} className="archive-activity-form"><input type="hidden" name="activityId" value={activity.id} /><button>活動結束後，封存為歷屆紀錄</button></form>}
-
-      <ScheduleSection activity={activity} editable={editable} />
-
-      {activity.status !== "archived" && <><ActivityTaskOverview tasks={tasks} /><ActivityNotes activity={activity} editable={editable} /></>}
+      {activity.status !== "archived" && <ActivityNotes activity={activity} editable={editable} />}
 
       <section className="phase-stack">
         {activity.phases.map((phase, phaseIndex) => (
