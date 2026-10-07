@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { SectionHeading } from "@/components/section-heading";
 import { experienceLabel, siteCopy } from "@/lib/site-copy";
+import { archiveFolderLinks } from "@/lib/archive-folders";
 import {
   createChecklistItem, createScheduleItem, createTask,
   deleteTask, moveTask, setTaskAssignee, toggleChecklistItem,
@@ -105,16 +106,10 @@ export default async function ActivityDetailPage({ params, searchParams }: { par
 
 function ArchivedActivityView({ activity }: { activity: Activity }) {
   const notes = activity.experiences.filter((item) => !item.task_id);
-  const highlights = [
-    activity.activity_schedule_items.length ? `留下 ${activity.activity_schedule_items.length} 筆活動日程與場地紀錄。` : "目前沒有整理好的日程紀錄。",
-    activity.equipment.length ? `器材資料共 ${activity.equipment.length} 項，可作為本屆準備時的參考。` : "目前沒有器材紀錄。",
-    activity.document_links.length ? `共有 ${activity.document_links.length} 份歷屆文件。` : "目前沒有掛上的文件。",
-  ];
   return <main className="page-wrap archive-detail">
     <section className="archive-detail-hero"><SectionHeading number="04" label="ARCHIVE DETAIL" title={`${activity.terms?.ordinal ?? "—"}th ${activity.name}`} description={`第 ${activity.terms?.ordinal ?? "—"} 屆${activity.name}留下的文件與交接內容。`} /></section>
     {notes.length > 0 && <section className="archive-notes"><div className="section-number">01 <span /> NOTES</div><h2>學長姐留下的話</h2>{notes.map((note) => <blockquote key={note.id}>{siteCopy(note.content)}</blockquote>)}</section>}
-    {activity.document_links.length > 0 && <section className="archive-documents"><div className="section-number">02 <span /> FILES</div><h2>歷屆文件</h2>{activity.document_links.map((file) => <a key={file.id} href={file.url} target="_blank" rel="noreferrer"><span>FILE</span><b>{file.name}</b><em>查看 →</em></a>)}</section>}
-    <section className="archive-highlights"><div className="section-number">03 <span /> SUMMARY</div><h2>歷屆資料重點</h2><div>{highlights.map((item) => <p key={item}>{item}</p>)}</div></section>
+    {(activity.document_links.length > 0 || archiveFolderLinks[activity.name]) && <section className="archive-documents"><div className="section-number">02 <span /> FILES</div><h2>歷屆文件</h2>{activity.document_links.map((file) => <a key={file.id} href={file.url} target="_blank" rel="noreferrer"><span>FILE</span><b>{file.name}</b><em>查看 →</em></a>)}{archiveFolderLinks[activity.name] && <a className="archive-folder-link archive-folder-link-block" href={archiveFolderLinks[activity.name]} target="_blank" rel="noreferrer"><span>DRIVE</span><b>查看雲端資料夾</b><em>開啟 →</em></a>}</section>}
   </main>;
 }
 

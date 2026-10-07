@@ -1,15 +1,10 @@
-import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { SectionHeading } from "@/components/section-heading";
 import { siteCopy } from "@/lib/site-copy";
 import { activityDepartment } from "@/lib/activity-departments";
+import { archiveFolderLinks } from "@/lib/archive-folders";
 
 type HistoricalActivity = { id: string; name: string; description: string | null; activity_date: string | null; terms: { name: string; ordinal: number } | null; phases: { id: string }[]; equipment: { id: string }[]; experiences: { id: string }[] };
-
-const archiveFolderLinks: Record<string, string> = {
-  "系運": "https://drive.google.com/drive/folders/1f9FxCs3vrR66uT-hTDYV-lCHHY2FKNJD",
-  "商管盃": "https://drive.google.com/drive/folders/1hSpR0AJBpxmWWya413IkwNE2eQEBoeNS",
-};
 
 export default async function HistoryPage({ searchParams }: { searchParams: Promise<{ error?: string }> }) {
   const supabase = await createClient();
@@ -30,9 +25,8 @@ export default async function HistoryPage({ searchParams }: { searchParams: Prom
           <article className="archive-row" key={activity.id}>
             <div className="archive-term"><b>{activity.terms?.ordinal ?? "—"}th</b><span>{activity.terms?.name}</span></div>
             <div><small>{String(index + 1).padStart(2, "0")} / ARCHIVED ACTIVITY</small><h2>{activity.name}</h2>{archiveFolderLinks[activity.name] ? <a className="archive-folder-link" href={archiveFolderLinks[activity.name]} target="_blank" rel="noreferrer">查看去年籌備文件 →</a> : <p>{siteCopy(activity.description)}</p>}</div>
-            <div className="archive-counts"><span><b>{activity.phases.length}</b>階段</span><span><b>{activity.equipment.length}</b>器材</span><span><b>{activity.experiences.length}</b>經驗</span></div>
             <div className="archive-actions">
-              <Link href={`/activities/${activity.id}`} className="button ghost">查看內容</Link>
+              {archiveFolderLinks[activity.name] && <a className="archive-folder-link" href={archiveFolderLinks[activity.name]} target="_blank" rel="noreferrer">查看雲端文件 →</a>}
             </div>
           </article>
         ))}
