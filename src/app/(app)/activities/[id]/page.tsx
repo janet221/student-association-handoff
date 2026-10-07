@@ -68,11 +68,6 @@ export default async function ActivityDetailPage({ params, searchParams }: { par
   const source = sourceData as unknown as Activity | null;
   const editable = profile?.role === "admin" && activity.status !== "archived";
   const tasks = activity.phases.flatMap((phase) => phase.tasks).sort((a, b) => a.position - b.position);
-  const statusCounts = {
-    pending: tasks.filter((task) => task.status !== "completed").length,
-    handled: tasks.filter((task) => task.status === "completed").length,
-    notApplicable: tasks.filter((task) => task.status === "not_applicable").length,
-  };
 
   if (activity.status === "archived") return <ArchivedActivityView activity={activity} editable={profile?.role === "admin"} />;
 
@@ -80,9 +75,7 @@ export default async function ActivityDetailPage({ params, searchParams }: { par
     <main className="page-wrap activity-detail">
       {created && <div className="notice success">{created === "existing" ? `已開啟既有的本屆${activity.name}。` : `已從上一屆建立本屆${activity.name}。日期、場地、人員、狀態與執行情況都已重設，請依本屆情況調整。`}</div>}
       <section className="detail-hero">
-        <SectionHeading number="04" label={activity.status === "archived" ? "ARCHIVE DETAIL" : "ACTIVE PROJECT"} title={`${activity.terms?.ordinal ?? "—"}th ${activity.name}`} description={siteCopy(activity.description) || "尚未填寫活動說明"} />
-        <div className="detail-score neutral-summary"><b>{tasks.length}</b><span>本屆工作項目</span></div>
-        <dl><div><dt>待確認</dt><dd>{statusCounts.pending}</dd></div><div><dt>已處理</dt><dd>{statusCounts.handled}</dd></div><div><dt>本屆不採用</dt><dd>{statusCounts.notApplicable}</dd></div></dl>
+        <SectionHeading number="04" label={activity.status === "archived" ? "ARCHIVE DETAIL" : "ACTIVE PROJECT"} title={`${activity.terms?.ordinal ?? "—"}th ${activity.name}`} description="這裡可以查看學長姐建議的工作流程時間表" />
       </section>
 
       <section className="phase-stack">
