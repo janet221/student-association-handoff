@@ -12,6 +12,11 @@ where current_term.ordinal = 26
   and previous_term.ordinal = 25
   and current_term.handover_from_term_id is null;
 
+update public.terms
+set handover_completed = true
+where ordinal = 26
+  and handover_from_term_id is not null;
+
 create policy "public can read current handover display"
 on public.terms for select to anon
 using (true);

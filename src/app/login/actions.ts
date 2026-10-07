@@ -4,6 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 
 function authErrorMessage(message: string) {
+  if (message.toLowerCase().includes("fetch failed")) return "目前無法連線到登入服務，請確認網路後再試。";
   if (message.includes("security purposes")) return "請稍候約一分鐘再試，短時間內無法重複寄送驗證信。";
   if (message.includes("already registered")) return "此信箱已註冊，請直接登入。";
   if (message.includes("Invalid login credentials")) return "信箱或密碼不正確。";

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "系學會跨屆工作交接系統",
+  title: "資管系學會換屆工作交接系統",
   description: "讓歷屆經驗直接成為本屆可執行的工作流程。",
 };
 
