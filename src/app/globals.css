@@ -151,6 +151,8 @@ button { cursor:pointer; }
 .task-reference summary { cursor:pointer; padding:14px 0; color:var(--muted); font-size:11px; list-style:none; }
 .task-reference summary::-webkit-details-marker { display:none; }
 .task-reference summary::after { content:"＋"; float:right; color:var(--ink); }
+.task-reference-link { display:flex; justify-content:space-between; margin-top:22px; padding:14px 0; border-top:1px solid var(--line); color:var(--muted); font-size:11px; }
+.task-reference-link:hover { color:var(--ink); }
 .task-reference[open] summary::after { content:"－"; }
 .task-reference-content { display:grid; gap:18px; padding:4px 0 8px 16px; border-left:1px solid var(--line); }
 .task-reference-content > div { display:grid; gap:6px; }
