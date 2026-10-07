@@ -73,6 +73,28 @@ export async function updateActivity(formData: FormData) {
   refreshActivity(activityId);
 }
 
+export async function archiveActivity(formData: FormData) {
+  const activityId = value(formData, "activityId");
+  const supabase = await ensureEditableActivity(activityId);
+  const { error } = await supabase.from("activities").update({ status: "archived" }).eq("id", activityId);
+  if (error) throw new Error(error.message);
+  revalidatePath("/activities");
+  revalidatePath("/history");
+  revalidatePath(`/activities/${activityId}`);
+}
+
+export async function updateActivityNote(formData: FormData) {
+  const activityId = value(formData, "activityId");
+  const content = value(formData, "content");
+  const supabase = await ensureEditableActivity(activityId);
+  const { data: existing } = await supabase.from("experiences").select("id").eq("activity_id", activityId).is("task_id", null).eq("kind", "note").maybeSingle();
+  const result = existing
+    ? await supabase.from("experiences").update({ content }).eq("id", existing.id)
+    : await supabase.from("experiences").insert({ activity_id: activityId, kind: "note", content });
+  if (result.error) throw new Error(result.error.message);
+  refreshActivity(activityId);
+}
+
 export async function createScheduleItem(formData: FormData) {
   const activityId = value(formData, "activityId");
   const supabase = await ensureEditableActivity(activityId);

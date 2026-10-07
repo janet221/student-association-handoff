@@ -7,7 +7,7 @@ import {
   createChecklistItem, createScheduleItem, createTask,
   deleteTask, moveTask, setTaskAssignee, toggleChecklistItem,
   updateScheduleItem, updateTask, updateTaskStatus,
-  updateArchiveOverview, updateDocumentHandoverNote,
+  updateActivityNote, archiveActivity, updateArchiveOverview, updateDocumentHandoverNote,
 } from "../actions";
 
 type ChecklistItem = { id: string; content: string; is_completed: boolean; position: number };
@@ -84,10 +84,11 @@ export default async function ActivityDetailPage({ params, searchParams }: { par
         <div className="detail-score neutral-summary"><b>{tasks.length}</b><span>本屆工作項目</span></div>
         <dl><div><dt>待確認</dt><dd>{statusCounts.pending}</dd></div><div><dt>已處理</dt><dd>{statusCounts.handled}</dd></div><div><dt>本屆不採用</dt><dd>{statusCounts.notApplicable}</dd></div></dl>
       </section>
+      {editable && <form action={archiveActivity} className="archive-activity-form"><input type="hidden" name="activityId" value={activity.id} /><button>活動結束後，封存為歷屆紀錄</button></form>}
 
       <ScheduleSection activity={activity} editable={editable} />
 
-      {activity.status !== "archived" && <ActivityTaskOverview tasks={tasks} />}
+      {activity.status !== "archived" && <><ActivityTaskOverview tasks={tasks} /><ActivityNotes activity={activity} editable={editable} /></>}
 
       <section className="phase-stack">
         {activity.phases.map((phase, phaseIndex) => (
@@ -124,6 +125,11 @@ function ActivityTaskOverview({ tasks }: { tasks: Task[] }) {
     <header><div className="section-number">NOW <span /> WORK LIST</div><h2>本屆工作</h2><p>這些是今年可能需要確認與處理的工作，依本屆情況調整即可。</p></header>
     <div className="activity-work-summary"><span>待確認 <b>{counts.pending}</b></span><span>已處理 <b>{counts.handled}</b></span><span>本屆不採用 <b>{counts.notApplicable}</b></span></div>
   </section>;
+}
+
+function ActivityNotes({ activity, editable }: { activity: Activity; editable: boolean }) {
+  const note = activity.experiences.find((item) => !item.task_id && item.kind === "note");
+  return <section className="activity-notes"><div className="section-number">NOTE <span /> CURRENT PRACTICE</div><h2>本屆備註與今年實際做法</h2>{note && <p>{siteCopy(note.content)}</p>}{editable && <form action={updateActivityNote}><input type="hidden" name="activityId" value={activity.id} /><textarea name="content" defaultValue={note?.content ?? ""} placeholder="記下今年實際採用的做法、調整過的流程或遇到的問題" required /><button>儲存本屆備註</button></form>}</section>;
 }
 
 function ScheduleSection({ activity, editable }: { activity: Activity; editable: boolean }) {
