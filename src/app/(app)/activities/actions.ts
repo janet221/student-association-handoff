@@ -240,3 +240,24 @@ export async function createExperience(formData: FormData) {
   if (error) throw new Error(error.message);
   refreshActivity(activityId);
 }
+
+export async function updateArchiveOverview(formData: FormData) {
+  const activityId = value(formData, "activityId");
+  const content = value(formData, "content");
+  const supabase = await requireAdmin();
+  const { data: existing } = await supabase.from("experiences").select("id").eq("activity_id", activityId).is("task_id", null).eq("kind", "note").maybeSingle();
+  const result = existing
+    ? await supabase.from("experiences").update({ content }).eq("id", existing.id)
+    : await supabase.from("experiences").insert({ activity_id: activityId, kind: "note", content });
+  if (result.error) throw new Error(result.error.message);
+  refreshActivity(activityId);
+}
+
+export async function updateDocumentHandoverNote(formData: FormData) {
+  const activityId = value(formData, "activityId");
+  const documentId = value(formData, "documentId");
+  const supabase = await requireAdmin();
+  const { error } = await supabase.from("document_links").update({ handover_note: optional(formData, "handoverNote") }).eq("id", documentId).eq("activity_id", activityId);
+  if (error) throw new Error(error.message);
+  refreshActivity(activityId);
+}

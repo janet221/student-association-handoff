@@ -119,6 +119,13 @@ button { cursor:pointer; }
 .archive-notes,.archive-documents,.archive-highlights { padding:72px 0; border-bottom:1px solid var(--line); max-width:920px; }
 .archive-notes h2,.archive-documents h2,.archive-highlights h2 { margin:18px 0 30px; font:700 clamp(28px,4vw,46px)/1.3 "Noto Serif TC",serif; }
 .archive-notes blockquote { margin:0; padding:18px 0 18px 22px; border-left:2px solid var(--ink); font:400 16px/2 "Noto Serif TC",serif; white-space:pre-line; }
+.archive-note-form,.archive-document-note { display:grid; gap:10px; margin-top:28px; }
+.archive-note-form textarea,.archive-document-note textarea { width:100%; min-height:92px; border:1px solid var(--line); background:transparent; padding:12px; font-size:11px; resize:vertical; }
+.archive-note-form button,.archive-document-note button { justify-self:start; border:1px solid var(--ink); background:var(--ink); color:var(--paper); padding:10px 16px; font-size:10px; }
+.archive-document-entry { border-top:1px solid var(--line); padding:18px 0 24px; }
+.archive-document-entry > a { border-top:0; padding-top:0; }
+.archive-document-entry > p { margin:8px 0 0; color:var(--muted); font-size:11px; line-height:1.8; }
+.archive-document-note { margin-top:14px; }
 .archive-documents a { display:grid; grid-template-columns:70px 1fr auto; gap:18px; align-items:center; padding:18px 0; border-top:1px solid var(--line); font-size:12px; }
 .archive-documents a span { color:var(--muted); font:9px Arial,sans-serif; letter-spacing:.14em; }
 .archive-documents a b { font-weight:500; }
