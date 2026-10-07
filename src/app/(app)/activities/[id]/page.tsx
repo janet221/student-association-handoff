@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { SectionHeading } from "@/components/section-heading";
 import { experienceLabel, siteCopy } from "@/lib/site-copy";
@@ -33,9 +34,9 @@ type Member = { id: string; name: string };
 
 const statusLabel: Record<string, string> = { todo: "待確認", in_progress: "待確認", blocked: "待確認", completed: "已處理", not_applicable: "本屆不採用" };
 
-export default async function ActivityDetailPage({ params, searchParams }: { params: Promise<{ id: string }>; searchParams: Promise<{ created?: string }> }) {
+export default async function ActivityDetailPage({ params, searchParams }: { params: Promise<{ id: string }>; searchParams: Promise<{ created?: string; preview?: string }> }) {
   const { id } = await params;
-  const { created } = await searchParams;
+  const { created, preview } = await searchParams;
   const supabase = await createClient();
   const [{ data }, { data: { user } }] = await Promise.all([
     supabase.from("activities").select(`
@@ -66,10 +67,10 @@ export default async function ActivityDetailPage({ params, searchParams }: { par
     `).eq("id", activity.source_activity_id).single() : Promise.resolve({ data: null }),
   ]);
   const source = sourceData as unknown as Activity | null;
-  const editable = profile?.role === "admin" && activity.status !== "archived";
+  const editable = profile?.role === "admin" && activity.status !== "archived" && preview !== "1";
   const tasks = activity.phases.flatMap((phase) => phase.tasks).sort((a, b) => a.position - b.position);
 
-  if (activity.status === "archived") return <ArchivedActivityView activity={activity} editable={profile?.role === "admin"} />;
+  if (activity.status === "archived") return <ArchivedActivityView activity={activity} editable={profile?.role === "admin" && preview !== "1"} />;
 
   return (
     <main className="page-wrap activity-detail">
@@ -97,8 +98,8 @@ export default async function ActivityDetailPage({ params, searchParams }: { par
 function ArchivedActivityView({ activity, editable }: { activity: Activity; editable: boolean }) {
   const notes = activity.experiences.filter((item) => !item.task_id);
   return <main className="page-wrap archive-detail">
-    <section className="archive-detail-hero"><SectionHeading label="ARCHIVE DETAIL" title={`${activity.terms?.ordinal ?? "—"}th ${activity.name}`} description="查看學長姐建議的工作流程時間表" /></section>
-    <section className="archive-workflow"><div className="section-number">WORKFLOW <span /> HANDOVER</div><h2>工作流程</h2>{activity.phases.map((phase) => <details key={phase.id}><summary>{phase.name}<span>＋</span></summary><div>{phase.tasks.sort((a, b) => a.position - b.position).map((task) => <article key={task.id}><b>{task.name}</b>{task.description && <p>{siteCopy(task.description)}</p>}{editable && <form action={updateArchivedTask}><input type="hidden" name="activityId" value={activity.id} /><input type="hidden" name="taskId" value={task.id} /><input name="name" defaultValue={task.name} aria-label="工作名稱" /><input name="category" defaultValue={task.category ?? ""} placeholder="工作分類" aria-label="工作分類" /><textarea name="description" defaultValue={task.description ?? ""} placeholder="工作說明" aria-label="工作說明" /><button>儲存工作內容</button></form>}</article>)}</div></details>)}</section>
+    <section className="archive-detail-hero"><SectionHeading label="ARCHIVE DETAIL" title={`${activity.terms?.ordinal ?? "—"}th ${activity.name}`} description="查看學長姐建議的工作流程時間表" />{!editable && <div className="preview-label">學弟妹視角預覽</div>}</section>
+      <section className="archive-workflow"><div className="section-number">WORKFLOW <span /> HANDOVER</div><h2>工作流程</h2>{activity.phases.map((phase) => <details key={phase.id}><summary>{phase.name}<span>＋</span></summary><div>{phase.tasks.sort((a, b) => a.position - b.position).map((task) => <article key={task.id}><b>{task.name}</b>{task.description && <p>{siteCopy(task.description)}</p>}{editable && <form action={updateArchivedTask}><input type="hidden" name="activityId" value={activity.id} /><input type="hidden" name="taskId" value={task.id} /><input name="name" defaultValue={task.name} aria-label="工作名稱" /><input name="category" defaultValue={task.category ?? ""} placeholder="工作分類" aria-label="工作分類" /><textarea name="description" defaultValue={task.description ?? ""} placeholder="工作說明" aria-label="工作說明" /><div className="archive-workflow-actions"><button>儲存工作內容</button><Link href={`/activities/${activity.id}?preview=1`} target="_blank" className="preview-button">預覽學弟妹視角</Link></div></form>}</article>)}</div></details>)}</section>
     <section className="archive-notes"><div className="section-number">01 <span /> NOTES</div><h2>學長姐留下的話</h2>{notes.map((note) => <blockquote key={note.id}>{siteCopy(note.content)}</blockquote>)}{editable && <form action={updateArchiveOverview} className="archive-note-form"><input type="hidden" name="activityId" value={activity.id} /><textarea name="content" defaultValue={notes[0]?.content ?? ""} placeholder="補充這一屆想交代給學弟妹的內容" required /><button>儲存交接說明</button></form>}</section>
     {(activity.document_links.length > 0 || archiveFolderLinks[activity.name]) && <section className="archive-documents"><div className="section-number">02 <span /> FILES</div><h2>歷屆文件</h2>{activity.document_links.map((file) => <article className="archive-document-entry" key={file.id}><a href={file.url} target="_blank" rel="noreferrer"><span>FILE</span><b>{file.name}</b><em>查看 →</em></a>{file.description && <p>{file.description}</p>}{editable && <form action={updateDocumentHandoverNote} className="archive-document-note"><input type="hidden" name="activityId" value={activity.id} /><input type="hidden" name="documentId" value={file.id} /><textarea name="handoverNote" defaultValue={file.handover_note ?? ""} placeholder="補充這份文件的使用方式或注意事項" /><button>儲存文件備註</button></form>}{file.handover_note && !editable && <p>{file.handover_note}</p>}</article>)}{archiveFolderLinks[activity.name] && <a className="archive-folder-link archive-folder-link-block" href={archiveFolderLinks[activity.name]} target="_blank" rel="noreferrer"><span>DRIVE</span><b>查看雲端資料夾</b><em>開啟 →</em></a>}</section>}
   </main>;
