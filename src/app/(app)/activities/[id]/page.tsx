@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { SectionHeading } from "@/components/section-heading";
+import { experienceLabel, siteCopy } from "@/lib/site-copy";
 import {
   createChecklistItem, createEquipment, createExperience, createScheduleItem, createTask,
   deleteTask, moveTask, setTaskAssignee, toggleChecklistItem, updateActivity, updateEquipment,
@@ -30,7 +31,6 @@ type Member = { id: string; name: string };
 
 const statusLabel: Record<string, string> = { todo: "待處理", in_progress: "進行中", blocked: "等待前置工作", completed: "已完成" };
 const equipmentStatusLabel: Record<string, string> = { to_confirm: "待確認", to_borrow: "待借用", requested: "已申請", borrowed: "已借用", to_buy: "待購買", purchased: "已購買", returned: "已歸還" };
-const experienceLabel: Record<string, string> = { note: "紀錄", tip: "經驗建議", warning: "風險提醒", outcome: "執行結果" };
 
 export default async function ActivityDetailPage({ params, searchParams }: { params: Promise<{ id: string }>; searchParams: Promise<{ created?: string }> }) {
   const { id } = await params;
@@ -74,7 +74,7 @@ export default async function ActivityDetailPage({ params, searchParams }: { par
     <main className="page-wrap activity-detail">
       {created && <div className="notice success">已從上一屆建立本屆{activity.name}。日期、場地、人員、狀態與執行結果都已重設，請依本屆情況調整。</div>}
       <section className="detail-hero">
-        <SectionHeading number="04" label={activity.status === "archived" ? "ARCHIVE DETAIL" : "ACTIVE PROJECT"} title={`${activity.terms?.ordinal ?? "—"}th ${activity.name}`} description={activity.description ?? "接續歷屆經驗，完成本屆工作。"} />
+        <SectionHeading number="04" label={activity.status === "archived" ? "ARCHIVE DETAIL" : "ACTIVE PROJECT"} title={`${activity.terms?.ordinal ?? "—"}th ${activity.name}`} description={siteCopy(activity.description) || "尚未填寫活動說明"} />
         <div className="detail-score"><b>{percent}%</b><span>完成進度</span><i><em style={{ width: `${percent}%` }} /></i></div>
         <dl><div><dt>主要日期</dt><dd>{activity.activity_date ?? "待確認"}</dd></div><div><dt>工作項目</dt><dd>{tasks.length}</dd></div><div><dt>狀態</dt><dd>{activity.status === "archived" ? "歷屆唯讀" : "本屆可調整"}</dd></div></dl>
       </section>
@@ -92,6 +92,8 @@ export default async function ActivityDetailPage({ params, searchParams }: { par
       </section>}
 
       <ScheduleSection activity={activity} editable={editable} />
+
+      {activity.status !== "archived" && <ActivityTaskOverview tasks={tasks} />}
 
       <section className="phase-stack">
         {activity.phases.map((phase, phaseIndex) => (
@@ -116,9 +118,23 @@ export default async function ActivityDetailPage({ params, searchParams }: { par
   );
 }
 
+function ActivityTaskOverview({ tasks }: { tasks: Task[] }) {
+  const activeTasks = tasks.filter((task) => task.status !== "completed");
+  const ready = activeTasks.filter((task) => !task.task_dependencies.some((item) => item.depends_on && item.depends_on.status !== "completed"));
+  const waiting = activeTasks.filter((task) => task.task_dependencies.some((item) => item.depends_on && item.depends_on.status !== "completed"));
+  return <section className="activity-task-overview">
+    <header><div className="section-number">NOW <span /> ACTIVITY DASHBOARD</div><h2>這個活動現在要做什麼？</h2><p>先看可以開始的工作，再處理仍被前置條件阻擋的項目。</p></header>
+    <div className="activity-task-columns">
+      <div><h3><i className="dot active" />現在可以做 <b>{ready.length}</b></h3>{ready.slice(0, 6).map((task) => <a href={`#task-${task.id}`} key={task.id}><span>{task.category ?? "工作"}</span><strong>{task.name}</strong><em>{task.fixed_deadline ?? "可開始執行"}</em></a>)}</div>
+      <div className="waiting-column"><h3><i className="dot waiting" />正在等待 <b>{waiting.length}</b></h3>{waiting.slice(0, 6).map((task) => <a href={`#task-${task.id}`} key={task.id}><span>{task.category ?? "工作"}</span><strong>{task.name}</strong><em>等待前置工作</em></a>)}</div>
+    </div>
+    {!activeTasks.length && <p className="muted-copy">這個活動的工作都已完成。</p>}
+  </section>;
+}
+
 function ScheduleSection({ activity, editable }: { activity: Activity; editable: boolean }) {
   return <section className="admin-panel schedule-panel"><div className="section-number">S <span /> SCHEDULE</div><h2>活動日程與場地</h2>
-    <div className="schedule-list">{activity.activity_schedule_items.map((item) => <article key={item.id}><b>{item.name}</b><span>{formatDateTime(item.starts_at)}{item.ends_at ? ` — ${formatDateTime(item.ends_at)}` : ""}</span><small>{item.venue ?? "場地待確認"}</small>{item.note && <p>{item.note}</p>}
+    <div className="schedule-list">{activity.activity_schedule_items.map((item) => <article key={item.id}><b>{item.name}</b><span>{formatDateTime(item.starts_at)}{item.ends_at ? ` — ${formatDateTime(item.ends_at)}` : ""}</span><small>{item.venue ?? "場地待確認"}</small>{item.note && <p>{siteCopy(item.note)}</p>}
       {editable && <form action={updateScheduleItem} className="admin-form schedule-edit"><input type="hidden" name="activityId" value={activity.id} /><input type="hidden" name="scheduleItemId" value={item.id} /><label>開始<input type="datetime-local" name="startsAt" defaultValue={toLocalInput(item.starts_at)} /></label><label>結束<input type="datetime-local" name="endsAt" defaultValue={toLocalInput(item.ends_at)} /></label><label>場地<input name="venue" defaultValue={item.venue ?? ""} placeholder="待確認" /></label><label>備註<input name="note" defaultValue={item.note ?? ""} /></label><button>更新</button></form>}
     </article>)}</div>
     {!activity.activity_schedule_items.length && <p className="muted-copy">尚未建立日程。</p>}
@@ -129,13 +145,13 @@ function ScheduleSection({ activity, editable }: { activity: Activity; editable:
 function TaskCard({ task, activity, members, editable, source, allTasks }: { task: Task; activity: Activity; members: Member[]; editable: boolean; source: Activity | null; allTasks: Task[] }) {
   const waiting = task.task_dependencies.map((item) => item.depends_on).filter((item) => item && item.status !== "completed");
   const previousTask = source?.phases.flatMap((phase) => phase.tasks).find((item) => item.id === task.source_task_id);
-  return <div className={`detail-task ${task.status === "completed" ? "done" : ""}`}>
+  return <div id={`task-${task.id}`} className={`detail-task ${task.status === "completed" ? "done" : ""}`}>
     <span className="task-state">{task.status === "completed" ? "✓" : waiting.length ? "○" : "●"}</span>
-    <div className="task-main"><small>{task.category ? `${task.category} · ` : ""}{task.priority.toUpperCase()} · {statusLabel[task.status]}</small><h3>{task.name}</h3><p>{task.description}</p>
+    <div className="task-main"><small>{task.category ? `${task.category} · ` : ""}{task.priority.toUpperCase()} · {statusLabel[task.status]}</small><h3>{task.name}</h3><p>{siteCopy(task.description)}</p>
       {waiting.length > 0 && <div className="dependency-note">等待：{waiting.map((item) => item?.name).join("、")}</div>}
       {!!task.task_checklist_items.length && <ul className="checklist">{task.task_checklist_items.sort((a, b) => a.position - b.position).map((item) => <li key={item.id} className={item.is_completed ? "checked" : ""}><form action={toggleChecklistItem}><input type="hidden" name="activityId" value={activity.id} /><input type="hidden" name="itemId" value={item.id} /><input type="hidden" name="completed" value={String(item.is_completed)} /><button disabled={activity.status === "archived"}>{item.is_completed ? "☑" : "☐"}</button></form><span>{item.content}</span></li>)}</ul>}
-      {task.experiences.map((note) => <div className="experience-note" key={note.id}>本屆{experienceLabel[note.kind] ?? "紀錄"}｜{note.content}</div>)}
-      {previousTask?.experiences.map((note) => <div className="experience-note previous" key={note.id}>上一屆{experienceLabel[note.kind] ?? "經驗"}｜{note.content}</div>)}
+      {task.experiences.map((note) => <div className="experience-note" key={note.id}>本屆{experienceLabel[note.kind] ?? "紀錄"}：{siteCopy(note.content)}</div>)}
+      {previousTask?.experiences.map((note) => <div className="experience-note previous" key={note.id}>上一屆{experienceLabel[note.kind] ?? "紀錄"}：{siteCopy(note.content)}</div>)}
       {editable && <details className="edit-disclosure"><summary>修改工作內容</summary><form action={updateTask} className="admin-form task-edit"><input type="hidden" name="activityId" value={activity.id} /><input type="hidden" name="taskId" value={task.id} /><label>名稱<input name="name" defaultValue={task.name} required /></label><label>分類<input name="category" defaultValue={task.category ?? ""} /></label><label>優先序<select name="priority" defaultValue={task.priority}><option value="low">低</option><option value="medium">中</option><option value="high">高</option><option value="urgent">緊急</option></select></label><label className="span-all">說明<textarea name="description" defaultValue={task.description ?? ""} /></label><label>期限類型<select name="deadlineMode" defaultValue={task.deadline_type === "fixed_date" ? "fixed" : task.deadline_type ? "relative" : "none"}><option value="none">未設定</option><option value="fixed">固定日期</option><option value="relative">相對期限</option></select></label><label>固定日期<input type="date" name="fixedDeadline" defaultValue={task.fixed_deadline ?? ""} /></label><label>相對天數<input type="number" name="relativeDays" defaultValue={task.relative_days ?? 0} /></label><label>相對基準<select name="deadlineAnchor" defaultValue={task.deadline_anchor ?? "activity_start"}><option value="activity_start">活動開始</option><option value="activity_end">活動結束</option><option value="schedule_item">指定日程</option><option value="task_completion">指定工作完成</option></select></label><label>指定日程<select name="anchorScheduleItemId" defaultValue={task.anchor_schedule_item_id ?? ""}><option value="">未指定</option>{activity.activity_schedule_items.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}</select></label><label>指定工作<select name="anchorTaskId" defaultValue={task.anchor_task_id ?? ""}><option value="">未指定</option>{allTasks.filter((item) => item.id !== task.id).map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}</select></label><button>儲存工作</button></form></details>}
       {editable && <form action={createChecklistItem} className="inline-create-form small"><input type="hidden" name="activityId" value={activity.id} /><input type="hidden" name="taskId" value={task.id} /><input name="content" placeholder="新增執行步驟" required /><button>新增步驟</button></form>}
     </div>
@@ -148,11 +164,11 @@ function TaskCard({ task, activity, members, editable, source, allTasks }: { tas
 }
 
 function EquipmentSection({ activity, editable }: { activity: Activity; editable: boolean }) {
-  return <div><div className="section-number">A <span /> EQUIPMENT</div><h2>器材</h2>{activity.equipment.map((item) => <div className="equipment-row" key={item.id}><p><b>{item.name}</b><span>× {item.quantity}</span><small>{equipmentStatusLabel[item.preparation_status] ?? "待確認"}</small></p>{item.source && <em>來源：{item.source}</em>}{item.note && <em>{item.note}</em>}{editable && <form action={updateEquipment} className="equipment-edit"><input type="hidden" name="activityId" value={activity.id} /><input type="hidden" name="equipmentId" value={item.id} /><input type="number" min="1" name="quantity" defaultValue={item.quantity} /><input name="source" defaultValue={item.source ?? ""} placeholder="來源" /><select name="preparationStatus" defaultValue={item.preparation_status}>{Object.entries(equipmentStatusLabel).map(([entry, label]) => <option key={entry} value={entry}>{label}</option>)}</select><input name="note" defaultValue={item.note ?? ""} placeholder="備註" /><button>更新</button></form>}</div>)}{editable && <form action={createEquipment} className="inline-create-form small"><input type="hidden" name="activityId" value={activity.id} /><input name="name" placeholder="新增器材" required /><input type="number" min="1" name="quantity" defaultValue="1" /><input name="source" placeholder="借用來源" /><button>新增</button></form>}</div>;
+  return <div><div className="section-number">A <span /> EQUIPMENT</div><h2>器材</h2>{activity.equipment.map((item) => <div className="equipment-row" key={item.id}><p><b>{item.name}</b><span>× {item.quantity}</span><small>{equipmentStatusLabel[item.preparation_status] ?? "待確認"}</small></p>{item.source && <em>來源：{item.source}</em>}{item.note && <em>{siteCopy(item.note)}</em>}{editable && <form action={updateEquipment} className="equipment-edit"><input type="hidden" name="activityId" value={activity.id} /><input type="hidden" name="equipmentId" value={item.id} /><input type="number" min="1" name="quantity" defaultValue={item.quantity} /><input name="source" defaultValue={item.source ?? ""} placeholder="來源" /><select name="preparationStatus" defaultValue={item.preparation_status}>{Object.entries(equipmentStatusLabel).map(([entry, label]) => <option key={entry} value={entry}>{label}</option>)}</select><input name="note" defaultValue={item.note ?? ""} placeholder="備註" /><button>更新</button></form>}</div>)}{editable && <form action={createEquipment} className="inline-create-form small"><input type="hidden" name="activityId" value={activity.id} /><input name="name" placeholder="新增器材" required /><input type="number" min="1" name="quantity" defaultValue="1" /><input name="source" placeholder="借用來源" /><button>新增</button></form>}</div>;
 }
 
 function ExperienceSection({ activity, editable }: { activity: Activity; editable: boolean }) {
-  return <div><div className="section-number">C <span /> EXPERIENCE</div><h2>{activity.status === "archived" ? "歷屆經驗" : "本屆沉澱"}</h2>{activity.experiences.filter((item) => !item.task_id).map((item) => <blockquote key={item.id}>{item.kind === "warning" ? "⚠" : "✦"} {experienceLabel[item.kind]}｜{item.content}</blockquote>)}{editable && <form action={createExperience} className="admin-form experience-form"><input type="hidden" name="activityId" value={activity.id} /><input type="hidden" name="termId" value={activity.term_id} /><select name="kind"><option value="note">執行紀錄</option><option value="tip">經驗建議</option><option value="warning">風險提醒</option><option value="outcome">執行結果</option></select><textarea name="content" placeholder="留下本屆執行後的真實經驗" required /><button>新增經驗</button></form>}</div>;
+  return <div><div className="section-number">C <span /> EXPERIENCE</div><h2>{activity.status === "archived" ? "歷屆經驗" : "本屆紀錄"}</h2>{activity.experiences.filter((item) => !item.task_id).map((item) => <blockquote key={item.id}>{item.kind === "warning" ? "⚠" : "✦"} {experienceLabel[item.kind]}：{siteCopy(item.content)}</blockquote>)}{editable && <form action={createExperience} className="admin-form experience-form"><input type="hidden" name="activityId" value={activity.id} /><input type="hidden" name="termId" value={activity.term_id} /><select name="kind"><option value="note">紀錄</option><option value="tip">做法建議</option><option value="warning">注意事項</option><option value="outcome">執行情況</option></select><textarea name="content" placeholder="留下本屆執行後的真實經驗" required /><button>新增紀錄</button></form>}</div>;
 }
 
 function ReferenceSection({ source }: { source: Activity }) {
@@ -160,7 +176,7 @@ function ReferenceSection({ source }: { source: Activity }) {
     [...source.experiences, ...source.phases.flatMap((phase) => phase.tasks.flatMap((task) => task.experiences))]
       .map((item) => [item.id, item]),
   ).values());
-  return <section className="previous-reference"><div className="section-number">R <span /> LAST YEAR</div><h2>上一屆怎麼做</h2><p>以下內容只供本屆執行時參考，不會變成本屆的完成狀態、日期、負責人或執行結果。</p><div className="reference-grid"><div><h3>實際日程與場地</h3>{source.activity_schedule_items.map((item) => <p key={item.id}><b>{item.name}</b><span>{formatDateTime(item.starts_at)}｜{item.venue ?? "未記載"}</span></p>)}</div><div><h3>器材需求</h3>{source.equipment.map((item) => <p key={item.id}><b>{item.name} × {item.quantity}</b><span>{item.source ?? "來源未記載"}</span></p>)}</div><div><h3>文件</h3>{source.document_links.map((item) => <a key={item.id} href={item.url} target="_blank" rel="noreferrer">{item.document_type}｜{item.name} ↗</a>)}</div><div><h3>經驗與注意事項</h3>{sourceExperiences.map((item) => <blockquote key={item.id}>{experienceLabel[item.kind] ?? "紀錄"}｜{item.content}</blockquote>)}</div></div></section>;
+  return <section className="previous-reference"><div className="section-number">R <span /> LAST YEAR</div><h2>上一屆怎麼做</h2><p>以下整理上一屆的執行紀錄，提供本屆規劃時參考；本屆的完成狀態、日期、負責人與執行結果仍以今年實際情況為準。</p><div className="reference-grid"><div><h3>實際日程與場地</h3>{source.activity_schedule_items.map((item) => <p key={item.id}><b>{item.name}</b><span>{formatDateTime(item.starts_at)}：{item.venue ?? "未記載"}</span></p>)}</div><div><h3>器材需求</h3>{source.equipment.map((item) => <p key={item.id}><b>{item.name} × {item.quantity}</b><span>{item.source ?? "來源未記載"}</span></p>)}</div><div><h3>文件</h3>{source.document_links.map((item) => <a key={item.id} href={item.url} target="_blank" rel="noreferrer">{item.document_type}：{item.name} ↗</a>)}</div><div><h3>經驗與注意事項</h3>{sourceExperiences.map((item) => <blockquote key={item.id}>{experienceLabel[item.kind] ?? "紀錄"}：{siteCopy(item.content)}</blockquote>)}</div></div></section>;
 }
 
 function formatDeadline(task: Task, activityDate: string | null) {

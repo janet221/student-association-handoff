@@ -2,6 +2,7 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { SectionHeading } from "@/components/section-heading";
 import { inheritActivity } from "../activities/actions";
+import { siteCopy } from "@/lib/site-copy";
 
 type HistoricalActivity = { id: string; name: string; description: string | null; activity_date: string | null; terms: { name: string; ordinal: number } | null; phases: { id: string }[]; equipment: { id: string }[]; experiences: { id: string }[] };
 
@@ -16,20 +17,20 @@ export default async function HistoryPage({ searchParams }: { searchParams: Prom
 
   return (
     <main className="page-wrap">
-      <section className="page-intro"><SectionHeading number="03" label="ARCHIVE" title="歷屆紀錄" description="歷史不是終點。找到最接近的活動，直接建立本屆可執行版本。" /></section>
+      <section className="page-intro"><SectionHeading number="03" label="ARCHIVE" title="歷屆紀錄" description="從歷屆檔案紀錄建立本屆活動檔案" /></section>
       {error && <div className="notice error">{error}</div>}
       <section className="archive-list">
         {history.map((activity, index) => (
           <article className="archive-row" key={activity.id}>
             <div className="archive-term"><b>{activity.terms?.ordinal ?? "—"}th</b><span>{activity.terms?.name}</span></div>
-            <div><small>{String(index + 1).padStart(2, "0")} / ARCHIVED ACTIVITY</small><h2>{activity.name}</h2><p>{activity.description}</p></div>
+            <div><small>{String(index + 1).padStart(2, "0")} / ARCHIVED ACTIVITY</small><h2>{activity.name}</h2><p>{siteCopy(activity.description)}</p></div>
             <div className="archive-counts"><span><b>{activity.phases.length}</b>階段</span><span><b>{activity.equipment.length}</b>器材</span><span><b>{activity.experiences.length}</b>經驗</span></div>
             <div className="archive-actions">
               <Link href={`/activities/${activity.id}`} className="button ghost">查看內容</Link>
               {currentTerm && <form action={inheritActivity}>
                 <input type="hidden" name="sourceActivity" value={activity.id} />
                 <input type="hidden" name="targetTerm" value={currentTerm.id} />
-                <small>日期、場地、負責人與執行狀態會重新設定</small>
+                <small>填寫今年的日期、場地、負責人與執行狀態</small>
                 <button className="button primary">以此建立本屆{activity.name} →</button>
               </form>}
             </div>

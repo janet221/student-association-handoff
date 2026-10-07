@@ -1,77 +1,58 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { SectionHeading } from "@/components/section-heading";
+import { siteCopy } from "@/lib/site-copy";
 
-type DashboardTask = { id: string; activity_id: string; activity_name: string; phase_name: string; name: string; status: string; priority: string; effective_deadline: string | null; waiting_for: { id: string; name: string }[] };
-
-const statusLabel: Record<string, string> = { todo: "待處理", in_progress: "進行中", blocked: "等待前置工作", completed: "已完成" };
+type Activity = {
+  id: string; name: string; description: string | null; status: string; activity_date: string | null;
+  phases: { tasks: { status: string }[] }[];
+};
 
 export default async function DashboardPage() {
   const supabase = await createClient();
   const { data: term } = await supabase.from("terms").select("id, name, ordinal").eq("is_current", true).maybeSingle();
-  const { data } = term ? await supabase.from("task_dashboard").select("*").eq("term_id", term.id).neq("status", "completed") : { data: [] };
-  const tasks = ((data ?? []) as DashboardTask[]).sort((a, b) => {
-    const blockedA = a.waiting_for.length ? 1 : 0;
-    const blockedB = b.waiting_for.length ? 1 : 0;
-    if (blockedA !== blockedB) return blockedA - blockedB;
-    if (a.effective_deadline && b.effective_deadline) return a.effective_deadline.localeCompare(b.effective_deadline);
-    return ({ urgent: 0, high: 1, medium: 2, low: 3 }[a.priority] ?? 4) - ({ urgent: 0, high: 1, medium: 2, low: 3 }[b.priority] ?? 4);
-  });
-  const ready = tasks.filter((task) => !task.waiting_for.length);
-  const waiting = tasks.filter((task) => task.waiting_for.length);
-  const today = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Taipei" }).format(new Date());
-  const nextWeek = new Date(`${today}T00:00:00+08:00`);
-  nextWeek.setDate(nextWeek.getDate() + 7);
-  const nextWeekKey = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Taipei" }).format(nextWeek);
-  const dueSoon = ready.filter((task) => task.effective_deadline && task.effective_deadline >= today && task.effective_deadline <= nextWeekKey);
-  const overdue = ready.filter((task) => task.effective_deadline && task.effective_deadline < today);
+  const { data } = term
+    ? await supabase.from("activities").select("id, name, description, status, activity_date, phases(tasks(status))").eq("term_id", term.id).neq("status", "archived").order("created_at")
+    : { data: [] };
+  const activities = (data ?? []) as Activity[];
 
   return (
-    <main className="page-wrap">
-      <section className="dashboard-hero">
-        <SectionHeading number="01" label="OVERVIEW" title="現在該做什麼？" description="本屆尚未完成的工作，依可執行性與期限排列。" />
-        <div className="hero-summary">
-          <span className="term-mark">{term ? `${term.ordinal}th` : "—"}<small>{term?.name ?? "尚未建立本屆資料"}</small></span>
-          <div className="summary-stat"><b>{ready.length}</b><span>現在可執行</span></div>
-          <div className="summary-stat"><b>{dueSoon.length}</b><span>7 天內到期</span></div>
-          <div className="summary-stat"><b>{overdue.length}</b><span>已逾期</span></div>
-          <div className="summary-stat"><b>{waiting.length}</b><span>仍在等待</span></div>
-          <div className="summary-stat"><b>{tasks.length}</b><span>未完成工作</span></div>
+    <main className="page-wrap home-hub">
+      <section className="welcome-hero">
+        <SectionHeading number="01" label="START HERE" title="先選擇你今天要做的事" description="這裡是進入跨屆交接系統的起點。先選擇角色，再選擇要處理的活動。" />
+        <div className="welcome-copy">
+          <span>{term ? `${term.ordinal}th ${term.name}` : "CURRENT TERM"}</span>
+          <h2>保存上一屆的做法<br />接著完成這一屆的工作</h2>
+          <p>想執行本屆工作，請從「系學會成員區」進入；想整理歷屆文件與交接經驗，請從「學長姐資料上傳區」開始。</p>
         </div>
       </section>
 
-      {!term ? <EmptyState /> : (
-        <section className="task-board">
-          <div className="task-column">
-            <div className="column-title"><span className="dot active" /> NOW / 現在可以做 <b>{ready.length}</b></div>
-            {ready.slice(0, 8).map((task, index) => <TaskRow key={task.id} task={task} index={index} />)}
-          </div>
-          <div className="task-column muted">
-            <div className="column-title"><span className="dot waiting" /> WAITING / 正在等待 <b>{waiting.length}</b></div>
-            {waiting.slice(0, 8).map((task, index) => <TaskRow key={task.id} task={task} index={index} />)}
-          </div>
-        </section>
-      )}
-      <section className="history-strip">
-        <div><span>02</span><small>REFERENCE</small><h2>歷屆經驗<br />就在工作旁邊</h2></div>
-        <p>不必先翻完整份企劃書。執行每一項工作時，直接查看上一屆留下的器材、文件與注意事項。</p>
-        <Link href="/history" className="circle-link">→</Link>
+      <section className="role-entry-grid" aria-label="角色入口">
+        <Link href="/activities" className="role-entry current-member">
+          <span>01 / CURRENT MEMBERS</span><h2>系學會成員區</h2>
+          <p>選擇本屆活動，查看現在可以做、正在等待與即將到期的工作。</p><b>進入本屆工作 →</b>
+        </Link>
+        <Link href="/history" className="role-entry alumni-entry">
+          <span>02 / ALUMNI HANDOVER</span><h2>學長姐資料上傳區</h2>
+          <p>檢視歷屆活動、文件索引與交接經驗。現階段先提供歷屆資料整理與審視。</p><b>進入歷屆資料 →</b>
+        </Link>
+      </section>
+
+      <section className="home-activities">
+        <div className="home-section-head"><div><span>02 / CURRENT WORK</span><h2>這一屆正在準備的活動</h2><p>點進活動後，才會看到該活動的工作儀表板與完整執行內容。</p></div><Link href="/activities">查看全部本屆工作 →</Link></div>
+        <div className="home-activity-grid">
+          {activities.map((activity, index) => {
+            const tasks = activity.phases.flatMap((phase) => phase.tasks);
+            const done = tasks.filter((task) => task.status === "completed").length;
+            return <Link href={`/activities/${activity.id}`} className="home-activity-card" key={activity.id}>
+              <span>{String(index + 1).padStart(2, "0")}</span><small>{activity.status.toUpperCase()}</small><h3>{activity.name}</h3>
+              <p>{siteCopy(activity.description) || "尚未填寫活動說明"}</p>
+              <footer><em>{done} / {tasks.length} 已完成</em><em>{activity.activity_date ?? "日期待確認"}</em><b>→</b></footer>
+            </Link>;
+          })}
+          {!activities.length && <div className="empty-state"><b>尚未建立本屆活動</b><p>請先進入歷屆資料，從上一屆活動建立本屆版本。</p></div>}
+        </div>
       </section>
     </main>
   );
-}
-
-function TaskRow({ task, index }: { task: DashboardTask; index: number }) {
-  return (
-    <Link href={`/activities/${task.activity_id}`} className="task-row">
-      <span className="task-index">{String(index + 1).padStart(2, "0")}</span>
-      <div><small>{task.activity_name} · {task.phase_name}</small><h3>{task.name}</h3><p>{task.waiting_for.length ? `等待：${task.waiting_for.map((item) => item.name).join("、")}` : task.effective_deadline ? `Deadline ${task.effective_deadline}` : "可以開始執行"}</p></div>
-      <span className={`status-pill ${task.waiting_for.length ? "blocked" : task.priority}`}>{task.waiting_for.length ? statusLabel.blocked : statusLabel[task.status]}</span>
-      <b>→</b>
-    </Link>
-  );
-}
-
-function EmptyState() {
-  return <section className="empty-state"><b>尚未有本屆工作</b><p>請從歷屆紀錄的上一屆系運建立本屆版本，這裡就會依期限與前置條件排列。</p><Link href="/history">查看歷屆紀錄 →</Link></section>;
 }

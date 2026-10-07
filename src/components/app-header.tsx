@@ -7,7 +7,7 @@ export function AppHeader({ name, role }: { name: string; role: string }) {
       <Link href="/dashboard" className="brand-lockup"><strong>NCUE IM</strong><span>STUDENT<br />ASSOCIATION</span></Link>
       <nav aria-label="主要導覽">
         <Link href="/dashboard">首頁</Link>
-        <Link href="/activities">本屆工作</Link>
+        <Link href="/activities">本屆工作專區</Link>
         <Link href="/history">歷屆紀錄</Link>
         <Link href="/members">人員管理</Link>
       </nav>

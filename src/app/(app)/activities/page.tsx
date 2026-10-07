@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { SectionHeading } from "@/components/section-heading";
+import { siteCopy } from "@/lib/site-copy";
 
 type Activity = { id: string; name: string; description: string | null; status: string; activity_date: string | null; terms: { name: string; ordinal: number } | null; phases: { tasks: { status: string }[] }[] };
 
@@ -11,7 +12,7 @@ export default async function ActivitiesPage() {
 
   return (
     <main className="page-wrap">
-      <section className="page-intro"><SectionHeading number="02" label="CURRENT WORK" title="本屆工作" description="從活動全貌進入每個 Phase，接續上一屆留下的工作節奏。" /><Link href="/history" className="button primary">從歷屆建立 <span>→</span></Link></section>
+      <section className="page-intro"><SectionHeading number="02" label="CURRENT WORK" title="本屆工作專區" /><Link href="/history" className="button primary">從歷屆建立 <span>→</span></Link></section>
       <section className="activity-grid">
         {activities.map((activity, index) => {
           const tasks = activity.phases.flatMap((phase) => phase.tasks);
@@ -23,7 +24,7 @@ export default async function ActivitiesPage() {
               <div className="card-art"><span>{activity.terms?.ordinal ?? "—"}th</span></div>
               <small>{activity.terms?.name ?? "本屆"} / {activity.status.toUpperCase()}</small>
               <h2>{activity.name}</h2>
-              <p>{activity.description ?? "從歷屆經驗開始，逐步完成本屆工作。"}</p>
+              <p>{siteCopy(activity.description) || "尚未填寫活動說明"}</p>
               <div className="progress-line"><i style={{ width: `${percent}%` }} /></div>
               <div className="card-meta"><span>{done} / {tasks.length} 已完成</span><span>{activity.activity_date ?? "日期待確認"}</span><b>→</b></div>
             </Link>

@@ -17,7 +17,7 @@ export default async function MembersPage() {
 
   return (
     <main className="page-wrap">
-      <section className="page-intro"><SectionHeading number="05" label="MEMBERS" title="人員管理" description="角色可以傳承，姓名必須由本屆重新安排。" /></section>
+      <section className="page-intro"><SectionHeading number="05" label="MEMBERS" title="人員管理" /></section>
       {isAdmin && <form action={createMember} className="admin-form member-create">
         <label>姓名<input name="name" required /></label>
         <label>本屆職務<input name="departmentRole" placeholder="例：體育股幹部" /></label>
@@ -35,7 +35,7 @@ export default async function MembersPage() {
           </form> : <><b>{member.name}</b><span>{member.department_role ?? "未設定"}</span></>}
           <span>{member.assignments.map((assignment) => assignment.activity_roles?.name).filter(Boolean).join("、") || "待分配"}</span><strong>{member.assignments.length.toString().padStart(2, "0")}</strong>
         </div>)}
-        {!members.length && <div className="empty-state"><b>尚未建立本屆成員</b><p>請由管理者先新增 26 屆成員，再於本屆系運中指派負責人。</p></div>}
+        {!members.length && <div className="empty-state"><b>目前還沒有本屆成員</b><p>請先新增第 26 屆成員</p></div>}
       </section>
     </main>
   );
