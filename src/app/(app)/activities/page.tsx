@@ -13,7 +13,7 @@ export default async function ActivitiesPage() {
 
   return (
     <main className="page-wrap">
-      <section className="page-intro"><SectionHeading label="CURRENT WORK" title="本屆工作專區" /><Link href="/history" className="button primary">從歷屆建立 <span>→</span></Link></section>
+      <section className="page-intro"><SectionHeading label="CURRENT WORK" title="本屆工作專區" /><Link href="/history" className="button primary">查看交接資料 <span>→</span></Link></section>
       <section className="department-directory">
         {departments.map((department) => <details className="department-menu" key={department}>
           <summary><span>DEPARTMENT</span><b>{department}</b><small>{activities.filter((activity) => activityDepartment(activity.name) === department).map((activity) => activity.name).join("、")}</small><i>＋</i></summary>
