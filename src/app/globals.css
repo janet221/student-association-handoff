@@ -129,6 +129,13 @@ button { cursor:pointer; }
 .archive-workflow input,.archive-workflow textarea { border:1px solid var(--line); background:transparent; padding:9px; font-size:11px; }
 .archive-workflow textarea { min-height:64px; resize:vertical; }
 .archive-workflow button { justify-self:start; border:1px solid var(--ink); background:var(--ink); color:var(--paper); padding:9px 14px; font-size:10px; }
+.phase-edit-form,.phase-create-form { display:grid; gap:8px; padding:14px 0; border-bottom:1px dashed var(--line); }
+.phase-edit-form input,.phase-edit-form textarea,.phase-create-form input { border:1px solid var(--line); background:transparent; padding:9px; font-size:11px; }
+.preview-popover { position:relative; }
+.preview-popover summary { list-style:none; border:1px solid var(--ink); padding:9px 14px; font-size:10px; cursor:pointer; }
+.preview-popover summary::-webkit-details-marker { display:none; }
+.preview-popover > div { position:absolute; z-index:4; left:0; top:calc(100% + 8px); width:300px; padding:16px; border:1px solid var(--line); background:var(--paper); box-shadow:0 12px 24px #17171418; }
+.preview-popover > div p { color:var(--muted); font-size:11px; line-height:1.8; }
 .archive-workflow-actions { display:flex; align-items:center; gap:10px; }
 .preview-button { border:1px solid var(--ink); padding:9px 14px; font-size:10px; }
 .preview-button:hover { background:var(--soft); }

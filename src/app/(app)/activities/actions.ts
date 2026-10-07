@@ -274,6 +274,24 @@ export async function updateArchivedTask(formData: FormData) {
   refreshActivity(activityId);
 }
 
+export async function updateArchivedPhase(formData: FormData) {
+  const phaseId = value(formData, "phaseId");
+  const activityId = value(formData, "activityId");
+  const supabase = await requireAdmin();
+  const { error } = await supabase.from("phases").update({ name: value(formData, "name"), description: optional(formData, "description") }).eq("id", phaseId).eq("activity_id", activityId);
+  if (error) throw new Error(error.message);
+  refreshActivity(activityId);
+}
+
+export async function createArchivedPhase(formData: FormData) {
+  const activityId = value(formData, "activityId");
+  const supabase = await requireAdmin();
+  const { data: last } = await supabase.from("phases").select("position").eq("activity_id", activityId).order("position", { ascending: false }).limit(1).maybeSingle();
+  const { error } = await supabase.from("phases").insert({ activity_id: activityId, name: value(formData, "name"), description: optional(formData, "description"), position: (last?.position ?? -1) + 1 });
+  if (error) throw new Error(error.message);
+  refreshActivity(activityId);
+}
+
 export async function updateDocumentHandoverNote(formData: FormData) {
   const activityId = value(formData, "activityId");
   const documentId = value(formData, "documentId");
