@@ -10,7 +10,7 @@ export default async function LoginPage({
 }) {
   const supabase = await createClient();
   const { data } = await supabase.auth.getUser();
-  if (data.user) redirect("/dashboard");
+  if (data.user) redirect("/activities");
   const notice = await searchParams;
   const { data: currentTerm } = await supabase.from("terms").select("ordinal, handover_from_term_id, handover_completed").eq("is_current", true).maybeSingle();
   const { data: handoverFrom } = currentTerm?.handover_from_term_id

@@ -11,12 +11,12 @@ export async function GET(request: NextRequest) {
 
   if (code) {
     const { error } = await supabase.auth.exchangeCodeForSession(code);
-    if (!error) return NextResponse.redirect(`${origin}/dashboard`);
+    if (!error) return NextResponse.redirect(`${origin}/activities`);
   }
 
   if (tokenHash && type) {
     const { error } = await supabase.auth.verifyOtp({ type, token_hash: tokenHash });
-    if (!error) return NextResponse.redirect(`${origin}/dashboard`);
+    if (!error) return NextResponse.redirect(`${origin}/activities`);
   }
 
   return NextResponse.redirect(`${origin}/login?error=${encodeURIComponent("驗證連結無效或已過期。")}`);

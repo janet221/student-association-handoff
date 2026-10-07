@@ -32,7 +32,7 @@ async function ensureEditableActivity(activityId: string) {
 }
 
 function refreshActivity(activityId: string) {
-  revalidatePath("/dashboard");
+  revalidatePath("/activities");
   revalidatePath("/activities");
   revalidatePath(`/activities/${activityId}`);
 }
@@ -54,7 +54,7 @@ export async function inheritActivity(formData: FormData) {
     target_activity_date: null,
   });
   if (error) redirect(`/history?error=${encodeURIComponent(error.message)}`);
-  revalidatePath("/dashboard");
+  revalidatePath("/activities");
   revalidatePath("/activities");
   redirect(`/activities/${data}?created=1`);
 }
