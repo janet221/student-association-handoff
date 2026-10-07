@@ -4,7 +4,7 @@ import { SectionHeading } from "@/components/section-heading";
 import { experienceLabel, siteCopy } from "@/lib/site-copy";
 import {
   createChecklistItem, createEquipment, createExperience, createScheduleItem, createTask,
-  deleteTask, moveTask, setTaskAssignee, toggleChecklistItem, updateActivity, updateEquipment,
+  deleteTask, moveTask, setTaskAssignee, toggleChecklistItem, updateEquipment,
   updateScheduleItem, updateTask, updateTaskStatus,
 } from "../actions";
 
@@ -76,20 +76,8 @@ export default async function ActivityDetailPage({ params, searchParams }: { par
       <section className="detail-hero">
         <SectionHeading number="04" label={activity.status === "archived" ? "ARCHIVE DETAIL" : "ACTIVE PROJECT"} title={`${activity.terms?.ordinal ?? "—"}th ${activity.name}`} description={siteCopy(activity.description) || "尚未填寫活動說明"} />
         <div className="detail-score"><b>{percent}%</b><span>完成進度</span><i><em style={{ width: `${percent}%` }} /></i></div>
-        <dl><div><dt>主要日期</dt><dd>{activity.activity_date ?? "待確認"}</dd></div><div><dt>工作項目</dt><dd>{tasks.length}</dd></div><div><dt>狀態</dt><dd>{activity.status === "archived" ? "歷屆唯讀" : "本屆可調整"}</dd></div></dl>
+        <dl><div><dt>工作項目</dt><dd>{tasks.length}</dd></div><div><dt>完成項目</dt><dd>{done}</dd></div><div><dt>狀態</dt><dd>{activity.status === "archived" ? "歷屆唯讀" : "本屆可調整"}</dd></div></dl>
       </section>
-
-      {editable && <details className="activity-collapsible admin-panel compact-panel">
-        <summary><span className="section-number">EDIT <i /> BASIC</span><b>本屆活動設定</b></summary><div className="collapsible-body">
-        <form action={updateActivity} className="admin-form grid-form">
-          <input type="hidden" name="activityId" value={activity.id} />
-          <label>活動名稱<input name="name" defaultValue={activity.name} required /></label>
-          <label>主要日期<input name="activityDate" type="date" defaultValue={activity.activity_date ?? ""} /></label>
-          <label>狀態<select name="status" defaultValue={activity.status}><option value="planning">規劃中</option><option value="active">執行中</option><option value="completed">已完成</option></select></label>
-          <label className="span-all">說明<textarea name="description" defaultValue={activity.description ?? ""} /></label>
-          <button className="button primary">儲存活動設定</button>
-        </form></div>
-      </details>}
 
       <ScheduleSection activity={activity} editable={editable} />
 
