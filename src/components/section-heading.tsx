@@ -1,7 +1,7 @@
-export function SectionHeading({ number, label, title, description }: { number: string; label: string; title: string; description?: string }) {
+export function SectionHeading({ number, label, title, description }: { number?: string; label: string; title: string; description?: string }) {
   return (
     <div className="section-heading">
-      <div className="section-number">{number} <span /> {label}</div>
+      <div className="section-number">{number ? <>{number} <span /> </> : null}{label}</div>
       <h1>{title}</h1>
       {description && <p>{description}</p>}
     </div>

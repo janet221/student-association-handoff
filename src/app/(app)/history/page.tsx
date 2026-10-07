@@ -15,7 +15,7 @@ export default async function HistoryPage({ searchParams }: { searchParams: Prom
 
   return (
     <main className="page-wrap">
-      <section className="page-intro"><SectionHeading number="03" label="ARCHIVE" title="歷屆紀錄" description="查看以前留下的文件、提醒與活動資料。" /></section>
+      <section className="page-intro"><SectionHeading label="ARCHIVE" title="歷屆紀錄" description="查看以前留下的文件、提醒與活動資料。" /></section>
       {error && <div className="notice error">{error}</div>}
       <section className="department-directory archive-list">
         {departments.map((department) => <details className="department-menu" key={department}>
