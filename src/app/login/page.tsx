@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import { LoginEntry } from "@/components/login-entry";
+import { LandingContent } from "@/components/landing-content";
 
 export default async function LoginPage({
   searchParams,
@@ -29,14 +30,7 @@ export default async function LoginPage({
         <h1>資管系學會<br />換屆工作交接系統</h1>
         <div className="login-art" aria-hidden="true"><span>延續經驗<br />接續行動</span></div>
       </section>
-      <section className="landing-about" id="about">
-        <div className="landing-about-label"><span>01</span><i /> PROJECT IDEA</div>
-        <div className="landing-about-copy">
-          <h2>把上一屆做過的事，<br />交給下一屆接著做。</h2>
-          <p>資管系學會換屆工作交接系統，將歷屆活動的工作流程、文件、器材與執行經驗整理在同一個地方。每一屆可以先理解以前怎麼做，再建立屬於自己的工作版本。</p>
-          <div className="landing-about-steps"><span><b>保存</b>整理歷屆紀錄</span><span><b>繼承</b>建立本屆架構</span><span><b>沉澱</b>留下下一屆可用的經驗</span></div>
-        </div>
-      </section>
+      <LandingContent />
     </main>
   );
 }
