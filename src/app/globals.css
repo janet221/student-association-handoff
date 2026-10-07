@@ -181,13 +181,13 @@ button { cursor:pointer; }
 .expanded-context { grid-template-columns:repeat(4,1fr); }
 
 .login-shell { min-height:100vh; scroll-behavior:smooth; }
-.landing-nav { position:fixed; inset:0 0 auto; z-index:40; height:86px; padding:0 clamp(24px,5vw,72px); display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid #d8d6ce88; background:#f7f6f1d9; backdrop-filter:blur(16px); }
+.landing-nav { position:fixed; inset:0 0 auto; z-index:40; height:86px; padding:0 clamp(24px,5vw,72px); display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid #d8d6ce88; background:#f7f6f1f2; }
 .landing-nav nav { display:flex; align-items:center; gap:26px; }
 .landing-nav nav > a { font-size:11px; border-bottom:1px solid transparent; padding:8px 0; }
 .landing-nav nav > a:hover { border-color:var(--ink); }
 .login-story { min-height:100vh; padding:48px clamp(24px,5vw,72px) 48px clamp(180px,19vw,330px); padding-top:150px; position:relative; overflow:hidden; display:flex; flex-direction:column; }
 .login-entry { position:static; min-height:42px; padding:0 16px; border:1px solid #17171455; background:transparent; backdrop-filter:blur(12px); display:flex; align-items:center; gap:16px; font-size:11px; font-weight:700; }
-.auth-overlay { position:fixed; inset:0; z-index:50; background:var(--paper); display:grid; place-items:center; padding:90px 24px 48px; overflow:auto; }
+.auth-overlay { position:fixed; inset:0; z-index:50; width:100vw; min-height:100dvh; background:var(--paper); display:grid; place-items:center; padding:90px 24px 48px; overflow:auto; }
 .auth-overlay::before { content:""; position:absolute; inset:0; background:linear-gradient(145deg,transparent 0 46%,#d7ddcf 46% 64%,#829981 64% 82%,#2b3c33 82%); opacity:.13; pointer-events:none; }
 .auth-overlay-inner { position:relative; z-index:1; width:min(460px,100%); padding:44px; border:1px solid var(--line); background:#f7f6f1e8; backdrop-filter:blur(12px); }
 .auth-overlay h2 { font:700 38px/1.35 "Noto Serif TC",serif; margin:20px 0 26px; }
