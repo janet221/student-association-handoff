@@ -29,7 +29,7 @@ type Activity = {
 };
 type Member = { id: string; name: string };
 
-const statusLabel: Record<string, string> = { todo: "待處理", in_progress: "進行中", blocked: "等待前置工作", completed: "已完成" };
+const statusLabel: Record<string, string> = { todo: "待確認", in_progress: "待確認", blocked: "待確認", completed: "已處理", not_applicable: "本屆不採用" };
 
 export default async function ActivityDetailPage({ params, searchParams }: { params: Promise<{ id: string }>; searchParams: Promise<{ created?: string }> }) {
   const { id } = await params;
@@ -66,8 +66,11 @@ export default async function ActivityDetailPage({ params, searchParams }: { par
   const source = sourceData as unknown as Activity | null;
   const editable = profile?.role === "admin" && activity.status !== "archived";
   const tasks = activity.phases.flatMap((phase) => phase.tasks).sort((a, b) => a.position - b.position);
-  const done = tasks.filter((task) => task.status === "completed").length;
-  const percent = tasks.length ? Math.round(done / tasks.length * 100) : 0;
+  const statusCounts = {
+    pending: tasks.filter((task) => task.status !== "completed").length,
+    handled: tasks.filter((task) => task.status === "completed").length,
+    notApplicable: tasks.filter((task) => task.status === "not_applicable").length,
+  };
 
   if (activity.status === "archived") return <ArchivedActivityView activity={activity} />;
 
@@ -76,8 +79,8 @@ export default async function ActivityDetailPage({ params, searchParams }: { par
       {created && <div className="notice success">{created === "existing" ? `已開啟既有的本屆${activity.name}。` : `已從上一屆建立本屆${activity.name}。日期、場地、人員、狀態與執行情況都已重設，請依本屆情況調整。`}</div>}
       <section className="detail-hero">
         <SectionHeading number="04" label={activity.status === "archived" ? "ARCHIVE DETAIL" : "ACTIVE PROJECT"} title={`${activity.terms?.ordinal ?? "—"}th ${activity.name}`} description={siteCopy(activity.description) || "尚未填寫活動說明"} />
-        <div className="detail-score"><b>{percent}%</b><span>完成進度</span><i><em style={{ width: `${percent}%` }} /></i></div>
-        <dl><div><dt>工作項目</dt><dd>{tasks.length}</dd></div><div><dt>完成項目</dt><dd>{done}</dd></div><div><dt>狀態</dt><dd>{activity.status === "archived" ? "歷屆唯讀" : "本屆可調整"}</dd></div></dl>
+        <div className="detail-score neutral-summary"><b>{tasks.length}</b><span>本屆工作項目</span></div>
+        <dl><div><dt>待確認</dt><dd>{statusCounts.pending}</dd></div><div><dt>已處理</dt><dd>{statusCounts.handled}</dd></div><div><dt>本屆不採用</dt><dd>{statusCounts.notApplicable}</dd></div></dl>
       </section>
 
       <ScheduleSection activity={activity} editable={editable} />
@@ -116,16 +119,14 @@ function ArchivedActivityView({ activity }: { activity: Activity }) {
 }
 
 function ActivityTaskOverview({ tasks }: { tasks: Task[] }) {
-  const activeTasks = tasks.filter((task) => task.status !== "completed");
-  const ready = activeTasks.filter((task) => !task.task_dependencies.some((item) => item.depends_on && item.depends_on.status !== "completed"));
-  const waiting = activeTasks.filter((task) => task.task_dependencies.some((item) => item.depends_on && item.depends_on.status !== "completed"));
+  const counts = {
+    pending: tasks.filter((task) => task.status !== "completed").length,
+    handled: tasks.filter((task) => task.status === "completed").length,
+    notApplicable: tasks.filter((task) => task.status === "not_applicable").length,
+  };
   return <section className="activity-task-overview">
-    <header><div className="section-number">NOW <span /> TO-DO</div><h2>本屆待辦</h2><p>先處理可以開始的工作，完成後再回來勾選。</p></header>
-    <div className="activity-task-columns">
-      <div><h3><i className="dot active" />現在可以做 <b>{ready.length}</b></h3>{ready.slice(0, 6).map((task) => <a href={`#task-${task.id}`} key={task.id}><span>{task.category ?? "工作"}</span><strong>{task.name}</strong><em>{task.fixed_deadline ?? "可開始執行"}</em></a>)}</div>
-      <div className="waiting-column"><h3><i className="dot waiting" />正在等待 <b>{waiting.length}</b></h3>{waiting.slice(0, 6).map((task) => <a href={`#task-${task.id}`} key={task.id}><span>{task.category ?? "工作"}</span><strong>{task.name}</strong><em>等待前置工作</em></a>)}</div>
-    </div>
-    {!activeTasks.length && <p className="muted-copy">這個活動的工作都已完成。</p>}
+    <header><div className="section-number">NOW <span /> WORK LIST</div><h2>本屆工作</h2><p>這些是今年可能需要確認與處理的工作，依本屆情況調整即可。</p></header>
+    <div className="activity-work-summary"><span>待確認 <b>{counts.pending}</b></span><span>已處理 <b>{counts.handled}</b></span><span>本屆不採用 <b>{counts.notApplicable}</b></span></div>
   </section>;
 }
 
@@ -145,7 +146,7 @@ function TaskCard({ task, activity, members, editable, source, allTasks }: { tas
   return <div id={`task-${task.id}`} className={`detail-task ${task.status === "completed" ? "done" : ""}`}>
     <span className="task-state">{task.status === "completed" ? "✓" : waiting.length ? "○" : "●"}</span>
     <div className="task-main"><small>{task.category ? `${task.category} · ` : ""}{task.priority.toUpperCase()} · {statusLabel[task.status]}</small><h3>{task.name}</h3><p>{siteCopy(task.description)}</p>
-      {waiting.length > 0 && <div className="dependency-note">等待：{waiting.map((item) => item?.name).join("、")}</div>}
+      {waiting.length > 0 && <div className="dependency-note">前置工作：{waiting.map((item) => item?.name).join("、")}</div>}
       {!!task.task_checklist_items.length && <ul className="checklist">{task.task_checklist_items.sort((a, b) => a.position - b.position).map((item) => <li key={item.id} className={item.is_completed ? "checked" : ""}><form action={toggleChecklistItem}><input type="hidden" name="activityId" value={activity.id} /><input type="hidden" name="itemId" value={item.id} /><input type="hidden" name="completed" value={String(item.is_completed)} /><button disabled={activity.status === "archived"}>{item.is_completed ? "☑" : "☐"}</button></form><span>{item.content}</span></li>)}</ul>}
       {task.experiences.map((note) => <div className="experience-note" key={note.id}>本屆{experienceLabel[note.kind] ?? "紀錄"}：{siteCopy(note.content)}</div>)}
       {previousTask?.experiences.map((note) => <div className="experience-note previous" key={note.id}>上一屆{experienceLabel[note.kind] ?? "紀錄"}：{siteCopy(note.content)}</div>)}
@@ -154,7 +155,7 @@ function TaskCard({ task, activity, members, editable, source, allTasks }: { tas
       {editable && <form action={createChecklistItem} className="inline-create-form small"><input type="hidden" name="activityId" value={activity.id} /><input type="hidden" name="taskId" value={task.id} /><input name="content" placeholder="新增執行步驟" required /><button>新增步驟</button></form>}
     </div>
     <div className="task-side"><span>{formatDeadline(task, activity.activity_date)}</span><small>{task.assignments.map((item) => item.members?.name).filter(Boolean).join("、") || "待分配"}</small>
-      {activity.status !== "archived" && <form action={updateTaskStatus}><input type="hidden" name="taskId" value={task.id} /><input type="hidden" name="activityId" value={activity.id} /><input type="hidden" name="status" value={task.status === "completed" ? "todo" : "completed"} /><button className="task-complete-button">{task.status === "completed" ? "取消完成" : "完成"}</button></form>}
+      {activity.status !== "archived" && <form action={updateTaskStatus}><input type="hidden" name="taskId" value={task.id} /><input type="hidden" name="activityId" value={activity.id} /><input type="hidden" name="status" value={task.status === "completed" ? "todo" : "completed"} /><button className="task-complete-button">{task.status === "completed" ? "改回待確認" : "標記已處理"}</button></form>}
       {editable && <form action={setTaskAssignee}><input type="hidden" name="taskId" value={task.id} /><input type="hidden" name="activityId" value={activity.id} /><select name="memberId" defaultValue={task.assignments[0]?.members?.id ?? ""}><option value="">待分配</option>{members.map((member) => <option key={member.id} value={member.id}>{member.name}</option>)}</select><button>指派</button></form>}
       {editable && <div className="task-admin-buttons"><form action={moveTask}><input type="hidden" name="activityId" value={activity.id} /><input type="hidden" name="taskId" value={task.id} /><input type="hidden" name="direction" value="-1" /><button title="上移">↑</button></form><form action={moveTask}><input type="hidden" name="activityId" value={activity.id} /><input type="hidden" name="taskId" value={task.id} /><input type="hidden" name="direction" value="1" /><button title="下移">↓</button></form><form action={deleteTask}><input type="hidden" name="activityId" value={activity.id} /><input type="hidden" name="taskId" value={task.id} /><button className="danger-button">刪除</button></form></div>}
     </div>

@@ -20,16 +20,13 @@ export default async function ActivitiesPage() {
           <div className="activity-grid">
         {activities.filter((activity) => activityDepartment(activity.name) === department).map((activity, index) => {
           const tasks = activity.phases.flatMap((phase) => phase.tasks);
-          const done = tasks.filter((task) => task.status === "completed").length;
-          const percent = tasks.length ? Math.round(done / tasks.length * 100) : 0;
           return (
-            <Link href={`/activities/${activity.id}`} className={`activity-card ${index === 0 ? "featured" : ""}`} key={activity.id}>
+            <Link href={`/activities/${activity.id}`} className="activity-card" key={activity.id}>
               <div className="card-no">{String(index + 1).padStart(2, "0")}</div>
               <div className="card-art"><span>{activity.terms?.ordinal ?? "—"}th</span></div>
-              <small>{activity.terms?.name ?? "本屆"} / {activity.status.toUpperCase()}</small>
+              <small>{activity.terms?.name ?? "本屆"} / 工作清單</small>
               <h2>{activity.name}</h2>
-              <div className="progress-line"><i style={{ width: `${percent}%` }} /></div>
-              <div className="card-meta"><span>{done} / {tasks.length} 已完成</span><span>{activity.activity_date ?? "日期待確認"}</span><b>→</b></div>
+              <div className="card-meta"><span>{tasks.length} 項工作</span><span>{activity.activity_date ?? "日期待確認"}</span><b>→</b></div>
             </Link>
           );
         })}
