@@ -12,7 +12,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
     <div className="app-shell">
       <AppHeader name={profile?.display_name ?? user.email?.split("@")[0] ?? "成員"} role={profile?.role ?? "member"} />
       {children}
-      <footer><b>NCUE IM</b><small>© 2026 NCUE IM Student Association.</small></footer>
+      <footer className="app-footer"><small>NCUE IM Student Association · 2026</small></footer>
     </div>
   );
 }
