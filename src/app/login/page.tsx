@@ -16,12 +16,12 @@ export default async function LoginPage({
   const { data: handoverFrom } = currentTerm?.handover_from_term_id
     ? await supabase.from("terms").select("ordinal").eq("id", currentTerm.handover_from_term_id).maybeSingle()
     : { data: null };
-  const handoverLabel = currentTerm?.handover_completed && handoverFrom ? `${handoverFrom.ordinal} ➔ ${currentTerm.ordinal}` : currentTerm ? `${currentTerm.ordinal}th` : "25 ➔ 26";
+  const handoverLabel = handoverFrom && currentTerm ? `${handoverFrom.ordinal} ➔ ${currentTerm.ordinal}` : currentTerm ? `${currentTerm.ordinal}th` : "25 ➔ 26";
 
   return (
     <main className="login-shell">
       <header className="landing-nav">
-        <a href="#top" className="brand-lockup"><strong>NCUE IM</strong></a>
+        <a href="#top" className="brand-lockup"><strong>NCUE IM</strong><span>STUDENT<br />ASSOCIATION</span></a>
         <nav aria-label="首頁導覽"><a href="#about">專案理念</a><a href="#operation">如何運作</a><LoginEntry error={notice.error} message={notice.message} /></nav>
       </header>
       <section className="login-story" id="top">
