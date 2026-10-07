@@ -17,7 +17,7 @@ export async function login(formData: FormData) {
   const password = String(formData.get("password") ?? "");
   const { error } = await supabase.auth.signInWithPassword({ email, password });
 
-  if (error) redirect(`/login?error=${encodeURIComponent("登入失敗，請確認信箱、密碼或驗證狀態。")}`);
+  if (error) redirect(`/login?error=${encodeURIComponent(authErrorMessage(error.message))}`);
   redirect("/dashboard");
 }
 

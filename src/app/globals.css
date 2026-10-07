@@ -224,6 +224,9 @@ footer small { justify-self:end; color:var(--muted); }
 .welcome-copy > span,.home-section-head span,.role-entry > span { color:var(--muted); font:700 9px/1 Arial,sans-serif; letter-spacing:.16em; }
 .welcome-copy h2 { margin:24px 0 18px; font:700 clamp(30px,4vw,56px)/1.45 "Noto Serif TC",serif; letter-spacing:.06em; }
 .welcome-copy p { max-width:650px; color:var(--muted); font-size:13px; line-height:1.9; }
+.handover-toggle { display:flex; align-items:center; gap:12px; margin-top:24px; color:var(--muted); font-size:10px; }
+.handover-toggle button { border:1px solid var(--line); background:transparent; padding:8px 11px; font-size:10px; }
+.handover-toggle button:hover { background:var(--ink); color:var(--paper); border-color:var(--ink); }
 .role-entry-grid { display:grid; grid-template-columns:1fr 1fr; margin:54px 0 80px; border:1px solid var(--line); }
 .role-entry { min-height:260px; padding:38px; display:flex; flex-direction:column; transition:.2s; }
 .role-entry + .role-entry { border-left:1px solid var(--line); }

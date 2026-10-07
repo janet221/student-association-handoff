@@ -3,6 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 import { SectionHeading } from "@/components/section-heading";
 import { siteCopy } from "@/lib/site-copy";
 import { activityDepartment } from "@/lib/activity-departments";
+import { updateHandoverStatus } from "./actions";
 
 type Activity = {
   id: string; name: string; description: string | null; status: string; activity_date: string | null;
@@ -11,7 +12,12 @@ type Activity = {
 
 export default async function DashboardPage() {
   const supabase = await createClient();
-  const { data: term } = await supabase.from("terms").select("id, name, ordinal").eq("is_current", true).maybeSingle();
+  const { data: term } = await supabase.from("terms").select("id, name, ordinal, handover_from_term_id, handover_completed").eq("is_current", true).maybeSingle();
+  const { data: { user } } = await supabase.auth.getUser();
+  const { data: profile } = user ? await supabase.from("profiles").select("role").eq("id", user.id).maybeSingle() : { data: null };
+  const { data: handoverFrom } = term?.handover_from_term_id
+    ? await supabase.from("terms").select("ordinal").eq("id", term.handover_from_term_id).maybeSingle()
+    : { data: null };
   const { data } = term
     ? await supabase.from("activities").select("id, name, description, status, activity_date, phases(tasks(status))").eq("term_id", term.id).neq("status", "archived").order("created_at")
     : { data: [] };
@@ -23,9 +29,10 @@ export default async function DashboardPage() {
       <section className="welcome-hero">
         <SectionHeading number="01" label="START HERE" title="先選擇你今天要做的事" description="這裡是進入跨屆交接系統的起點。先選擇角色，再選擇要處理的活動。" />
         <div className="welcome-copy">
-          <span>{term ? `${term.ordinal}th ${term.name}` : "CURRENT TERM"}</span>
+          <span>{term?.handover_completed && handoverFrom ? `${handoverFrom.ordinal} ➔ ${term.ordinal}` : term ? `${term.ordinal}th ${term.name}` : "CURRENT TERM"}</span>
           <h2>保存上一屆的做法<br />接著完成這一屆的工作</h2>
           <p>想執行本屆工作，請從「系學會成員區」進入；想整理歷屆文件與交接經驗，請從「學長姐資料上傳區」開始。</p>
+          {term && profile?.role === "admin" && <form action={updateHandoverStatus} className="handover-toggle"><input type="hidden" name="termId" value={term.id} /><span>交接狀態：{term.handover_completed ? "已完成" : "進行中"}</span><button name="completed" value={String(!term.handover_completed)}>{term.handover_completed ? "標記為進行中" : "標記為已完成"}</button></form>}
         </div>
       </section>
 
