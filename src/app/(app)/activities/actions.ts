@@ -292,6 +292,15 @@ export async function createArchivedPhase(formData: FormData) {
   refreshActivity(activityId);
 }
 
+export async function deleteArchivedPhase(formData: FormData) {
+  const phaseId = value(formData, "phaseId");
+  const activityId = value(formData, "activityId");
+  const supabase = await requireAdmin();
+  const { error } = await supabase.from("phases").delete().eq("id", phaseId).eq("activity_id", activityId);
+  if (error) throw new Error(error.message);
+  refreshActivity(activityId);
+}
+
 export async function updateDocumentHandoverNote(formData: FormData) {
   const activityId = value(formData, "activityId");
   const documentId = value(formData, "documentId");

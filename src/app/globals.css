@@ -121,7 +121,10 @@ button { cursor:pointer; }
 .phase-editor summary { border:1px solid var(--line); padding:9px 14px; color:var(--muted); font-size:10px; cursor:pointer; list-style:none; }
 .phase-editor summary::-webkit-details-marker { display:none; }
 .phase-editor[open] summary { color:var(--ink); border-color:var(--ink); }
-.phase-editor .phase-create-form { min-width:320px; margin-top:10px; padding:14px; border:1px solid var(--line); background:var(--paper); }
+.phase-editor .phase-create-form { width:min(100%,720px); margin-top:14px; padding:22px; border:1px solid var(--line); background:var(--paper); animation:phase-card-in .24s ease-out; }
+.phase-edit-actions { display:flex; gap:10px; align-items:center; }
+.phase-delete-button { background:transparent !important; color:var(--red) !important; border-color:var(--red) !important; }
+@keyframes phase-card-in { from { opacity:0; transform:translateY(-6px); } to { opacity:1; transform:none; } }
 .archive-workflow details { border-top:1px solid var(--line); }
 .archive-workflow details:last-child { border-bottom:1px solid var(--line); }
 .archive-workflow summary { display:flex; justify-content:space-between; padding:18px 0; cursor:pointer; font:600 16px "Noto Serif TC",serif; list-style:none; }
