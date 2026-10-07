@@ -26,7 +26,7 @@ export default async function ActivitiesPage() {
               <div className="card-art"><span>{activity.terms?.ordinal ?? "—"}th</span></div>
               <small>{activity.terms?.name ?? "本屆"} / 工作清單</small>
               <h2>{activity.name}</h2>
-              <div className="card-meta"><span>{tasks.length} 項工作</span><span>{activity.activity_date ?? "日期待確認"}</span><b>→</b></div>
+              <div className="card-meta"><span>{tasks.length} 項工作</span><b>→</b></div>
             </Link>
           );
         })}
