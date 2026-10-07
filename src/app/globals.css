@@ -186,7 +186,7 @@ button { cursor:pointer; }
 .landing-nav nav > a { font-size:11px; border-bottom:1px solid transparent; padding:8px 0; }
 .landing-nav nav > a:hover { border-color:var(--ink); }
 .login-story { min-height:100vh; padding:48px clamp(34px,6vw,90px); padding-top:150px; position:relative; overflow:hidden; display:flex; flex-direction:column; }
-.login-entry { position:static; min-height:42px; padding:0 16px; border:1px solid #17171455; background:#f7f6f1aa; backdrop-filter:blur(12px); display:flex; align-items:center; gap:24px; font-size:11px; font-weight:700; }
+.login-entry { position:static; min-height:42px; padding:0 16px; border:1px solid #17171455; background:transparent; backdrop-filter:blur(12px); display:flex; align-items:center; gap:16px; font-size:11px; font-weight:700; }
 .auth-overlay { position:fixed; inset:0; z-index:50; background:var(--paper); display:grid; place-items:center; padding:90px 24px 48px; overflow:auto; }
 .auth-overlay::before { content:""; position:absolute; inset:0; background:linear-gradient(145deg,transparent 0 46%,#d7ddcf 46% 64%,#829981 64% 82%,#2b3c33 82%); opacity:.13; pointer-events:none; }
 .auth-overlay-inner { position:relative; z-index:1; width:min(460px,100%); padding:44px; border:1px solid var(--line); background:#f7f6f1e8; backdrop-filter:blur(12px); }

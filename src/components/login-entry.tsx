@@ -8,7 +8,7 @@ export function LoginEntry({ error, message }: { error?: string; message?: strin
   const [mode, setMode] = useState<"login" | "signup">("login");
 
   return <>
-    <button className="login-entry" onClick={() => setOpen(true)}>登入／註冊 <span>→</span></button>
+    <button className="login-entry" onClick={() => setOpen(true)}>開始使用 <span>→</span></button>
     {open && <section className="auth-overlay" aria-label="登入或註冊">
       <button className="auth-back" onClick={() => setOpen(false)}>← 返回首頁</button>
       <div className="auth-overlay-inner">
