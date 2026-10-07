@@ -243,6 +243,8 @@ button { cursor:pointer; }
 footer { border-top:1px solid var(--line); min-height:180px; padding:50px clamp(24px,5vw,72px); display:grid; grid-template-columns:1fr 2fr 1fr; align-items:center; font-size:11px; }
 footer span { font:16px/1.8 "Noto Serif TC",serif; }
 footer small { justify-self:end; color:var(--muted); }
+.landing-footer { min-height:96px; padding:30px clamp(24px,5vw,72px); display:flex; align-items:center; justify-content:center; border-top:1px solid var(--line); font-size:10px; letter-spacing:.12em; }
+.landing-footer small { justify-self:auto; color:var(--muted); }
 
 .welcome-hero { display:grid; grid-template-columns:minmax(260px,.72fr) 1.28fr; gap:8vw; padding-bottom:68px; border-bottom:1px solid var(--line); align-items:end; }
 .welcome-copy { border-left:1px solid var(--line); padding:18px 0 18px clamp(28px,5vw,72px); }

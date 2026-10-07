@@ -31,6 +31,7 @@ export default async function LoginPage({
         <div className="login-art" aria-hidden="true"><span>延續經驗<br />接續行動</span></div>
       </section>
       <LandingContent />
+      <footer className="landing-footer"><small>NCUE IM Student Association · 2026</small></footer>
     </main>
   );
 }
