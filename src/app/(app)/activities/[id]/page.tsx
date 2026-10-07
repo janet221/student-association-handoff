@@ -149,5 +149,3 @@ function formatDeadline(task: Task, activityDate: string | null) {
   return "未設定期限";
 }
 
-function formatDateTime(value: string | null) { return value ? new Intl.DateTimeFormat("zh-TW", { dateStyle: "medium", timeStyle: "short", timeZone: "Asia/Taipei" }).format(new Date(value)) : "日期待確認"; }
-function toLocalInput(value: string | null) { if (!value) return ""; const date = new Date(value); const local = new Date(date.getTime() + 8 * 60 * 60 * 1000); return local.toISOString().slice(0, 16); }
