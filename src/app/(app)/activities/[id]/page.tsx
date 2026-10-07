@@ -111,31 +111,9 @@ function ArchivedActivityView({ activity, editable }: { activity: Activity; edit
   </main>;
 }
 
-function ActivityTaskOverview({ tasks }: { tasks: Task[] }) {
-  const counts = {
-    pending: tasks.filter((task) => task.status !== "completed").length,
-    handled: tasks.filter((task) => task.status === "completed").length,
-    notApplicable: tasks.filter((task) => task.status === "not_applicable").length,
-  };
-  return <section className="activity-task-overview">
-    <header><div className="section-number">NOW <span /> WORK LIST</div><h2>本屆工作</h2><p>這些是今年可能需要確認與處理的工作，依本屆情況調整即可。</p></header>
-    <div className="activity-work-summary"><span>待確認 <b>{counts.pending}</b></span><span>已處理 <b>{counts.handled}</b></span><span>本屆不採用 <b>{counts.notApplicable}</b></span></div>
-  </section>;
-}
-
 function ActivityNotes({ activity, editable }: { activity: Activity; editable: boolean }) {
   const note = activity.experiences.find((item) => !item.task_id && item.kind === "note");
   return <section className="activity-notes"><div className="section-number">NOTE <span /> CURRENT PRACTICE</div><h2>本屆備註與今年實際做法</h2>{note && <p>{siteCopy(note.content)}</p>}{editable && <form action={updateActivityNote}><input type="hidden" name="activityId" value={activity.id} /><textarea name="content" defaultValue={note?.content ?? ""} placeholder="記下今年實際採用的做法、調整過的流程或遇到的問題" required /><button>儲存本屆備註</button></form>}</section>;
-}
-
-function ScheduleSection({ activity, editable }: { activity: Activity; editable: boolean }) {
-  return <details className="activity-collapsible admin-panel schedule-panel"><summary><span className="section-number">S <i /> SCHEDULE</span><b>活動日程與場地</b></summary><div className="collapsible-body">
-    <div className="schedule-list">{activity.activity_schedule_items.map((item) => <article key={item.id}><b>{item.name}</b><span>{formatDateTime(item.starts_at)}{item.ends_at ? ` — ${formatDateTime(item.ends_at)}` : ""}</span><small>{item.venue ?? "場地待確認"}</small>{item.note && <p>{siteCopy(item.note)}</p>}
-      {editable && <form action={updateScheduleItem} className="admin-form schedule-edit"><input type="hidden" name="activityId" value={activity.id} /><input type="hidden" name="scheduleItemId" value={item.id} /><label>開始<input type="datetime-local" name="startsAt" defaultValue={toLocalInput(item.starts_at)} /></label><label>結束<input type="datetime-local" name="endsAt" defaultValue={toLocalInput(item.ends_at)} /></label><label>場地<input name="venue" defaultValue={item.venue ?? ""} placeholder="待確認" /></label><label>備註<input name="note" defaultValue={item.note ?? ""} /></label><button>更新</button></form>}
-    </article>)}</div>
-    {!activity.activity_schedule_items.length && <p className="muted-copy">尚未建立日程。</p>}
-    {editable && <form action={createScheduleItem} className="inline-create-form"><input type="hidden" name="activityId" value={activity.id} /><input name="name" placeholder="新增日程項目" required /><input type="datetime-local" name="startsAt" /><input name="venue" placeholder="場地" /><button>新增日程</button></form>}
-  </div></details>;
 }
 
 function TaskCard({ task, activity, members, editable, source, allTasks }: { task: Task; activity: Activity; members: Member[]; editable: boolean; source: Activity | null; allTasks: Task[] }) {
