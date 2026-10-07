@@ -112,6 +112,18 @@ button { cursor:pointer; }
 .detail-task { display:grid; grid-template-columns:36px 1fr 220px; gap:18px; padding:28px; border-bottom:1px solid var(--line); }
 .detail-task:last-child { border-bottom:0; }
 .detail-task.done { opacity:.48; }
+.task-reference { margin-top:22px; border-top:1px solid var(--line); }
+.task-reference summary { cursor:pointer; padding:14px 0; color:var(--muted); font-size:11px; list-style:none; }
+.task-reference summary::-webkit-details-marker { display:none; }
+.task-reference summary::after { content:"＋"; float:right; color:var(--ink); }
+.task-reference[open] summary::after { content:"－"; }
+.task-reference-content { display:grid; gap:18px; padding:4px 0 8px 16px; border-left:1px solid var(--line); }
+.task-reference-content > div { display:grid; gap:6px; }
+.task-reference-content small { color:var(--muted); font-size:9px; letter-spacing:.08em; }
+.task-reference-content b { font-size:12px; font-weight:500; }
+.task-reference-content a { display:flex; justify-content:space-between; gap:14px; padding:8px 0; border-bottom:1px solid var(--line); font-size:11px; }
+.task-reference-content a span { color:var(--muted); white-space:nowrap; }
+.task-reference-content p { margin:0; color:var(--muted); font-size:11px; line-height:1.8; }
 .task-state { width:24px; height:24px; border:1px solid var(--line); border-radius:50%; display:grid; place-items:center; font-size:9px; }
 .task-main > small { color:var(--muted); font:8px Arial,sans-serif; letter-spacing:.12em; }
 .task-main h3 { font:700 17px serif; margin:6px 0; }
