@@ -112,6 +112,8 @@ button { cursor:pointer; }
 .detail-task { display:grid; grid-template-columns:36px 1fr 220px; gap:18px; padding:28px; border-bottom:1px solid var(--line); }
 .detail-task:last-child { border-bottom:0; }
 .detail-task.done { opacity:.48; }
+.task-complete-button { border:1px solid var(--line); background:transparent; padding:7px 10px; color:var(--muted); font-size:10px; }
+.task-complete-button:hover { border-color:var(--ink); color:var(--ink); }
 .activity-collapsible { border:1px solid var(--line); margin:18px 0; }
 .activity-collapsible > summary,.phase-block > summary { display:flex; align-items:center; gap:18px; padding:22px 28px; cursor:pointer; list-style:none; }
 .activity-collapsible > summary::-webkit-details-marker,.phase-block > summary::-webkit-details-marker { display:none; }
