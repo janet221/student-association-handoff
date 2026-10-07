@@ -108,8 +108,7 @@ function ArchivedActivityView({ activity, editable }: { activity: Activity; edit
 function TaskCard({ task, activity, members, editable, source, allTasks }: { task: Task; activity: Activity; members: Member[]; editable: boolean; source: Activity | null; allTasks: Task[] }) {
   const waiting = task.task_dependencies.map((item) => item.depends_on).filter((item) => item && item.status !== "completed");
   const previousTask = source?.phases.flatMap((phase) => phase.tasks).find((item) => item.id === task.source_task_id);
-  return <div id={`task-${task.id}`} className={`detail-task ${task.status === "completed" ? "done" : ""}`}>
-    <span className="task-state">{task.status === "completed" ? "✓" : waiting.length ? "○" : "●"}</span>
+  return <div id={`task-${task.id}`} className="detail-task">
     <div className="task-main"><small>{task.category ? `${task.category} · ` : ""}{task.priority.toUpperCase()} · {statusLabel[task.status]}</small><h3>{task.name}</h3><p>{siteCopy(task.description)}</p>
       {waiting.length > 0 && <div className="dependency-note">前置工作：{waiting.map((item) => item?.name).join("、")}</div>}
       {!!task.task_checklist_items.length && <div className="checklist-text">{task.task_checklist_items.sort((a, b) => a.position - b.position).map((item) => <p key={item.id}>{item.content}</p>)}</div>}
