@@ -7,7 +7,7 @@ import {
   createChecklistItem, createTask,
   deleteTask, moveTask, setTaskAssignee, toggleChecklistItem,
   updateTask, updateTaskStatus,
-  updateActivityNote, updateArchiveOverview, updateDocumentHandoverNote,
+  updateArchiveOverview, updateDocumentHandoverNote,
 } from "../actions";
 
 type ChecklistItem = { id: string; content: string; is_completed: boolean; position: number };
@@ -84,7 +84,6 @@ export default async function ActivityDetailPage({ params, searchParams }: { par
         <div className="detail-score neutral-summary"><b>{tasks.length}</b><span>本屆工作項目</span></div>
         <dl><div><dt>待確認</dt><dd>{statusCounts.pending}</dd></div><div><dt>已處理</dt><dd>{statusCounts.handled}</dd></div><div><dt>本屆不採用</dt><dd>{statusCounts.notApplicable}</dd></div></dl>
       </section>
-      {activity.status !== "archived" && <ActivityNotes activity={activity} editable={editable} />}
 
       <section className="phase-stack">
         {activity.phases.map((phase, phaseIndex) => (
@@ -109,11 +108,6 @@ function ArchivedActivityView({ activity, editable }: { activity: Activity; edit
     <section className="archive-notes"><div className="section-number">01 <span /> NOTES</div><h2>學長姐留下的話</h2>{notes.map((note) => <blockquote key={note.id}>{siteCopy(note.content)}</blockquote>)}{editable && <form action={updateArchiveOverview} className="archive-note-form"><input type="hidden" name="activityId" value={activity.id} /><textarea name="content" defaultValue={notes[0]?.content ?? ""} placeholder="補充這一屆想交代給學弟妹的內容" required /><button>儲存交接說明</button></form>}</section>
     {(activity.document_links.length > 0 || archiveFolderLinks[activity.name]) && <section className="archive-documents"><div className="section-number">02 <span /> FILES</div><h2>歷屆文件</h2>{activity.document_links.map((file) => <article className="archive-document-entry" key={file.id}><a href={file.url} target="_blank" rel="noreferrer"><span>FILE</span><b>{file.name}</b><em>查看 →</em></a>{file.description && <p>{file.description}</p>}{editable && <form action={updateDocumentHandoverNote} className="archive-document-note"><input type="hidden" name="activityId" value={activity.id} /><input type="hidden" name="documentId" value={file.id} /><textarea name="handoverNote" defaultValue={file.handover_note ?? ""} placeholder="補充這份文件的使用方式或注意事項" /><button>儲存文件備註</button></form>}{file.handover_note && !editable && <p>{file.handover_note}</p>}</article>)}{archiveFolderLinks[activity.name] && <a className="archive-folder-link archive-folder-link-block" href={archiveFolderLinks[activity.name]} target="_blank" rel="noreferrer"><span>DRIVE</span><b>查看雲端資料夾</b><em>開啟 →</em></a>}</section>}
   </main>;
-}
-
-function ActivityNotes({ activity, editable }: { activity: Activity; editable: boolean }) {
-  const note = activity.experiences.find((item) => !item.task_id && item.kind === "note");
-  return <section className="activity-notes"><div className="section-number">NOTE <span /> CURRENT PRACTICE</div><h2>本屆備註與今年實際做法</h2>{note && <p>{siteCopy(note.content)}</p>}{editable && <form action={updateActivityNote}><input type="hidden" name="activityId" value={activity.id} /><textarea name="content" defaultValue={note?.content ?? ""} placeholder="記下今年實際採用的做法、調整過的流程或遇到的問題" required /><button>儲存本屆備註</button></form>}</section>;
 }
 
 function TaskCard({ task, activity, members, editable, source, allTasks }: { task: Task; activity: Activity; members: Member[]; editable: boolean; source: Activity | null; allTasks: Task[] }) {
