@@ -59,6 +59,7 @@ export function LandingContent() {
           <div className="landing-step-number">{step.number}</div>
           <h3>{step.title}</h3>
           {step.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+          <span className="landing-step-arrow" aria-hidden="true">↗</span>
         </article>)}
       </div>
     </section>
