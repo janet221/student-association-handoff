@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { SectionHeading } from "@/components/section-heading";
-import { siteCopy } from "@/lib/site-copy";
 import { activityDepartment } from "@/lib/activity-departments";
 
 type Activity = { id: string; name: string; description: string | null; status: string; activity_date: string | null; terms: { name: string; ordinal: number } | null; phases: { tasks: { status: string }[] }[] };
@@ -29,7 +28,6 @@ export default async function ActivitiesPage() {
               <div className="card-art"><span>{activity.terms?.ordinal ?? "—"}th</span></div>
               <small>{activity.terms?.name ?? "本屆"} / {activity.status.toUpperCase()}</small>
               <h2>{activity.name}</h2>
-              <p>{siteCopy(activity.description) || "尚未填寫活動說明"}</p>
               <div className="progress-line"><i style={{ width: `${percent}%` }} /></div>
               <div className="card-meta"><span>{done} / {tasks.length} 已完成</span><span>{activity.activity_date ?? "日期待確認"}</span><b>→</b></div>
             </Link>

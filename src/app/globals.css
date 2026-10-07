@@ -27,6 +27,7 @@ button { cursor:pointer; }
 .section-heading p { color:var(--muted); line-height:1.9; font-size:14px; max-width:360px; }
 .page-intro { display:flex; justify-content:space-between; align-items:end; padding-bottom:54px; border-bottom:1px solid var(--line); }
 .button { border:1px solid var(--ink); background:transparent; min-height:44px; padding:0 19px; display:inline-flex; align-items:center; justify-content:center; gap:24px; font-size:12px; font-weight:700; }
+.button-size,.task-edit > button { min-width:112px; min-height:44px; padding:0 19px; line-height:1; display:inline-flex; align-items:center; justify-content:center; border:1px solid var(--ink); background:var(--ink); color:var(--paper); font-size:12px; font-weight:700; }
 .button.primary { background:var(--ink); color:var(--paper); }
 .button.ghost:hover { background:var(--soft); }
 
@@ -70,9 +71,8 @@ button { cursor:pointer; }
 .featured .card-art { background:linear-gradient(135deg,#d8d2bf 0 22%,#739081 22% 64%,#273a35 64%); }
 .card-art span { font:40px Georgia,serif; }
 .activity-card > small { margin-top:22px; color:var(--muted); font:9px Arial,sans-serif; letter-spacing:.15em; }
-.activity-card h2 { font:700 29px serif; margin:9px 0; }
-.activity-card p { color:var(--muted); line-height:1.7; font-size:12px; flex:1; }
-.progress-line { height:2px; background:var(--line); margin-top:20px; }
+.activity-card h2 { font:700 29px serif; margin:9px 0 0; }
+.progress-line { height:22px; background:var(--line); margin-top:auto; padding-top:20px; background-clip:content-box; }
 .progress-line i { display:block; height:100%; background:var(--ink); }
 .card-meta { display:flex; align-items:center; gap:18px; padding-top:14px; font-size:10px; }
 .card-meta b { margin-left:auto; }
@@ -435,6 +435,7 @@ footer small { justify-self:end; color:var(--muted); }
   .member-row { grid-template-columns:1fr 1fr; gap:9px; }
   .member-edit { grid-template-columns:1fr; grid-column:1/-1; }
   .inline-create-form,.task-edit,.schedule-edit { grid-template-columns:1fr; }
+  .task-edit > button { width:100%; }
   .landing-nav { width:100%; height:72px; padding-inline:18px; }
   .login-story { min-height:100vh; padding:110px 24px 64px; }
   .login-art { position:relative; right:auto; top:auto; width:100%; height:260px; margin-top:56px; opacity:.72; }
