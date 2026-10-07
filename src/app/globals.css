@@ -81,6 +81,8 @@ button { cursor:pointer; }
 .archive-row small { font:9px Arial,sans-serif; color:var(--muted); letter-spacing:.12em; }
 .archive-row h2 { font:700 25px serif; margin:7px 0; }
 .archive-row p { color:var(--muted); font-size:11px; }
+.archive-folder-link { display:inline-block; color:var(--muted); border-bottom:1px solid var(--line); font-size:11px; padding-bottom:3px; transition:color .2s,border-color .2s; }
+.archive-folder-link:hover { color:var(--ink); border-color:var(--ink); }
 .archive-counts { display:flex; gap:22px; }
 .archive-counts span { display:flex; flex-direction:column; font-size:9px; color:var(--muted); }
 .archive-counts b { color:var(--ink); font:27px Georgia,serif; }
