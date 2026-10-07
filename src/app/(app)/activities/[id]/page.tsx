@@ -79,8 +79,8 @@ export default async function ActivityDetailPage({ params, searchParams }: { par
         <dl><div><dt>主要日期</dt><dd>{activity.activity_date ?? "待確認"}</dd></div><div><dt>工作項目</dt><dd>{tasks.length}</dd></div><div><dt>狀態</dt><dd>{activity.status === "archived" ? "歷屆唯讀" : "本屆可調整"}</dd></div></dl>
       </section>
 
-      {editable && <section className="admin-panel compact-panel">
-        <div className="section-number">EDIT <span /> BASIC</div><h2>本屆活動設定</h2>
+      {editable && <details className="activity-collapsible admin-panel compact-panel">
+        <summary><span className="section-number">EDIT <i /> BASIC</span><b>本屆活動設定</b></summary><div className="collapsible-body">
         <form action={updateActivity} className="admin-form grid-form">
           <input type="hidden" name="activityId" value={activity.id} />
           <label>活動名稱<input name="name" defaultValue={activity.name} required /></label>
@@ -88,8 +88,8 @@ export default async function ActivityDetailPage({ params, searchParams }: { par
           <label>狀態<select name="status" defaultValue={activity.status}><option value="planning">規劃中</option><option value="active">執行中</option><option value="completed">已完成</option></select></label>
           <label className="span-all">說明<textarea name="description" defaultValue={activity.description ?? ""} /></label>
           <button className="button primary">儲存活動設定</button>
-        </form>
-      </section>}
+        </form></div>
+      </details>}
 
       <ScheduleSection activity={activity} editable={editable} />
 
@@ -97,21 +97,24 @@ export default async function ActivityDetailPage({ params, searchParams }: { par
 
       <section className="phase-stack">
         {activity.phases.map((phase, phaseIndex) => (
-          <article className="phase-block" key={phase.id}>
-            <header><span>{String(phaseIndex + 1).padStart(2, "0")}</span><div><small>PHASE</small><h2>{phase.name}</h2><p>{phase.description}</p></div></header>
+          <details className="phase-block" key={phase.id}>
+            <summary><span>{String(phaseIndex + 1).padStart(2, "0")}</span><div><small>PHASE</small><h2>{phase.name}</h2><p>{phase.description}</p></div><b>＋</b></summary>
             <div className="phase-tasks">
               {phase.tasks.sort((a, b) => a.position - b.position).map((task) => <TaskCard key={task.id} task={task} activity={activity} members={(members ?? []) as Member[]} editable={editable} source={source} allTasks={tasks} />)}
             </div>
             {editable && <form action={createTask} className="inline-create-form"><input type="hidden" name="activityId" value={activity.id} /><input type="hidden" name="phaseId" value={phase.id} /><input name="category" placeholder="工作分類" /><input name="name" placeholder="新增工作名稱" required /><input name="description" placeholder="工作說明" /><button>新增工作</button></form>}
-          </article>
+          </details>
         ))}
       </section>
 
-      <section className="context-grid expanded-context">
+      <details className="activity-collapsible context-disclosure">
+        <summary><span className="section-number">MORE <i /> REFERENCES</span><b>器材、文件與本屆紀錄</b></summary>
+        <section className="context-grid expanded-context collapsible-body">
         <EquipmentSection activity={activity} editable={editable} />
         <div><div className="section-number">B <span /> DOCUMENTS</div><h2>{activity.status === "archived" ? "歷屆文件" : "本屆文件"}</h2>{activity.document_links.map((item) => <a key={item.id} href={item.url} target="_blank" rel="noreferrer"><span>{item.document_type}</span>{item.name}<b>↗</b></a>)}{!activity.document_links.length && <p className="muted-copy">尚未建立本屆文件。</p>}</div>
         <ExperienceSection activity={activity} editable={editable} />
-      </section>
+        </section>
+      </details>
 
       {source && <ReferenceSection source={source} />}
     </main>
@@ -133,13 +136,13 @@ function ActivityTaskOverview({ tasks }: { tasks: Task[] }) {
 }
 
 function ScheduleSection({ activity, editable }: { activity: Activity; editable: boolean }) {
-  return <section className="admin-panel schedule-panel"><div className="section-number">S <span /> SCHEDULE</div><h2>活動日程與場地</h2>
+  return <details className="activity-collapsible admin-panel schedule-panel"><summary><span className="section-number">S <i /> SCHEDULE</span><b>活動日程與場地</b></summary><div className="collapsible-body">
     <div className="schedule-list">{activity.activity_schedule_items.map((item) => <article key={item.id}><b>{item.name}</b><span>{formatDateTime(item.starts_at)}{item.ends_at ? ` — ${formatDateTime(item.ends_at)}` : ""}</span><small>{item.venue ?? "場地待確認"}</small>{item.note && <p>{siteCopy(item.note)}</p>}
       {editable && <form action={updateScheduleItem} className="admin-form schedule-edit"><input type="hidden" name="activityId" value={activity.id} /><input type="hidden" name="scheduleItemId" value={item.id} /><label>開始<input type="datetime-local" name="startsAt" defaultValue={toLocalInput(item.starts_at)} /></label><label>結束<input type="datetime-local" name="endsAt" defaultValue={toLocalInput(item.ends_at)} /></label><label>場地<input name="venue" defaultValue={item.venue ?? ""} placeholder="待確認" /></label><label>備註<input name="note" defaultValue={item.note ?? ""} /></label><button>更新</button></form>}
     </article>)}</div>
     {!activity.activity_schedule_items.length && <p className="muted-copy">尚未建立日程。</p>}
     {editable && <form action={createScheduleItem} className="inline-create-form"><input type="hidden" name="activityId" value={activity.id} /><input name="name" placeholder="新增日程項目" required /><input type="datetime-local" name="startsAt" /><input name="venue" placeholder="場地" /><button>新增日程</button></form>}
-  </section>;
+  </div></details>;
 }
 
 function TaskCard({ task, activity, members, editable, source, allTasks }: { task: Task; activity: Activity; members: Member[]; editable: boolean; source: Activity | null; allTasks: Task[] }) {
