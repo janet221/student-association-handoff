@@ -110,7 +110,7 @@ button { cursor:pointer; }
 .phase-block h2 { font:700 23px serif; margin:10px 0; }
 .phase-block header p { color:var(--muted); font-size:11px; line-height:1.7; }
 .phase-tasks { border-left:1px solid var(--line); }
-.detail-task { display:grid; grid-template-columns:36px 1fr 220px; gap:18px; padding:28px; border-bottom:1px solid var(--line); }
+.detail-task { display:grid; grid-template-columns:36px 1fr; gap:18px; padding:28px; border-bottom:1px solid var(--line); }
 .detail-task:last-child { border-bottom:0; }
 .detail-task.done { opacity:.48; }
 .task-complete-button { border:1px solid var(--line); background:transparent; padding:7px 10px; color:var(--muted); font-size:10px; }
@@ -168,6 +168,7 @@ button { cursor:pointer; }
 .dependency-note,.experience-note { display:inline-block; margin:7px 6px 0 0; padding:5px 8px; background:#efe3d5; font-size:9px; }
 .experience-note { background:#e4e9dc; }
 .task-side { text-align:right; font-size:11px; display:flex; flex-direction:column; gap:8px; }
+.activity-detail .task-side { display:none; }
 .task-side small { color:var(--muted); }
 .task-side form { display:flex; justify-content:flex-end; gap:5px; margin-top:auto; }
 .task-side select,.task-side button { border:1px solid var(--line); background:transparent; padding:5px; font-size:9px; }
