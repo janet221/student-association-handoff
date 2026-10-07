@@ -95,16 +95,6 @@ export default async function ActivityDetailPage({ params, searchParams }: { par
         ))}
       </section>
 
-      <details className="activity-collapsible context-disclosure">
-        <summary><span className="section-number">MORE <i /> REFERENCES</span><b>器材、文件與本屆紀錄</b></summary>
-        <section className="context-grid expanded-context collapsible-body">
-        <EquipmentSection activity={activity} editable={editable} />
-        <div><div className="section-number">B <span /> DOCUMENTS</div><h2>{activity.status === "archived" ? "歷屆文件" : "本屆文件"}</h2>{activity.document_links.map((item) => <a key={item.id} href={item.url} target="_blank" rel="noreferrer"><span>{item.document_type}</span>{item.name}<b>↗</b></a>)}{!activity.document_links.length && <p className="muted-copy">尚未建立本屆文件。</p>}</div>
-        <ExperienceSection activity={activity} editable={editable} />
-        </section>
-      </details>
-
-      {source && <ReferenceSection source={source} />}
     </main>
   );
 }
