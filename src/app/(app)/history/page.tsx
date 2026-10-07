@@ -24,7 +24,7 @@ export default async function HistoryPage({ searchParams }: { searchParams: Prom
         {history.filter((activity) => activityDepartment(activity.name) === department).map((activity, index) => (
           <article className="archive-row" key={activity.id}>
             <div className="archive-term"><b>{activity.terms?.ordinal ?? "—"}th</b><span>{activity.terms?.name}</span></div>
-            <div><small>{String(index + 1).padStart(2, "0")} / ARCHIVED ACTIVITY</small><h2>{activity.name}</h2>{archiveFolderLinks[activity.name] ? <a className="archive-folder-link" href={archiveFolderLinks[activity.name]} target="_blank" rel="noreferrer">查看去年籌備文件 →</a> : <p>{siteCopy(activity.description)}</p>}</div>
+            <div><small>{String(index + 1).padStart(2, "0")} / ARCHIVED ACTIVITY</small><h2>{activity.name}</h2>{archiveFolderLinks[activity.name] ? <Link className="archive-note-link" href={`/activities/${activity.id}`}>查看交接內容 →</Link> : <p>{siteCopy(activity.description)}</p>}</div>
             <div className="archive-actions">
               {archiveFolderLinks[activity.name] && <a className="archive-folder-link" href={archiveFolderLinks[activity.name]} target="_blank" rel="noreferrer">查看雲端文件 →</a>}
             </div>
@@ -37,3 +37,4 @@ export default async function HistoryPage({ searchParams }: { searchParams: Prom
     </main>
   );
 }
+import Link from "next/link";
