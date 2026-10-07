@@ -7,7 +7,7 @@ import {
   createChecklistItem, createTask,
   deleteTask, moveTask, setTaskAssignee,
   updateTask, updateTaskStatus,
-  updateArchivedTask, updateArchivedPhase, createArchivedPhase, deleteArchivedPhase,
+  updateArchivedTask, updateArchivedPhase, createArchivedPhase,
 } from "../actions";
 
 type ChecklistItem = { id: string; content: string; is_completed: boolean; position: number };
