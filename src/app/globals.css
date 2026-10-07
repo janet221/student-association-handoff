@@ -202,10 +202,26 @@ button { cursor:pointer; }
 .handover-arrow::after { content:""; position:absolute; right:-1px; top:-4px; width:7px; height:7px; border-top:1px solid var(--ink); border-right:1px solid var(--ink); transform:rotate(45deg); }
 .eyebrow { font:9px Arial,sans-serif; letter-spacing:.2em; color:var(--muted); margin:30px 0 12px; }
 .login-story h1 { font:700 clamp(42px,5vw,76px)/1.3 "Noto Serif TC","PMingLiU",serif; letter-spacing:.12em; margin:0; z-index:1; }
+.hero-title span { display:block; opacity:0; transform:translateY(24px); animation:hero-title-in .7s cubic-bezier(.22,.61,.36,1) forwards; }
+.hero-title span + span { animation-delay:.1s; }
+.hero-reveal { opacity:0; transform:translateY(8px); animation:hero-fade-in .55s ease-out forwards; }
+.hero-edition { animation-delay:.08s; }
+.hero-eyebrow { animation-delay:.28s; }
+.hero-art { opacity:0; transform:translateX(28px) scale(.985); animation:hero-art-in .8s cubic-bezier(.22,.61,.36,1) .48s forwards; }
+@keyframes hero-fade-in { to { opacity:1; transform:none; } }
+@keyframes hero-title-in { to { opacity:1; transform:none; } }
+@keyframes hero-art-in { to { opacity:1; transform:none; } }
 .lead { line-height:1.9; font-size:13px; }
 .login-art { position:absolute; right:2%; top:21%; width:42%; height:59%; background:linear-gradient(150deg,#d6d1bd 0 18%,#90a286 18% 47%,#4e6a5b 47% 75%,#27352e 75%); box-shadow:-30px 30px 0 #ece8df; }
 .login-art span { position:absolute; right:12px; top:18px; writing-mode:vertical-rl; background:var(--ink); color:#fff; padding:12px 7px; font-size:10px; line-height:1.8; }
 .landing-about { min-height:560px; width:min(1280px,calc(100% - 2 * clamp(24px,5vw,72px))); margin-left:clamp(24px,5vw,72px); padding:124px 0; display:grid; grid-template-columns:180px minmax(0,800px); gap:clamp(42px,7vw,110px); border-top:1px solid var(--line); background:#eceae355; }
+.motion-ready .landing-about [data-reveal],.motion-ready .landing-operation [data-reveal] { opacity:0; transform:translateY(28px); transition:opacity .62s ease, transform .62s cubic-bezier(.22,.61,.36,1); }
+.motion-ready .landing-about [data-reveal].is-visible,.motion-ready .landing-operation [data-reveal].is-visible { opacity:1; transform:none; }
+.landing-about-copy .landing-prose p:nth-child(1) { transition-delay:.08s; }
+.landing-about-copy .landing-prose p:nth-child(2) { transition-delay:.16s; }
+.landing-about-copy .landing-prose p:nth-child(3) { transition-delay:.24s; }
+.landing-about-copy .landing-prose p:nth-child(4) { transition-delay:.32s; }
+.landing-about-copy .landing-prose p:nth-child(5) { transition-delay:.4s; }
 .landing-section-label { display:flex; align-items:center; align-self:start; gap:10px; color:var(--muted); font:700 10px/1 Arial,sans-serif; letter-spacing:.15em; }
 .landing-section-label i { display:block; width:36px; height:1px; background:var(--muted); }
 .landing-about-copy h2,.landing-operation-head h2 { margin:0 0 32px; font:700 clamp(34px,5vw,66px)/1.25 "Noto Serif TC",serif; letter-spacing:.06em; }
@@ -225,6 +241,10 @@ button { cursor:pointer; }
 .landing-operation-step p { margin:0 0 18px; color:var(--muted); font-size:12px; line-height:1.9; }
 .landing-step-arrow { position:absolute; right:22px; bottom:22px; color:var(--muted); font-size:17px; transition:transform .28s ease, color .28s ease; }
 .landing-operation-step:hover .landing-step-arrow { color:var(--ink); transform:translate(3px,-3px); }
+.landing-operation-step[data-reveal]:not(.is-visible):nth-child(1) { transition-delay:.05s; }
+.landing-operation-step[data-reveal]:not(.is-visible):nth-child(2) { transition-delay:.15s; }
+.landing-operation-step[data-reveal]:not(.is-visible):nth-child(3) { transition-delay:.25s; }
+.landing-operation-step[data-reveal]:not(.is-visible):nth-child(4) { transition-delay:.35s; }
 .login-panel { border-left:1px solid var(--line); padding:12vh clamp(34px,5vw,80px); display:flex; flex-direction:column; justify-content:center; }
 .login-panel h2 { font:700 35px serif; margin:24px 0 10px; }
 .login-panel > p,.login-panel > small { color:var(--muted); font-size:12px; line-height:1.8; }
@@ -379,5 +399,6 @@ footer small { justify-self:end; color:var(--muted); }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior:auto; }
-  .landing-operation-step,.landing-step-number,.landing-step-arrow { transition:none; }
+  .hero-reveal,.hero-title span,.hero-art { opacity:1; transform:none; animation:none; }
+  .landing-about [data-reveal],.landing-operation [data-reveal],.landing-operation-step,.landing-step-number,.landing-step-arrow { opacity:1; transform:none; transition:none; }
 }
