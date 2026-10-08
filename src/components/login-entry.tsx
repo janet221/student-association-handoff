@@ -12,7 +12,7 @@ export function LoginEntry({ error, message }: { error?: string; message?: strin
     {open && <section className="auth-overlay" aria-label="登入或註冊">
       <button className="auth-back" onClick={() => setOpen(false)}>← 返回首頁</button>
       <div className="auth-overlay-inner">
-        <h2>登入或註冊</h2>
+        <h2>{mode === "login" ? "登入賬號" : "註冊賬號"}</h2>
         <div className="auth-mode-switch" role="tablist" aria-label="帳號操作">
           <button type="button" className={mode === "login" ? "active" : ""} onClick={() => setMode("login")}>登入帳號</button>
           <button type="button" className={mode === "signup" ? "active" : ""} onClick={() => setMode("signup")}>註冊帳號</button>
