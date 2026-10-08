@@ -15,11 +15,16 @@ button { cursor:pointer; }
 .app-header nav { display:flex; gap:34px; font:600 12px/1 Arial,sans-serif; }
 .app-header nav a { padding:34px 0 31px; border-bottom:2px solid transparent; }
 .app-header nav a:hover { border-color:var(--ink); }
+.app-header nav a.nav-current-work { border-bottom-color:var(--green); }
+.app-header nav a.nav-handover { border-bottom-color:var(--orange); }
 .account { justify-self:end; display:flex; gap:14px; align-items:center; }
 .account > span { display:flex; flex-direction:column; text-align:right; font-size:11px; }
 .account small { color:var(--muted); margin-top:2px; }
 .account button,.circle-link { border:1px solid var(--ink); background:transparent; border-radius:99px; width:34px; height:34px; display:grid; place-items:center; }
 .page-wrap { max-width:1500px; margin:auto; padding:72px clamp(24px,5vw,72px) 100px; min-height:calc(100vh - 86px); }
+.current-work-page .page-intro { border-bottom-color:#b8c6b2; }
+.handover-page .page-intro { border-bottom-color:#d9b49b; }
+.handover-page .archive-note-link,.handover-page .archive-folder-link { color:#9a603d; }
 .section-heading { max-width:440px; }
 .section-number { display:flex; align-items:center; gap:9px; font:700 10px/1 Arial,sans-serif; letter-spacing:.15em; color:var(--muted); }
 .section-number span { width:36px; height:1px; background:var(--muted); }

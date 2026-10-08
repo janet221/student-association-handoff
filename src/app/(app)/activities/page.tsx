@@ -12,8 +12,8 @@ export default async function ActivitiesPage() {
   const departments = Array.from(new Set(activities.map((activity) => activityDepartment(activity.name))));
 
   return (
-    <main className="page-wrap">
-      <section className="page-intro"><SectionHeading label="CURRENT WORK" title="本屆工作" /><Link href="/history" className="button primary">查看交接資料 <span>→</span></Link></section>
+    <main className="page-wrap current-work-page">
+      <section className="page-intro"><SectionHeading label="CURRENT WORK · 給本屆成員" title="本屆工作" /><Link href="/history" className="button primary">查看交接資料 <span>→</span></Link></section>
       <section className="department-directory">
         {departments.map((department) => <details className="department-menu" key={department}>
           <summary><span>DEPARTMENT</span><b>{department}</b><small>{activities.filter((activity) => activityDepartment(activity.name) === department).map((activity) => activity.name).join("、")}</small><i>＋</i></summary>

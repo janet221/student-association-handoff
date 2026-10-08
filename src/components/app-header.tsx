@@ -6,8 +6,8 @@ export function AppHeader({ name, role }: { name: string; role: string }) {
     <header className="app-header">
       <Link href="/activities" className="brand-lockup"><strong>NCUE IM</strong><span>STUDENT<br />ASSOCIATION</span></Link>
       <nav aria-label="主要導覽">
-        <Link href="/activities">本屆工作</Link>
-        <Link href="/history">交接紀錄</Link>
+        <Link href="/activities" className="nav-current-work">本屆工作</Link>
+        <Link href="/history" className="nav-handover">交接紀錄</Link>
       </nav>
       <div className="account">
         <span><b>{name}</b><small>{role === "admin" ? "管理者" : "一般成員"}</small></span>
