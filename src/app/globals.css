@@ -145,6 +145,16 @@ button { cursor:pointer; }
 .preview-popover > div { position:absolute; z-index:4; left:0; top:calc(100% + 8px); width:300px; padding:16px; border:1px solid var(--line); background:var(--paper); box-shadow:0 12px 24px #17171418; }
 .preview-popover > div p { color:var(--muted); font-size:11px; line-height:1.8; }
 .archive-workflow-actions { display:flex; align-items:center; gap:10px; }
+.phase-delete-form { margin:0 !important; }
+.phase-delete-form button { background:transparent; color:var(--red); border-color:var(--red); }
+.preview-trigger { border:1px solid var(--ink); background:transparent; padding:9px 14px; font-size:10px; }
+.preview-modal-backdrop { position:fixed; inset:0; z-index:20; display:grid; place-items:center; padding:24px; background:#17171455; }
+.preview-modal { position:relative; width:min(560px,100%); padding:34px; border:1px solid var(--ink); background:var(--paper); box-shadow:0 18px 50px #17171435; }
+.preview-modal-close { position:absolute; top:12px; right:12px; width:28px; height:28px; border:1px solid var(--ink); background:transparent; font-size:18px; line-height:1; }
+.preview-modal h3 { margin:14px 0 10px; font:700 26px/1.35 "Noto Serif TC",serif; }
+.preview-modal p { color:var(--muted); font-size:12px; line-height:1.9; white-space:pre-wrap; }
+.preview-modal-rule { margin:24px 0 12px; border-top:1px solid var(--line); }
+.preview-modal span { color:var(--muted); font-size:10px; }
 .preview-button { border:1px solid var(--ink); padding:9px 14px; font-size:10px; }
 .preview-button:hover { background:var(--soft); }
 .preview-label { margin-top:18px; color:var(--muted); font-size:10px; }
