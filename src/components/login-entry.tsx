@@ -29,7 +29,10 @@ export function LoginEntry({ error, message }: { error?: string; message?: strin
           <label>沒有收到驗證信？<input name="resendEmail" type="email" placeholder="輸入註冊信箱" required /></label>
           <div className="auth-secondary-actions">
             <button className="button ghost">重寄驗證信</button>
-            <button type="submit" formAction={quickLogin} formNoValidate className="button ghost">測試快速進入</button>
+            <span className="quick-login-help">
+              <button type="submit" formAction={quickLogin} formNoValidate className="button ghost" aria-describedby="quick-login-credentials">測試快速進入</button>
+              <span id="quick-login-credentials" className="quick-login-tooltip" role="tooltip">信箱：handoff.demo@student-association.test<br />密碼：NcueImDemo26!Handoff</span>
+            </span>
           </div>
         </form>}
       </div>
