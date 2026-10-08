@@ -32,7 +32,7 @@ export default async function ActivitiesPage() {
         })}
           </div>
         </details>)}
-        {!activities.length && <div className="empty-state"><b>尚未建立活動</b><p>請先由歷屆紀錄建立本屆工作，或在下一階段載入展示資料。</p></div>}
+        {!activities.length && <div className="empty-state"><b>尚未建立活動</b><p>可以先到交接紀錄查看上一屆資料，再建立本屆工作。</p></div>}
       </section>
     </main>
   );
