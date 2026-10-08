@@ -331,3 +331,16 @@ export async function updateDocumentHandoverNote(formData: FormData) {
   if (error) throw new Error(error.message);
   refreshActivity(activityId);
 }
+
+export async function updateActivityDriveLink(formData: FormData) {
+  const activityId = value(formData, "activityId");
+  const url = value(formData, "url");
+  const supabase = await requireAdmin();
+  const { data: existing } = await supabase.from("document_links").select("id").eq("activity_id", activityId).eq("document_type", "drive_folder").maybeSingle();
+  const result = existing
+    ? await supabase.from("document_links").update({ url, name: "雲端資料夾", description: "本屆活動的雲端文件" }).eq("id", existing.id)
+    : await supabase.from("document_links").insert({ activity_id: activityId, name: "雲端資料夾", url, document_type: "drive_folder", description: "本屆活動的雲端文件" });
+  if (result.error) throw new Error(result.error.message);
+  refreshActivity(activityId);
+  revalidatePath("/history");
+}
