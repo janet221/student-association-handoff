@@ -55,6 +55,21 @@ export async function resendConfirmation(formData: FormData) {
   redirect(`/login?message=${encodeURIComponent("驗證信已重新寄出，請查看收件匣與垃圾郵件。")}`);
 }
 
+export async function quickLogin() {
+  const email = process.env.DEMO_LOGIN_EMAIL;
+  const password = process.env.DEMO_LOGIN_PASSWORD;
+
+  if (!email || !password) {
+    redirect(`/login?error=${encodeURIComponent("測試快速進入尚未設定。")}`);
+  }
+
+  const supabase = await createClient();
+  const { error } = await supabase.auth.signInWithPassword({ email, password });
+
+  if (error) redirect(`/login?error=${encodeURIComponent(authErrorMessage(error.message))}`);
+  redirect("/activities");
+}
+
 export async function logout() {
   const supabase = await createClient();
   await supabase.auth.signOut();

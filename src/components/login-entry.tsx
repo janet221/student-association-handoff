@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { login, resendConfirmation, signup } from "@/app/login/actions";
+import { login, quickLogin, resendConfirmation, signup } from "@/app/login/actions";
 
 export function LoginEntry({ error, message }: { error?: string; message?: string }) {
   const [open, setOpen] = useState(false);
@@ -27,7 +27,10 @@ export function LoginEntry({ error, message }: { error?: string; message?: strin
         </form>
         {mode === "login" && <form action={resendConfirmation} className="resend-form">
           <label>沒有收到驗證信？<input name="resendEmail" type="email" placeholder="輸入註冊信箱" required /></label>
-          <button className="button ghost">重寄驗證信</button>
+          <div className="auth-secondary-actions">
+            <button className="button ghost">重寄驗證信</button>
+            <button type="submit" formAction={quickLogin} formNoValidate className="button ghost">測試快速進入</button>
+          </div>
         </form>}
       </div>
     </section>}
