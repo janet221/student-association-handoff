@@ -54,9 +54,31 @@ export async function inheritActivity(formData: FormData) {
     target_activity_date: null,
   });
   if (error) redirect(`/history?error=${encodeURIComponent(error.message)}`);
+  const newActivityId = String(data);
+
+  // Keep the handover loop complete: documents and notes edited on the
+  // archived activity should be available when the next term is created.
+  const [{ data: sourceDocuments }, { data: sourceExperiences }] = await Promise.all([
+    supabase.from("document_links").select("name, url, document_type, description, handover_note").eq("activity_id", sourceActivity),
+    supabase.from("experiences").select("task_id, kind, content").eq("activity_id", sourceActivity),
+  ]);
+  if (sourceDocuments?.length) {
+    const { error: documentError } = await supabase.from("document_links").insert(
+      sourceDocuments.map((document) => ({ ...document, activity_id: newActivityId }))
+    );
+    if (documentError) redirect(`/history?error=${encodeURIComponent(documentError.message)}`);
+  }
+  if (sourceExperiences?.length) {
+    const { data: allTargetTasks } = await supabase.from("tasks").select("id, source_task_id, phases!inner(activity_id)").eq("phases.activity_id", newActivityId);
+    const completeTaskMap = new Map((allTargetTasks ?? []).map((task) => [task.source_task_id, task.id]));
+    const { error: experienceError } = await supabase.from("experiences").insert(
+      sourceExperiences.map((experience) => ({ activity_id: newActivityId, task_id: experience.task_id ? (completeTaskMap.get(experience.task_id) ?? null) : null, kind: experience.kind, content: experience.content }))
+    );
+    if (experienceError) redirect(`/history?error=${encodeURIComponent(experienceError.message)}`);
+  }
   revalidatePath("/activities");
   revalidatePath("/activities");
-  redirect(`/activities/${data}?created=1`);
+  redirect(`/activities/${newActivityId}?created=1`);
 }
 
 export async function updateActivity(formData: FormData) {
