@@ -34,6 +34,7 @@ button { cursor:pointer; }
 .overview-row small,.overview-request small,.overview-announcement small { color:var(--muted); font-size:10px; }
 .overview-row strong { font-size:11px; font-weight:500; }
 .overview-request,.overview-announcement { display:grid; gap:8px; padding:15px 0; border-top:1px solid var(--line); }
+.overview-alert { border-left:3px solid var(--orange); padding-left:12px; }
 .overview-request b,.overview-announcement b { font-size:14px; }
 .overview-request span,.overview-announcement p,.overview-note { color:var(--muted); font-size:11px; line-height:1.8; margin:0; }
 .text-link { display:inline-block; margin-top:18px; border-bottom:1px solid var(--ink); padding-bottom:6px; font-size:11px; }
