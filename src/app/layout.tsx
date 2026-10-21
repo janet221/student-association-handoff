@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "資管系學會換屆工作交接系統",
-  description: "讓歷屆經驗直接成為本屆可執行的工作流程。",
+  title: "系學會跨股協作與換屆交接平台",
+  description: "整理活動日期、跨股協作、公告與換屆交接資料。",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

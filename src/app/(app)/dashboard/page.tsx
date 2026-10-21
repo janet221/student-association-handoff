@@ -1,5 +1,14 @@
-import { redirect } from "next/navigation";
+import Link from "next/link";
+import { createClient } from "@/lib/supabase/server";
+import { SectionHeading } from "@/components/section-heading";
+import { activityDepartment } from "@/lib/activity-departments";
 
-export default function DashboardPage() {
-  redirect("/activities");
+export default async function DashboardPage() {
+  const supabase = await createClient();
+  const [{ data: activities }, { data: collaborations }, { data: announcements }] = await Promise.all([
+    supabase.from("activities").select("id, name, activity_date, terms(name), activity_schedule_items(name, starts_at, ends_at, venue)").neq("status", "archived").order("activity_date", { ascending: true }).limit(6),
+    supabase.from("collaboration_requests").select("id, activity_id, owner_department, support_department, description, requested_date, status, activities(name)").eq("status", "待確認").order("requested_date", { ascending: true }).limit(6),
+    supabase.from("announcements").select("id, title, content, is_pinned, created_at").order("is_pinned", { ascending: false }).order("created_at", { ascending: false }).limit(5),
+  ]);
+  return <main className="page-wrap overview-page"><section className="page-intro"><SectionHeading label="OVERVIEW · 全會工作入口" title="全會總覽" description="看看最近有哪些活動、哪些股需要協助，以及接下來要留意的日期。" /><Link className="button primary" href="/activities">進入本屆工作 <span>→</span></Link></section><div className="overview-grid"><section className="overview-section"><div className="overview-section-head"><span>01 / ACTIVITIES</span><h2>近期活動</h2></div>{(activities ?? []).map((activity) => <Link className="overview-row" href={`/activities/${activity.id}`} key={activity.id}><div><b>{activity.name}</b><small>{activityDepartment(activity.name)}</small></div><strong>{activity.activity_date ?? "日期待確認"}</strong><span>→</span></Link>)}{!activities?.length && <p className="empty-inline">目前還沒有近期活動。</p>}</section><section className="overview-section"><div className="overview-section-head"><span>02 / COLLABORATION</span><h2>需要我協助</h2></div>{(collaborations ?? []).map((item) => <article className="overview-request" key={item.id}><small>{item.activities?.name ?? "活動"} · {item.owner_department} → {item.support_department}</small><b>{item.description}</b><span>希望確認：{item.requested_date ?? "日期待確認"}</span></article>)}{!collaborations?.length && <p className="empty-inline">目前沒有需要你處理的跨股需求。</p>}</section><section className="overview-section"><div className="overview-section-head"><span>03 / CALENDAR</span><h2>日期提醒</h2></div><p className="overview-note">活動日期與工作期限會集中顯示在共同月曆。</p><Link href="/calendar" className="text-link">查看共同月曆 →</Link></section><section className="overview-section"><div className="overview-section-head"><span>04 / NOTICE</span><h2>公告欄</h2></div>{(announcements ?? []).map((item) => <article className="overview-announcement" key={item.id}><small>{item.is_pinned ? "置頂" : "全會公告"}</small><b>{item.title}</b><p>{item.content}</p></article>)}{!announcements?.length && <p className="empty-inline">目前沒有公告。</p>}<Link href="/announcements" className="text-link">查看公告欄 →</Link></section></div></main>;
 }

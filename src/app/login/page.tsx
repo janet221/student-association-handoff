@@ -10,7 +10,7 @@ export default async function LoginPage({
 }) {
   const supabase = await createClient();
   const { data } = await supabase.auth.getUser();
-  if (data.user) redirect("/activities");
+  if (data.user) redirect("/dashboard");
   const notice = await searchParams;
   const { data: currentTerm } = await supabase.from("terms").select("ordinal, handover_from_term_id, handover_completed").eq("is_current", true).maybeSingle();
   const { data: handoverFrom } = currentTerm?.handover_from_term_id
@@ -27,7 +27,7 @@ export default async function LoginPage({
       <section className="login-story" id="top">
         <div className="edition hero-reveal hero-edition">{handoverLabel.includes("➔") ? <><span>{handoverLabel.split(" ➔ ")[0]}</span><b className="handover-arrow" aria-label="交接至" /><span>{handoverLabel.split(" ➔ ")[1]}</span></> : <span>{handoverLabel}</span>}</div>
         <p className="eyebrow hero-reveal hero-eyebrow">HANDOVER &amp; ACTIVE SYSTEM</p>
-        <h1 className="hero-title"><span>資管系學會</span><span>換屆工作交接系統</span></h1>
+        <h1 className="hero-title"><span>資管系學會</span><span>跨股協作與換屆交接平台</span></h1>
         <div className="login-art hero-art" aria-hidden="true"><span>留下做法<br />接著處理</span></div>
       </section>
       <LandingContent />

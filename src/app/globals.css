@@ -25,6 +25,26 @@ button { cursor:pointer; }
 .current-work-page .page-intro { border-bottom-color:#b8c6b2; }
 .handover-page .page-intro { border-bottom-color:#d9b49b; }
 .handover-page .archive-note-link,.handover-page .archive-folder-link { color:#9a603d; }
+.overview-grid { display:grid; grid-template-columns:1.15fr .85fr; gap:0 56px; }
+.overview-section { padding:34px 0 42px; border-bottom:1px solid var(--line); }
+.overview-section-head span { color:var(--muted); font:700 10px/1 Arial,sans-serif; letter-spacing:.14em; }
+.overview-section-head h2 { margin:13px 0 22px; font:700 28px/1.35 "Noto Serif TC",serif; }
+.overview-row { display:grid; grid-template-columns:1fr auto 18px; gap:20px; align-items:center; padding:16px 0; border-top:1px solid var(--line); }
+.overview-row div { display:flex; flex-direction:column; gap:5px; }
+.overview-row small,.overview-request small,.overview-announcement small { color:var(--muted); font-size:10px; }
+.overview-row strong { font-size:11px; font-weight:500; }
+.overview-request,.overview-announcement { display:grid; gap:8px; padding:15px 0; border-top:1px solid var(--line); }
+.overview-request b,.overview-announcement b { font-size:14px; }
+.overview-request span,.overview-announcement p,.overview-note { color:var(--muted); font-size:11px; line-height:1.8; margin:0; }
+.text-link { display:inline-block; margin-top:18px; border-bottom:1px solid var(--ink); padding-bottom:6px; font-size:11px; }
+.empty-inline { color:var(--muted); font-size:12px; }
+.calendar-list,.announcement-list { padding-top:38px; max-width:920px; }
+.calendar-item { display:grid; grid-template-columns:180px 1fr; gap:28px; padding:28px 0; border-top:1px solid var(--line); }
+.calendar-item time { font:500 28px/1 Georgia,serif; }
+.calendar-item h2,.announcement-list h2 { margin:0 0 10px; font:700 22px/1.35 "Noto Serif TC",serif; }
+.calendar-item p,.announcement-list p { color:var(--muted); font-size:12px; line-height:1.8; margin:5px 0; }
+.announcement-list article { display:grid; gap:8px; padding:25px 0; border-top:1px solid var(--line); }
+.announcement-list small { color:var(--orange); font-size:10px; letter-spacing:.1em; }
 .section-heading { max-width:440px; }
 .section-number { display:flex; align-items:center; gap:9px; font:700 10px/1 Arial,sans-serif; letter-spacing:.15em; color:var(--muted); }
 .section-number span { width:36px; height:1px; background:var(--muted); }
