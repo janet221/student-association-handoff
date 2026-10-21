@@ -1,18 +1,18 @@
-# 系學會跨屆工作交接系統
+# 系學會跨股協作與換屆交接平台
 
-讓上一屆留下的活動工作流程，能直接成為本屆可執行、可修改並可再次傳承的起點。
+把本屆活動、跨股協作、共同日期與換屆交接資料放在同一個工作空間，讓會長看得到全會進度，也讓各股知道彼此的活動安排。
 
 ## 技術架構
 
 - Next.js App Router
 - TypeScript
 - Tailwind CSS
-- Supabase（後續階段設定）
-- Vercel（完成核心流程後部署）
+- Supabase（登入、活動與交接資料）
+- Vercel（正式部署）
 
 ## 開發階段
 
-目前完成專案初始化。下一階段將建立 Supabase Project、版本化資料庫 Migration 與 Email／Password Authentication。
+目前包含本屆工作、歷屆交接、共同月曆、跨股協作請求與公告欄。資料庫變更都放在 `supabase/migrations`，部署前請依序套用 migration。
 
 ## 開始開發
 

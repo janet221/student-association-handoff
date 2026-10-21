@@ -344,3 +344,41 @@ export async function updateActivityDriveLink(formData: FormData) {
   refreshActivity(activityId);
   revalidatePath("/history");
 }
+
+export async function createCollaborationRequest(formData: FormData) {
+  const activityId = value(formData, "activityId");
+  const supabase = await ensureEditableActivity(activityId);
+  const { error } = await supabase.from("collaboration_requests").insert({
+    activity_id: activityId,
+    owner_department: value(formData, "ownerDepartment"),
+    support_department: value(formData, "supportDepartment"),
+    description: value(formData, "description"),
+    requested_date: optional(formData, "requestedDate"),
+    note: optional(formData, "note"),
+  });
+  if (error) throw new Error(error.message);
+  revalidatePath("/dashboard"); revalidatePath("/activities"); revalidatePath(`/activities/${activityId}`);
+}
+
+export async function updateCollaborationStatus(formData: FormData) {
+  const activityId = value(formData, "activityId");
+  const supabase = await ensureEditableActivity(activityId);
+  const status = value(formData, "status");
+  if (!["待確認", "已確認", "本屆不需要"].includes(status)) throw new Error("無效的協作狀態");
+  const { error } = await supabase.from("collaboration_requests").update({ status, note: optional(formData, "note") }).eq("id", value(formData, "requestId"));
+  if (error) throw new Error(error.message);
+  revalidatePath("/dashboard"); revalidatePath("/activities"); revalidatePath(`/activities/${activityId}`);
+}
+
+export async function createAnnouncement(formData: FormData) {
+  const supabase = await requireAdmin();
+  const scope = value(formData, "scope");
+  const { error } = await supabase.from("announcements").insert({
+    title: value(formData, "title"), content: value(formData, "content"),
+    scope: scope === "department" ? "department" : "all",
+    department: scope === "department" ? optional(formData, "department") : null,
+    is_pinned: formData.get("isPinned") === "on",
+  });
+  if (error) throw new Error(error.message);
+  revalidatePath("/dashboard"); revalidatePath("/announcements");
+}
