@@ -20,7 +20,7 @@ export default async function HistoryPage({ searchParams }: { searchParams: Prom
 
   return (
     <main className="page-wrap handover-page">
-      <section className="page-intro"><SectionHeading label="HANDOVER · 給學長姐整理" title="交接紀錄" description="這裡放上一屆留下的文件、做法與提醒；本屆成員請回到本屆工作。" /></section>
+      <section className="page-intro"><SectionHeading label="HANDOVER · 給學長姐整理" title="交接紀錄" description="這裡整理上一屆留下的文件、做法與提醒。要處理今年的工作，請回到本屆工作。" /><Link href="/activities" className="button primary">回到本屆工作 <span>→</span></Link></section>
       {error && <div className="notice error">{error}</div>}
       <section className="department-directory archive-list">
         {departments.map((department) => <details className="department-menu" key={department}>

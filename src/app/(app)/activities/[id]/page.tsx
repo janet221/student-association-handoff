@@ -77,7 +77,7 @@ export default async function ActivityDetailPage({ params, searchParams }: { par
     <main className="page-wrap activity-detail">
       {created && <div className="notice success">{created === "existing" ? `已開啟既有的本屆${activity.name}。` : `已從上一屆建立本屆${activity.name}。日期、場地、人員、狀態與執行情況都已重設，請依本屆情況調整。`}</div>}
       <section className="detail-hero">
-        <SectionHeading label={activity.status === "archived" ? "ARCHIVE DETAIL" : "ACTIVE PROJECT"} title={`${activity.terms?.ordinal ?? "—"}th ${activity.name}`} description="查看學長姐建議的工作流程時間表" />
+        <SectionHeading label={activity.status === "archived" ? "ARCHIVE DETAIL" : "ACTIVE PROJECT"} title={`${activity.terms?.ordinal ?? "—"}th ${activity.name}`} description={editable ? "編輯本屆成員要執行的工作流程與期限" : "查看今年要執行的工作流程與期限"} />
       </section>
 
       <section className="phase-stack">

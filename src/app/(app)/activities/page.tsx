@@ -13,7 +13,7 @@ export default async function ActivitiesPage() {
 
   return (
     <main className="page-wrap current-work-page">
-      <section className="page-intro"><SectionHeading label="CURRENT WORK · 給本屆成員" title="本屆工作" /><Link href="/history" className="button primary">查看交接資料 <span>→</span></Link></section>
+      <section className="page-intro"><SectionHeading label="CURRENT WORK · 給本屆成員" title="本屆工作" description="今年要完成的活動與工作。需要查看上一屆資料時，請前往交接紀錄。" /><div className="page-intro-actions"><Link href="/calendar" className="button">查看共同月曆 <span>→</span></Link><Link href="/history" className="button primary">前往交接紀錄 <span>→</span></Link></div></section>
       <section className="department-directory">
         {departments.map((department) => <details className="department-menu" key={department}>
           <summary><span>DEPARTMENT</span><b>{department}</b><small>{activities.filter((activity) => activityDepartment(activity.name) === department).map((activity) => activity.name).join("、")}</small><i>＋</i></summary>
