@@ -39,6 +39,18 @@ button { cursor:pointer; }
 .text-link { display:inline-block; margin-top:18px; border-bottom:1px solid var(--ink); padding-bottom:6px; font-size:11px; }
 .empty-inline { color:var(--muted); font-size:12px; }
 .calendar-list,.announcement-list { padding-top:38px; max-width:920px; }
+.virtual-calendar { margin-top:42px; border-top:1px solid var(--line); border-left:1px solid var(--line); }
+.virtual-calendar > header { display:flex; align-items:center; justify-content:space-between; padding:22px 20px; border-bottom:1px solid var(--line); }
+.virtual-calendar > header h2 { margin:0; font:700 24px/1.3 "Noto Serif TC",serif; }
+.virtual-calendar > header button { border:0; background:transparent; color:var(--muted); font-size:18px; }
+.calendar-weekdays,.calendar-grid { display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); }
+.calendar-weekdays span { padding:12px 10px; border-right:1px solid var(--line); border-bottom:1px solid var(--line); color:var(--muted); font:700 10px/1 Arial,sans-serif; text-align:right; }
+.calendar-cell { min-height:112px; padding:10px; border-right:1px solid var(--line); border-bottom:1px solid var(--line); }
+.calendar-cell time { display:block; margin-bottom:8px; font:500 15px/1 Georgia,serif; }
+.calendar-cell.is-outside { background:rgba(216,214,206,.16); }
+.calendar-cell.is-outside time { color:transparent; }
+.calendar-event { display:block; margin:4px 0; padding:5px 6px; border-left:2px solid var(--green); background:#e4e9df; color:var(--ink); font-size:10px; line-height:1.4; }
+.calendar-empty { margin-top:22px; }
 .calendar-item { display:grid; grid-template-columns:180px 1fr; gap:28px; padding:28px 0; border-top:1px solid var(--line); }
 .calendar-item time { font:500 28px/1 Georgia,serif; }
 .calendar-item h2,.announcement-list h2 { margin:0 0 10px; font:700 22px/1.35 "Noto Serif TC",serif; }
