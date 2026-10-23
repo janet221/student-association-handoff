@@ -60,6 +60,7 @@ export function LandingContent() {
   return <div ref={contentRef}>
     <section className="landing-about" id="about">
       <Image className="section-bow-decor section-bow-decor-about" src="/images/decor/angel-ribbon-sparkles.png" alt="" width={1536} height={1024} aria-hidden="true" />
+      <Image className="section-bow-decor section-bow-decor-about-secondary" src="/images/decor/angel-ribbon-sparkles.png" alt="" width={1536} height={1024} aria-hidden="true" />
       <Image className="section-star-glow section-star-glow-about" src="/images/decor/pink-star-glow.png" alt="" width={1402} height={1122} aria-hidden="true" />
       <div className="landing-section-label reveal-label" data-reveal><span>01</span><i /> PROJECT IDEA</div>
       <div className="landing-about-copy" data-reveal>
@@ -76,6 +77,7 @@ export function LandingContent() {
 
     <section className="landing-operation" id="operation">
       <Image className="section-bow-decor section-bow-decor-operation" src="/images/decor/angel-ribbon-sparkles.png" alt="" width={1536} height={1024} aria-hidden="true" />
+      <Image className="section-bow-decor section-bow-decor-operation-secondary" src="/images/decor/angel-ribbon-sparkles.png" alt="" width={1536} height={1024} aria-hidden="true" />
       <Image className="section-star-glow section-star-glow-operation" src="/images/decor/pink-star-glow.png" alt="" width={1402} height={1122} aria-hidden="true" />
       <header className="landing-operation-head">
         <div className="reveal-label" data-reveal><div className="landing-section-label"><span>02</span><i /> WORKFLOW</div></div>

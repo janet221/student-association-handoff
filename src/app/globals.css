@@ -1190,8 +1190,9 @@ body::before {
 .login-art img:not(.hero-decor-sheet) { transform:scale(1.04); transform-origin:center bottom; }
 .hero-star,.hero-sticker,.login-art span { z-index:3; }
 @keyframes decorFloat { 0%,100% { transform:translate3d(0,0,0) rotate(-1deg); } 50% { transform:translate3d(0,-9px,0) rotate(1deg); } }
-.landing-about { background:rgba(255,250,246,.9); }
-.landing-operation { background:linear-gradient(180deg,rgba(255,240,243,.94),rgba(250,245,239,.96)); }
+.landing-about,.landing-operation { background:linear-gradient(180deg,rgba(255,240,243,.94),rgba(250,245,239,.96)); }
+.landing-about { border-bottom:0; }
+.landing-operation { border-top:0; }
 .landing-operation-step { overflow:visible; }
 .step-decoration {
   position:absolute;
@@ -1242,6 +1243,8 @@ body::before {
 }
 .section-bow-decor-about { right:-130px; top:42px; transform:rotate(7deg); }
 .section-bow-decor-operation { left:-165px; bottom:-80px; transform:rotate(-9deg) scale(.9); animation-delay:-3s; }
+.section-bow-decor-about-secondary { left:-220px; bottom:-170px; width:min(620px,52vw); opacity:.12; transform:rotate(-12deg) scale(.78); animation-delay:-5s; }
+.section-bow-decor-operation-secondary { right:-210px; top:70px; width:min(650px,54vw); opacity:.13; transform:rotate(14deg) scale(.82); animation-delay:-7s; }
 .section-star-glow {
   width:min(900px,72vw);
   height:auto;
@@ -1251,6 +1254,9 @@ body::before {
 }
 .section-star-glow-about { right:-120px; top:0; }
 .section-star-glow-operation { left:4%; top:0; opacity:.27; }
+.landing-operation::before { background:transparent; }
+.landing-footer { background:linear-gradient(180deg,rgba(250,245,239,.96),rgba(255,240,243,.98)); border-top:0; }
+.landing-footer::before { background:transparent; }
 .landing-about-copy,.landing-section-label,.landing-operation-head,.landing-operation-grid { z-index:1; }
 @keyframes sectionFloat { 0%,100% { margin-top:0; } 50% { margin-top:-8px; } }
 @media (max-width:900px) {
@@ -1258,6 +1264,8 @@ body::before {
   .login-art { top:43%; height:56%; }
   .section-bow-decor { width:78vw; opacity:.13; }
   .section-star-glow { width:100vw; opacity:.16; }
+  .section-bow-decor-about-secondary { left:-240px; bottom:-120px; width:72vw; }
+  .section-bow-decor-operation-secondary { right:-240px; top:100px; width:74vw; }
 }
 @media (max-width:600px) {
   .login-story { padding-top:130px; }
