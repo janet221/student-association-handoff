@@ -35,6 +35,10 @@ export function LoginEntry({ error, message }: { error?: string; message?: strin
             </span>
           </div>
         </form>}
+        {mode === "login" && <form action={quickLogin} className="local-quick-login">
+          <button type="submit" className="button ghost">免金鑰展示入口 <span>→</span></button>
+          <small>開發測試用，直接前往本屆工作 `/activities`。</small>
+        </form>}
       </div>
     </section>}
   </>;
