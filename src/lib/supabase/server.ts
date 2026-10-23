@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 
@@ -20,7 +21,7 @@ function createLocalFallbackClient() {
       signOut: async () => ({ error: null }),
     },
     from: query,
-  } as any;
+  } as unknown as ReturnType<typeof createServerClient>;
 }
 
 export async function createClient() {
