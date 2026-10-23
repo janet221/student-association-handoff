@@ -590,3 +590,88 @@ footer small { justify-self:end; color:var(--muted); }
   .hero-reveal,.hero-title span,.hero-art { opacity:1; transform:none; animation:none; }
   .landing-about [data-reveal],.landing-operation [data-reveal],.landing-operation-step,.landing-step-number,.landing-step-arrow { opacity:1; transform:none; transition:none; }
 }
+
+/* Prisma: warm paper, ink navigation, cinematic imagery and generous type. */
+:root { --paper:#e1e0cc; --ink:#1c2019; --line:#c3c4af; --soft:#d4d5be; --muted:#626654; --green:#77845e; --primary:#e1e0cc; --primary-foreground:#171a14; }
+@theme inline { --color-primary:var(--primary); --color-primary-foreground:var(--primary-foreground); }
+html { scroll-behavior:smooth; scroll-padding-top:32px; }
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible { outline:2px solid #849a46; outline-offset:5px; }
+.prisma-hero { padding:12px; }
+.prisma-frame { position:relative; isolation:isolate; min-height:760px; height:calc(100svh - 24px); border-radius:30px; overflow:hidden; background:#283623; color:#e1e0cc; }
+.prisma-backdrop,.prisma-shade,.noise-overlay { position:absolute; inset:0; pointer-events:none; }
+.prisma-backdrop { z-index:-3; background:linear-gradient(145deg,#6b7658,#263e30 58%,#19271d); background-image:url('https://images.unsplash.com/photo-1472396961693-142e6e269027?auto=format&fit=crop&w=2400&q=85'); background-size:cover; background-position:center; }
+.prisma-backdrop video { height:100%; width:100%; object-fit:cover; }
+.prisma-shade { z-index:-2; background:linear-gradient(180deg,#10170f55,transparent 25%,#0c180f55 55%,#0c140ee8); }
+.noise-overlay { z-index:-1; opacity:.13; mix-blend-mode:overlay; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath fill='%23fff' filter='url(%23n)' opacity='.7' d='M0 0h180v180H0z'/%3E%3C/svg%3E"); }
+.prisma-nav { position:absolute; top:0; left:50%; transform:translateX(-50%); display:flex; align-items:center; justify-content:center; gap:32px; padding:14px 28px; border-radius:0 0 24px 24px; background:#11160f; color:#e1e0cc; width:max-content; max-width:100%; }
+.prisma-nav > a { font-size:12px; white-space:nowrap; }
+.prisma-nav > a:hover { color:white; }
+.prisma-nav .prisma-brand { display:flex; align-items:center; gap:9px; font-weight:800; letter-spacing:-.03em; }
+.login-entry { border-radius:100px; }
+.prisma-nav .login-entry { min-height:34px; padding:0; border:0; color:#e1e0cc; font-size:12px; background:transparent; white-space:nowrap; }
+.prisma-topline { display:flex; justify-content:space-between; gap:24px; padding:110px 40px 0; font:10px/1.5 Arial,sans-serif; letter-spacing:.16em; }
+.prisma-topline > span:last-child { font:18px/1 Arial,sans-serif; letter-spacing:0; }
+.prisma-content { position:absolute; inset:auto 0 90px; display:grid; grid-template-columns:1.7fr 1fr; align-items:end; gap:7vw; padding:0 48px; }
+.prisma-kicker { margin:0 0 26px; font-size:14px; letter-spacing:.16em; }
+.prisma-title-block h1 { margin:0 0 22px; font-size:clamp(100px,19vw,300px); line-height:1; letter-spacing:-.07em; font-weight:500; }
+.prisma-asterisk { position:absolute; right:-.36em; top:.06em; font:500 .55em/1 Arial,sans-serif; }
+.prisma-subtitle { margin:0; font:10px/1.5 Arial,sans-serif; letter-spacing:.24em; }
+.prisma-description { padding-bottom:4px; max-width:370px; }
+.prisma-description > p { font-size:14px; line-height:1.9; color:#e1e0cc; margin:0 0 28px; }
+.prisma-description .login-entry { background:#e1e0cc; border:0; padding:5px 5px 5px 24px; color:#141a12; min-height:50px; gap:40px; font-size:14px; }
+.prisma-description .login-entry span { width:40px; height:40px; display:grid; place-items:center; background:#171c14; border-radius:50%; color:#e1e0cc; transition:transform .2s; }
+.prisma-description .login-entry:hover span { transform:rotate(-35deg); }
+.prisma-explore { margin-top:22px; display:flex; align-items:center; gap:16px; font-size:11px; }
+.prisma-scroll { position:absolute; bottom:25px; left:48px; display:flex; align-items:center; gap:12px; font:9px/1 Arial,sans-serif; letter-spacing:.16em; }
+.login-shell .landing-about,.login-shell .landing-operation { width:auto; margin:0 48px; padding:110px 0; background:transparent; grid-template-columns:1fr 2fr; }
+.landing-about-copy h2,.landing-operation-head h2 { font-family:inherit; font-weight:500; letter-spacing:-.04em; }
+.landing-operation-head { grid-template-columns:1fr 2fr; }
+.landing-prose p { color:var(--muted); }
+.landing-operation-grid { gap:0; border:1px solid var(--line); border-radius:24px; overflow:hidden; }
+.landing-operation-step { border:0; min-height:320px; background:#ffffff18; }
+.landing-operation-step + .landing-operation-step { border-left:1px solid var(--line); }
+.landing-operation-step h3 { font-family:inherit; font-weight:500; }
+.landing-step-number { font-family:Arial,sans-serif; font-weight:400; }
+.auth-overlay-inner { border-radius:24px; background:#e1e0ccf5; }
+.auth-mode-switch,.auth-form input { border-radius:8px; }
+.app-header { background:#171c16f5; color:#e1e0cc; border:0; margin:12px 12px 0; border-radius:24px; padding-inline:32px; }
+.app-header .brand-lockup span,.app-header .account small { color:#c4c6af; }
+.app-header .account button { border-color:#e1e0cc66; }
+.section-heading h1,.page-intro h1,.home-primary h1,.workspace-intro h1 { font-family:inherit; font-weight:500; letter-spacing:-.04em; }
+.button,.button-size,.task-edit > button,.status-pill { border-radius:100px; }
+.activity-card,.home-primary,.home-activity-card,.department-menu,.empty-state,.admin-panel,.role-entry-grid,.workspace-choices { border-radius:22px; }
+.card-art,.term-mark,.archive-term { border-radius:14px; }
+.home-primary { background:linear-gradient(125deg,#cdd0b7,#b1bc98); }
+@media (max-width:1000px) {
+  .prisma-content { gap:40px; padding:0 32px; grid-template-columns:1.3fr 1fr; }
+  .prisma-title-block h1 { font-size:20vw; }
+  .login-shell .landing-about,.login-shell .landing-operation { margin-inline:32px; }
+  .landing-operation-grid { grid-template-columns:1fr 1fr; }
+  .landing-operation-step:nth-child(3) { border-left:0; }
+  .landing-operation-step:nth-child(n+3) { border-top:1px solid var(--line); }
+}
+@media (max-width:600px) {
+  .prisma-hero { padding:8px; }
+  .prisma-frame { min-height:760px; height:calc(100svh - 16px); border-radius:22px; }
+  .prisma-nav { gap:17px; padding:14px 16px; border-radius:0 0 18px 18px; }
+  .prisma-nav > a,.prisma-nav .login-entry { font-size:10px; }
+  .prisma-nav .prisma-brand { gap:2px; }
+  .prisma-nav .prisma-brand svg { display:none; }
+  .prisma-nav .login-entry { gap:6px; }
+  .prisma-topline { padding:96px 24px 0; font-size:8px; gap:12px; }
+  .prisma-topline > span:first-child { max-width:180px; }
+  .prisma-content { display:flex; flex-direction:column; align-items:stretch; gap:36px; bottom:78px; padding:0 24px; }
+  .prisma-title-block h1 { font-size:34vw; margin-bottom:18px; }
+  .prisma-kicker { font-size:12px; margin-bottom:20px; }
+  .prisma-subtitle { font-size:8px; }
+  .prisma-description { max-width:100%; }
+  .prisma-description > p { font-size:12px; margin-bottom:20px; }
+  .prisma-scroll { left:24px; bottom:24px; font-size:8px; }
+  .login-shell .landing-about,.login-shell .landing-operation { margin-inline:24px; padding:72px 0; }
+  .landing-operation-grid { display:block; }
+  .landing-operation-step,.landing-operation-step + .landing-operation-step { border:0; border-top:1px solid var(--line); min-height:0; padding:28px 24px 48px; }
+  .landing-operation-step:first-child { border-top:0; }
+  .app-header { padding-inline:20px; border-radius:18px; }
+}
+@media (prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } .prisma-description .login-entry span { transition:none; } }
+.prisma-video-toggle { position:absolute; right:28px; bottom:22px; height:34px; width:34px; display:grid; place-items:center; border:1px solid #e1e0cc88; border-radius:50%; color:#e1e0cc; background:#10170f66; }
