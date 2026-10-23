@@ -1716,3 +1716,55 @@ body, .login-shell { background: linear-gradient(135deg, var(--princess-champagn
   .section-bow-decor-about { right: 8%; width: 62vw; }
   .section-bow-decor-operation { left: 8%; width: 60vw; }
 }
+
+/* bring the workflow section's lively detail into the rest of the page */
+.login-story::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  left: 5%; top: 28%; width: 170px; height: 170px;
+  border: 1px solid rgba(214,145,163,.28);
+  border-radius: 50%;
+  box-shadow: 0 0 0 18px rgba(255,255,255,.2), 0 0 0 38px rgba(241,190,205,.14);
+  animation: pearl-drift 5s ease-in-out infinite;
+}
+.login-story .hero-edition::after {
+  content: "✦  ˚  ✧";
+  display: block;
+  margin-top: 24px;
+  color: #d69aaa;
+  font-size: 20px;
+  letter-spacing: .4em;
+  opacity: .8;
+}
+.landing-about-copy::before {
+  content: "♡";
+  position: absolute;
+  right: 44%; top: -22px;
+  color: rgba(198,119,143,.55);
+  font-size: 38px;
+  transform: rotate(-12deg);
+  animation: pearl-drift 4.8s ease-in-out infinite reverse;
+}
+.landing-prose p { position: relative; }
+.landing-prose p::before {
+  content: "✧";
+  position: absolute;
+  top: 16px; right: 22px;
+  color: #d99aaa;
+  font-size: 18px;
+}
+.landing-prose p:nth-child(2), .landing-prose p:nth-child(4) { transform: translateY(22px); }
+.landing-prose p:nth-child(2)::before { content: "♡"; }
+.landing-prose p:nth-child(3)::before { content: "✦"; }
+.landing-prose p:nth-child(4)::before { content: "🎀"; font-size: 16px; }
+.landing-prose p:nth-child(5)::before { content: "·  ✧  ·"; letter-spacing: .12em; }
+.landing-about::after { width: min(700px, 52vw); height: 500px; }
+@keyframes pearl-drift {
+  0%,100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-14px) scale(1.04); }
+}
+@media (max-width: 900px) {
+  .landing-prose p:nth-child(2), .landing-prose p:nth-child(4) { transform: none; }
+  .landing-about-copy::before { right: 8%; top: -28px; }
+}
