@@ -66,7 +66,7 @@ export function LandingContent() {
     if (!ctx) return () => canvas.remove();
     let particles: Array<{ x:number; y:number; vx:number; vy:number; size:number; life:number; decay:number; color:string }> = [];
     let frame = 0;
-    const colors = ["#ffb6c1", "#ffd1dc", "#fff0f5", "#ffe4e1", "#f5d58a"];
+    const colors = ["#ffb6c1", "#ffd1dc", "#fff0f5", "#ffe4e1", "#f5d58a", "#dfe4eb", "#ffffff"];
     const resize = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; };
     const drawStar = (x:number, y:number, r:number, color:string, alpha:number) => {
       ctx.save(); ctx.translate(x, y); ctx.globalAlpha = alpha; ctx.fillStyle = color; ctx.beginPath();

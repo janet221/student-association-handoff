@@ -1998,3 +1998,57 @@ body, .login-shell { background: linear-gradient(135deg, var(--princess-champagn
 }
 .landing-prose { background: transparent !important; }
 .landing-prose::after { display: none !important; }
+
+/* Y2K Balletcore / Coquette details */
+.landing-operation-step {
+  background-color: rgba(255,255,255,.66) !important;
+  background-image:
+    repeating-linear-gradient(135deg, rgba(255,255,255,.1) 0 2px, transparent 2px 16px),
+    repeating-linear-gradient(45deg, rgba(232,177,196,.08) 0 2px, transparent 2px 16px) !important;
+  box-shadow: 0 20px 42px rgba(255,182,193,.2), 0 0 0 1px rgba(255,255,255,.74), 0 0 18px rgba(255,255,255,.42) !important;
+}
+.landing-operation-step::after {
+  content: "";
+  position: absolute;
+  inset: 26px 10px 28px;
+  pointer-events: none;
+  opacity: .28;
+  background: repeating-linear-gradient(135deg, transparent 0 18px, rgba(194,159,176,.5) 19px 20px, transparent 21px 39px);
+  border-radius: 100px 100px 18px 18px;
+  mask-image: linear-gradient(90deg, transparent 0 7%, #000 16% 84%, transparent 93%);
+}
+.landing-operation-step .landing-step-number {
+  position: relative;
+  z-index: 2;
+  display: inline-block;
+  margin: -4px 0 26px 4px;
+  padding: 12px 12px 22px;
+  color: #a8425c !important;
+  background: linear-gradient(150deg, rgba(255,219,230,.9), rgba(255,245,248,.55));
+  border: 1px solid rgba(255,255,255,.82);
+  border-radius: 8px 8px 18px 18px;
+  box-shadow: 0 6px 12px rgba(184,111,132,.14);
+  transform: rotate(-3deg);
+}
+.landing-operation-step .landing-step-number::after {
+  content: ""; position: absolute; left: 50%; bottom: -15px; width: 1px; height: 18px;
+  background: rgba(184,111,132,.55); box-shadow: -5px 7px 0 -4px #fff, 5px 7px 0 -4px #fff;
+}
+.landing-operation-step::before {
+  content: "•  •  •  •";
+  display: block; position: absolute; right: 17px; top: 48%; height: 100px;
+  color: rgba(214,169,188,.62); font-size: 18px; letter-spacing: .35em; writing-mode: vertical-rl;
+  text-shadow: 0 0 5px rgba(255,255,255,.9);
+}
+.landing-operation-step:hover, .login-entry:hover, .landing-nav a:hover {
+  animation: pointe-bounce .65s cubic-bezier(.34,1.56,.64,1) both;
+}
+@keyframes pointe-bounce {
+  0% { transform: translateY(0) scale(1); }
+  55% { transform: translateY(-9px) scale(1.025); }
+  100% { transform: translateY(-4px) scale(1.01); }
+}
+.hero-star, .step-decoration { filter: grayscale(.55) saturate(.7) drop-shadow(0 0 5px rgba(220,226,235,.8)); }
+@media (max-width: 900px) {
+  .landing-operation-step::after { inset: 24px 7px; }
+}
