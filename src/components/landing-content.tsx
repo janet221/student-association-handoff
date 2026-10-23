@@ -91,7 +91,11 @@ export function LandingContent() {
       <Image className="section-star-glow section-star-glow-about" src="/images/decor/pink-star-glow.png" alt="" width={1402} height={1122} aria-hidden="true" />
       <div className="landing-section-label reveal-label" data-reveal><span>01</span><i /> PROJECT IDEA</div>
       <div className="landing-about-copy" data-reveal>
-        <h2>專案理念</h2>
+        <div className="landing-about-lead">
+          <h2>專案理念</h2>
+          <p>把每一屆做過的事留下來，讓下一屆從清楚的起點開始。</p>
+          <span>FROM HANDOVER TO ACTIVE WORK</span>
+        </div>
         <div className="landing-prose">
           <p data-reveal>系學會的工作具有明顯的週期性。系運、招生、系學大會或其他活動，每年可能由不同的人負責，實際需要處理的工作卻有相當一部分會再次出現。</p>
           <p data-reveal>過去的企劃書、報名表、器材清單和工作紀錄通常都有留下來，但這些資料常散落在雲端硬碟、群組訊息與不同幹部手中。新一屆開始接手時，找到資料往往只是第一步，後續還需要重新理解當時的流程、分工方式，以及哪些內容仍然適合今年使用。</p>
