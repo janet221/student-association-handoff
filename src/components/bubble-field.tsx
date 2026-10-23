@@ -23,21 +23,6 @@ const smoothstep = (start: number, end: number, value: number) => {
   return t * t * (3 - 2 * t);
 };
 
-function inHeart(x: number, y: number) {
-  const a = x * x + y * y - 1;
-  return a * a * a - x * x * y * y * y <= 0;
-}
-
-function heartPoint(random: () => number, scale: number) {
-  let x = 0;
-  let y = 0;
-  do {
-    x = random() * 2.5 - 1.25;
-    y = random() * 2.55 - 1.4;
-  } while (!inHeart(x, y));
-  return { x: x * scale, y: -y * scale };
-}
-
 function drawHeartPath(context: CanvasRenderingContext2D, x: number, y: number, radius: number) {
   const scale = radius;
   context.beginPath();
@@ -66,14 +51,17 @@ export function BubbleField() {
 
     const createBubbles = () => {
       const random = Math.random;
-      const count = window.innerWidth < 768 ? 36 : 56;
-      const scale = Math.min(width, height) * 0.20;
+      const count = window.innerWidth < 768 ? 22 : 34;
       bubbles = Array.from({ length: count }, (_, index) => {
-        const target = heartPoint(random, scale);
-        const radius = index % 13 === 0 ? 76 + random() * 24 : index % 4 === 0 ? 40 + random() * 20 : 20 + random() * 22;
+        const radius = index % 13 === 0 ? 82 + random() * 34 : index % 4 === 0 ? 42 + random() * 26 : 20 + random() * 24;
+        let targetX = width * (0.08 + random() * 0.84);
+        let targetY = height * (0.12 + random() * 0.76);
+        if (targetX > width * 0.26 && targetX < width * 0.74 && targetY > height * 0.28 && targetY < height * 0.72) {
+          targetX = random() < 0.5 ? width * (0.08 + random() * 0.14) : width * (0.78 + random() * 0.14);
+        }
         return {
-          x: width * 0.5 + target.x + (random() - 0.5) * radius * 0.35,
-          y: height * 0.48 + target.y + (random() - 0.5) * radius * 0.35,
+          x: targetX + (random() - 0.5) * radius * 0.3,
+          y: targetY + (random() - 0.5) * radius * 0.3,
           z: (random() - 0.5) * 260,
           vx: (random() - 0.5) * 0.24,
           vy: (random() - 0.5) * 0.24,
@@ -81,8 +69,8 @@ export function BubbleField() {
           radius,
           mass: radius ** 3,
           phase: random() * Math.PI * 2,
-          targetX: width * 0.5 + target.x,
-          targetY: height * 0.48 + target.y,
+          targetX,
+          targetY,
           color: index % 5,
         };
       });
@@ -191,25 +179,29 @@ export function BubbleField() {
         const base = colors[1];
         const deep = colors[2];
         const gradient = context.createRadialGradient(x - radius * 0.34, y - radius * 0.44, 1, x, y, radius * 1.25);
-        gradient.addColorStop(0, "#ffffff");
-        gradient.addColorStop(0.13, "#ffffffef");
-        gradient.addColorStop(0.3, base + "f2");
-        gradient.addColorStop(0.7, deep + "e8");
-        gradient.addColorStop(0.91, deep + "8e");
-        gradient.addColorStop(1, "#ffffff0a");
+        gradient.addColorStop(0, "#fffffffa");
+        gradient.addColorStop(0.15, "#ffffffd4");
+        gradient.addColorStop(0.32, base + "ed");
+        gradient.addColorStop(0.62, base + "c8");
+        gradient.addColorStop(0.86, deep + "d2");
+        gradient.addColorStop(0.96, deep + "a8");
+        gradient.addColorStop(1, "#ffffff00");
 
-        context.globalAlpha = clamp(1 - fly * 0.82, 0.1, 1);
+        context.globalAlpha = clamp(0.96 - fly * 0.7, 0.24, 0.97);
         context.fillStyle = gradient;
-        context.shadowColor = deep + "70";
-        context.shadowBlur = 20 * depth;
+        context.shadowColor = deep + "48";
+        context.shadowBlur = 28 * depth;
         drawHeartPath(context, x, y, radius);
         context.fill();
         context.shadowBlur = 0;
-        context.strokeStyle = "#ffffff99";
-        context.lineWidth = Math.max(1, radius * 0.035);
+        context.strokeStyle = deep + "b8";
+        context.lineWidth = Math.max(1.4, radius * 0.06);
+        context.stroke();
+        context.strokeStyle = "#ffffffd0";
+        context.lineWidth = Math.max(1, radius * 0.025);
         context.stroke();
 
-        context.globalAlpha *= 0.82;
+        context.globalAlpha *= 0.72;
         context.fillStyle = "#ffffff";
         context.beginPath();
         context.ellipse(x - radius * 0.3, y - radius * 0.36, radius * 0.13, radius * 0.07, -0.45, 0, Math.PI * 2);
