@@ -1668,3 +1668,51 @@ body { background: #fffbf7; }
   .landing-prose { grid-template-columns: 1fr; }
   .landing-operation-head { display: block; }
 }
+
+/* Princess Core atmosphere */
+:root { --princess-champagne: #FFFDFB; --princess-pearl: #FFF2F5; --princess-ink: #3B2A2A; }
+body, .login-shell { background: linear-gradient(135deg, var(--princess-champagne) 0%, #fff9fa 46%, var(--princess-pearl) 100%) !important; }
+.login-story, .landing-about, .landing-operation, .landing-footer { background: transparent !important; border: 0 !important; }
+.login-story::before, .landing-about::before, .landing-operation::before, .landing-footer::before { border: 0 !important; box-shadow: none !important; }
+.login-story { min-height: min(860px, 88vh); }
+.login-story h1, .hero-title, .hero-title span, .landing-about-copy h2, .landing-operation-head h2, .landing-operation-step h3 {
+  color: var(--princess-ink) !important;
+  font-family: "Noto Serif TC", "Noto Serif CJK TC", serif !important;
+  font-weight: 900 !important;
+}
+.login-story::after, .landing-about::after, .landing-operation::after {
+  background: radial-gradient(circle, rgba(255,220,191,.32), rgba(255,190,218,.18) 42%, transparent 74%);
+  filter: blur(46px);
+}
+.story-ribbon {
+  left: 48%; top: 430px; width: 40vw; height: 2450px; opacity: .5;
+  border-right: 13px solid rgba(225,159,174,.5);
+  filter: drop-shadow(0 0 12px rgba(255,213,195,.55));
+}
+.story-ribbon span { border-width: 10px; border-color: rgba(244,184,198,.55); border-left-color: transparent; border-bottom-color: transparent; filter: drop-shadow(0 0 8px rgba(255,215,197,.4)); }
+.section-bow-decor-about { right: 18%; top: 18%; width: min(760px, 52vw); opacity: .42; filter: saturate(.95) drop-shadow(0 12px 18px rgba(213,143,163,.16)); }
+.section-bow-decor-about-secondary { left: 20%; bottom: 8%; width: min(520px, 38vw); opacity: .3; }
+.section-bow-decor-operation { left: 14%; bottom: 8%; width: min(700px, 48vw); opacity: .4; filter: saturate(.95) drop-shadow(0 12px 18px rgba(213,143,163,.16)); }
+.section-bow-decor-operation-secondary { right: 18%; top: 14%; width: min(560px, 40vw); opacity: .34; }
+.section-star-glow { opacity: .25; filter: blur(1px) saturate(1.1); }
+.section-bow-decor-about, .section-bow-decor-about-secondary, .section-bow-decor-operation, .section-bow-decor-operation-secondary { animation-name: princess-sway; }
+@keyframes princess-sway {
+  0%,100% { transform: translateY(12px) rotate(-10deg) scale(1); }
+  50% { transform: translateY(-28px) rotate(10deg) scale(1.08); }
+}
+.section-bow-decor-about { animation-duration: 3.5s; }
+.section-bow-decor-about-secondary { animation-duration: 4.8s; animation-delay: -1.4s; }
+.section-bow-decor-operation { animation-duration: 5.2s; animation-delay: -2.1s; }
+.section-bow-decor-operation-secondary { animation-duration: 4.2s; animation-delay: -.8s; }
+.landing-operation-step {
+  border-radius: 120px 120px 24px 24px !important;
+  border: 1.5px solid rgba(255,255,255,.88) !important;
+  background: rgba(255,255,255,.66) !important;
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 22px 48px rgba(255,182,193,.25), inset 0 1px 0 rgba(255,255,255,.8) !important;
+}
+@media (max-width: 900px) {
+  .story-ribbon { left: 34%; width: 70vw; opacity: .3; }
+  .section-bow-decor-about { right: 8%; width: 62vw; }
+  .section-bow-decor-operation { left: 8%; width: 60vw; }
+}
