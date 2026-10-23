@@ -1165,12 +1165,15 @@ body::before {
   mix-blend-mode:multiply;
 }
 .login-story,.landing-about,.landing-operation,.landing-footer { isolation:isolate; }
-.login-story { background:radial-gradient(circle at 74% 42%, rgba(255,234,239,.72), transparent 32%), linear-gradient(180deg,#fffaf7,#fff7f2); }
+.login-story { overflow:visible; padding-top:168px; background:radial-gradient(circle at 74% 42%, rgba(255,234,239,.72), transparent 32%), linear-gradient(180deg,#fffaf7,#fff7f2); }
+.login-story::before { border:0; box-shadow:none; background:transparent; }
+.login-art { top:15%; height:min(64vw,620px); overflow:visible; }
+.login-art::before { content:""; display:block; position:absolute; z-index:0; inset:-4% -8% -2% -8%; border-radius:50%; background:radial-gradient(circle,rgba(255,235,240,.8) 0%,rgba(255,255,255,0) 70%); filter:blur(10px); opacity:.9; pointer-events:none; }
 .login-art .hero-decor-sheet {
   display:block;
   position:absolute;
   z-index:2;
-  inset:-16% -22% -10% -24%;
+  inset:-5% -22% -8% -24%;
   width:146%;
   height:126%;
   object-fit:contain;
@@ -1178,10 +1181,13 @@ body::before {
   opacity:.52;
   mix-blend-mode:multiply;
   filter:saturate(.88) contrast(.96);
+  mask-image:radial-gradient(ellipse at center, #000 58%, transparent 96%);
+  -webkit-mask-image:radial-gradient(ellipse at center, #000 58%, transparent 96%);
   pointer-events:none;
   animation:decorFloat 8s ease-in-out infinite;
 }
 .login-art img:not(.hero-decor-sheet) { z-index:1; }
+.login-art img:not(.hero-decor-sheet) { transform:scale(1.04); transform-origin:center bottom; }
 .hero-star,.hero-sticker,.login-art span { z-index:3; }
 @keyframes decorFloat { 0%,100% { transform:translate3d(0,0,0) rotate(-1deg); } 50% { transform:translate3d(0,-9px,0) rotate(1deg); } }
 .landing-about { background:rgba(255,250,246,.9); }
@@ -1217,4 +1223,12 @@ body::before {
 @media (prefers-reduced-motion: reduce) {
   .login-art .hero-decor-sheet { animation:none; }
   .landing-operation-step:hover::after,.button:hover::after,.login-entry:hover::after { animation:none; }
+}
+@media (max-width:900px) {
+  .login-story { padding-top:150px; }
+  .login-art { top:43%; height:56%; }
+}
+@media (max-width:600px) {
+  .login-story { padding-top:130px; }
+  .login-art { top:47%; height:48%; }
 }
