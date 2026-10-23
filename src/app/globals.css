@@ -2114,3 +2114,129 @@ body, .login-shell { background: linear-gradient(135deg, var(--princess-champagn
   .landing-prose { display: block !important; }
   .landing-prose p:nth-child(2), .landing-prose p:nth-child(4), .landing-prose p:nth-child(5) { transform: none; max-width: none; }
 }
+
+/* Project idea: a single Chinese reading path, with the workflow's visual rhythm. */
+.landing-about-copy {
+  display: block !important;
+  max-width: 1280px !important;
+}
+.landing-about-head {
+  display: grid;
+  grid-template-columns: minmax(260px, .82fr) minmax(0, 1.18fr);
+  column-gap: clamp(40px, 8vw, 130px);
+  align-items: end;
+  padding: 0 0 clamp(40px, 5vw, 72px);
+  border-bottom: 1px solid rgba(168,66,92,.25);
+}
+.landing-about-head h2 {
+  margin: 0 !important;
+  color: #3B2A2A !important;
+  font-size: clamp(52px, 6vw, 92px) !important;
+  line-height: .98 !important;
+  letter-spacing: .1em !important;
+  writing-mode: horizontal-tb !important;
+}
+.landing-about-head p {
+  max-width: 510px;
+  margin: 0 0 16px !important;
+  color: #674650 !important;
+  font-size: clamp(17px, 1.35vw, 21px) !important;
+  line-height: 1.75 !important;
+}
+.landing-about-head span {
+  grid-column: 2;
+  color: #A8425C;
+  font: 700 10px/1 "Noto Serif TC", serif;
+  letter-spacing: .2em;
+}
+.landing-about-copy::before { left: 0; top: -38px; }
+.landing-about-copy::after { display: none !important; }
+.landing-idea-layout {
+  position: relative;
+  display: grid;
+  grid-template-columns: 112px minmax(0, 760px) minmax(100px, 1fr);
+  column-gap: clamp(28px, 5vw, 78px);
+  padding-top: clamp(46px, 6vw, 88px);
+}
+.landing-idea-layout::after {
+  content: "記錄\A 接手\A 再創造";
+  white-space: pre;
+  align-self: end;
+  justify-self: end;
+  color: rgba(168,66,92,.38);
+  font: 700 clamp(18px, 1.7vw, 28px)/1.55 "Noto Serif TC", serif;
+  letter-spacing: .16em;
+  writing-mode: vertical-rl;
+}
+.landing-idea-margin {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  padding-top: 8px;
+  color: #A8425C;
+  font: 700 9px/1 "Noto Serif TC", serif;
+  letter-spacing: .18em;
+  writing-mode: vertical-rl;
+}
+.landing-idea-margin i {
+  display: block;
+  width: 1px;
+  min-height: 230px;
+  flex: 1;
+  background: repeating-linear-gradient(to bottom, rgba(168,66,92,.5) 0 3px, transparent 3px 10px);
+}
+.landing-prose {
+  display: block !important;
+  width: auto !important;
+  max-width: 760px !important;
+  padding: 0 !important;
+}
+.landing-prose p {
+  max-width: none !important;
+  margin: 0 0 clamp(28px, 3.4vw, 52px) !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: none !important;
+  box-shadow: none !important;
+  color: #3B2A2A !important;
+  font-size: clamp(17px, 1.25vw, 20px) !important;
+  line-height: 2.05 !important;
+  letter-spacing: .045em !important;
+  text-align: left;
+  transform: none !important;
+}
+.landing-prose p:first-child {
+  color: #75404f !important;
+  font-size: clamp(21px, 1.6vw, 25px) !important;
+  line-height: 1.85 !important;
+}
+.landing-prose p:first-child::first-line { color: inherit; }
+.landing-prose p:nth-child(3) {
+  position: relative;
+  margin-left: clamp(0px, 3vw, 42px) !important;
+  padding-left: clamp(20px, 3vw, 42px) !important;
+  border-left: 2px solid rgba(168,66,92,.34) !important;
+}
+.landing-prose p:nth-child(5) {
+  max-width: 590px !important;
+  margin: clamp(12px, 2vw, 24px) 0 0 !important;
+  padding-top: 25px !important;
+  border-top: 1px solid rgba(168,66,92,.25) !important;
+}
+@media (max-width: 900px) {
+  .landing-about-head { display: block; padding-bottom: 34px; }
+  .landing-about-head h2 { margin-bottom: 28px !important; font-size: clamp(48px, 13vw, 68px) !important; }
+  .landing-about-head p { max-width: 500px; }
+  .landing-about-head span { display: block; margin-top: 20px; }
+  .landing-idea-layout { grid-template-columns: 48px minmax(0, 1fr); column-gap: 22px; padding-top: 48px; }
+  .landing-idea-layout::after { display: none; }
+  .landing-prose { max-width: none !important; }
+}
+@media (max-width: 600px) {
+  .landing-idea-layout { display: block; }
+  .landing-idea-margin { display: none; }
+  .landing-prose p { font-size: 16px !important; line-height: 2 !important; }
+  .landing-prose p:first-child { font-size: 19px !important; }
+  .landing-prose p:nth-child(3) { margin-left: 0 !important; padding-left: 18px !important; }
+}

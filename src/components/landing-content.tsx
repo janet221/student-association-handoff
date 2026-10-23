@@ -91,17 +91,22 @@ export function LandingContent() {
       <Image className="section-star-glow section-star-glow-about" src="/images/decor/pink-star-glow.png" alt="" width={1402} height={1122} aria-hidden="true" />
       <div className="landing-section-label reveal-label" data-reveal><span>01</span><i /> PROJECT IDEA</div>
       <div className="landing-about-copy" data-reveal>
-        <div className="landing-about-lead">
+        <header className="landing-about-head">
           <h2>專案理念</h2>
           <p>把每一屆做過的事留下來，讓下一屆從清楚的起點開始。</p>
           <span>FROM HANDOVER TO ACTIVE WORK</span>
-        </div>
-        <div className="landing-prose">
+        </header>
+        <div className="landing-idea-layout">
+          <aside className="landing-idea-margin" aria-hidden="true">
+            <span>HANDOVER</span><i /><span>ACTIVE</span>
+          </aside>
+          <article className="landing-prose">
           <p data-reveal>系學會的工作具有明顯的週期性。系運、招生、系學大會或其他活動，每年可能由不同的人負責，實際需要處理的工作卻有相當一部分會再次出現。</p>
           <p data-reveal>過去的企劃書、報名表、器材清單和工作紀錄通常都有留下來，但這些資料常散落在雲端硬碟、群組訊息與不同幹部手中。新一屆開始接手時，找到資料往往只是第一步，後續還需要重新理解當時的流程、分工方式，以及哪些內容仍然適合今年使用。</p>
           <p data-reveal>因此，這套系統將歷屆活動的工作流程、文件、器材、分工與實際執行紀錄整理在同一個脈絡中。接手的人可以從一場完整的歷屆活動開始理解，知道過去曾經做過哪些準備、工作之間如何銜接，以及當時實際採用了哪些安排。</p>
           <p data-reveal>當本屆再次舉辦相同活動時，可以參考過去使用過的工作架構，建立屬於今年的版本，再依照實際日期、場地、人員與活動需求進行修改。這樣能減少重新整理相似工作的時間，也讓本屆有更明確的起點。</p>
           <p data-reveal>每次活動結束後，留下今年真正用過的做法和文件。下一屆接手時，可以先看上一屆的交接紀錄，再決定哪些內容沿用、哪些需要重做。</p>
+          </article>
         </div>
       </div>
     </section>
