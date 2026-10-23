@@ -650,7 +650,41 @@ footer small { justify-self:end; color:var(--muted); }
 }
 
 .login-story {
-  background: linear-gradient(135deg, #f8faffd9 0%, #eef2ffd1 55%, #dce5ffbf 100%);
+  min-height: 100svh;
+  background: linear-gradient(135deg, #f8faffa6 0%, #eef2ff82 55%, #dce5ff66 100%);
+}
+
+.bubble-field {
+  opacity: .96;
+}
+
+.login-story h1 {
+  max-width: 760px;
+  font: 600 clamp(42px, 6.6vw, 92px)/1.04 "Inter", "Noto Sans TC", sans-serif;
+  letter-spacing: -.055em;
+}
+
+.login-art {
+  inset: 0;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  box-shadow: none;
+  border-radius: 0;
+  transform: none;
+  pointer-events: none;
+}
+
+.login-art span {
+  top: auto;
+  right: clamp(24px, 7vw, 100px);
+  bottom: clamp(74px, 12vh, 132px);
+  writing-mode: horizontal-tb;
+  padding: 12px 16px;
+  font: 700 10px/1.7 "JetBrains Mono", monospace;
+  letter-spacing: .08em;
 }
 
 .login-shell::before {
@@ -703,15 +737,40 @@ footer small { justify-self:end; color:var(--muted); }
 .landing-operation {
   position: relative;
   z-index: 1;
-  background: #ffffff82;
-  backdrop-filter: blur(8px);
+  min-height: 100svh;
+  background: #ffffff5c;
+  backdrop-filter: blur(14px);
+}
+
+.landing-about {
+  align-items: center;
+  border-top-color: #ffffffb0;
+}
+
+.landing-about-copy h2,
+.landing-operation-head h2 {
+  font: 600 clamp(42px, 6vw, 82px)/1 "Inter", "Noto Sans TC", sans-serif;
+  letter-spacing: -.06em;
+}
+
+.landing-prose {
+  max-width: 650px;
+}
+
+.landing-prose p,
+.landing-operation-head p {
+  color: #3f4657;
+  font-size: 14px;
+  line-height: 1.9;
 }
 
 .landing-operation-step {
+  min-height: 390px;
   border-radius: 18px;
   background: #ffffff66;
-  border-color: #d5dcf0;
-  box-shadow: 0 16px 38px #415da30a;
+  border-color: #ffffffb8;
+  box-shadow: 0 18px 48px #3154bc17;
+  backdrop-filter: blur(18px);
 }
 
 .landing-operation-step:hover {
@@ -723,6 +782,39 @@ footer small { justify-self:end; color:var(--muted); }
 .login-entry,
 .button.primary {
   border-radius: 999px;
+}
+
+.landing-footer {
+  min-height: 180px;
+  border-top: 0;
+  background: #0a0a0a;
+  color: #fff;
+}
+
+.landing-footer small {
+  color: #ffffff85;
+  letter-spacing: .18em;
+}
+
+/* Final visual pass: let the procedural field carry the hero. */
+.login-shell::before {
+  display: none;
+}
+
+.login-story {
+  background: linear-gradient(135deg, #f8faffa6 0%, #eef2ff82 55%, #dce5ff66 100%);
+}
+
+.login-art {
+  inset: 0;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  box-shadow: none;
+  border-radius: 0;
+  transform: none;
 }
 
 @media (max-width: 600px) {
