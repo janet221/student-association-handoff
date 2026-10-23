@@ -1440,6 +1440,48 @@ body::before {
   .landing-operation-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
+/* Japanese editorial final system */
+:root { --editorial-cocoa-final: #4A3E3D; }
+body, .login-shell { color: var(--editorial-cocoa-final); }
+.login-story h1, .hero-title, .hero-title span,
+.landing-about-copy h2, .landing-operation-head h2,
+.landing-operation-step h3, .landing-about-lead p {
+  font-family: "Noto Serif TC", "Noto Serif CJK TC", "PMingLiU", serif !important;
+  font-weight: 900 !important;
+  color: var(--editorial-cocoa-final) !important;
+  letter-spacing: .04em !important;
+}
+.login-story h1 { max-width: 680px; }
+.hero-title span:first-child { color: var(--editorial-cocoa-final) !important; }
+.hero-title span:last-child { color: var(--editorial-cocoa-final) !important; font-size: .62em; margin-left: 1.4vw; }
+.login-story p, .landing-about p, .landing-operation p, .landing-footer small {
+  font-family: "Noto Serif TC", "Noto Serif CJK TC", "PMingLiU", serif;
+  font-weight: 400;
+  color: var(--editorial-cocoa-final);
+  line-height: 1.85;
+  letter-spacing: .03em;
+}
+.landing-about-copy, .landing-operation-head, .landing-operation-grid { width: min(100%, 1320px); }
+.landing-about-lead { padding-left: clamp(8px, 1.6vw, 24px); }
+.landing-about-lead::after { content: "✦"; display: block; margin-top: 44px; color: #d99aaa; font-size: 26px; }
+.section-bow-decor-about { right: 16%; top: 28%; width: min(560px, 42vw); opacity: .28; transform: rotate(5deg); }
+.section-bow-decor-about-secondary { left: 22%; bottom: 12%; width: min(380px, 30vw); opacity: .2; transform: rotate(-8deg); }
+.section-bow-decor-operation { left: 17%; bottom: 14%; width: min(500px, 38vw); opacity: .26; transform: rotate(-7deg); }
+.section-bow-decor-operation-secondary { right: 18%; top: 18%; width: min(420px, 32vw); opacity: .22; transform: rotate(9deg); }
+.section-star-glow-about { right: 20%; top: 18%; width: min(560px, 42vw); opacity: .18; }
+.section-star-glow-operation { left: 20%; top: 18%; width: min(500px, 38vw); opacity: .16; }
+.story-ribbon { left: 49%; top: 470px; width: 38vw; height: 2350px; opacity: .42; border-right-width: 9px; }
+.story-ribbon span { inset: 80px 0 520px 24%; }
+.landing-prose p, .landing-operation-step { border: 1px solid rgba(255,255,255,.82); }
+@media (max-width: 900px) {
+  .hero-title span:last-child { margin-left: 0; font-size: .66em; }
+  .section-bow-decor-about { right: 8%; top: 22%; width: 52vw; }
+  .section-bow-decor-about-secondary { left: 8%; bottom: 8%; width: 42vw; }
+  .section-bow-decor-operation { left: 8%; bottom: 8%; width: 48vw; }
+  .section-bow-decor-operation-secondary { right: 8%; top: 16%; width: 42vw; }
+  .story-ribbon { left: 40%; width: 66vw; opacity: .24; }
+}
+
 /* Japanese comfort atmosphere */
 body { background: #fffbf7; }
 .login-shell { background: radial-gradient(circle at 50% 12%, #fffbf7 0%, #fff8f7 45%, #fff0f3 100%) !important; animation: page-arrival .8s ease both; }
