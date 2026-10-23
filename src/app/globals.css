@@ -1145,3 +1145,76 @@ p { line-height:1.8; }
   content:"✦"; position:absolute; right:16%; top:26%; color:#f2b3c4; font:22px Georgia,serif; opacity:.55;
 }
 .landing-about::after { background:#ffd6e0; box-shadow:24px 18px 0 -3px #f4b6c8, -20px 32px 0 -4px #ffe4eb; }
+
+/* Reference-derived stationery layer: transparent angel bunnies, ribbon and sparkles. */
+body {
+  background:
+    radial-gradient(circle at 50% 18%, rgba(255,234,239,.78), transparent 43%),
+    linear-gradient(180deg, #fffaf7 0%, #faf5ef 100%);
+}
+body::before {
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+  opacity:.15;
+  background-image:url('/images/decor/bow-paper-texture.png');
+  background-size:460px 460px;
+  background-repeat:repeat;
+  mix-blend-mode:multiply;
+}
+.login-story,.landing-about,.landing-operation,.landing-footer { isolation:isolate; }
+.login-story { background:radial-gradient(circle at 74% 42%, rgba(255,234,239,.72), transparent 32%), linear-gradient(180deg,#fffaf7,#fff7f2); }
+.login-art .hero-decor-sheet {
+  display:block;
+  position:absolute;
+  z-index:2;
+  inset:-16% -22% -10% -24%;
+  width:146%;
+  height:126%;
+  object-fit:contain;
+  object-position:center;
+  opacity:.52;
+  mix-blend-mode:multiply;
+  filter:saturate(.88) contrast(.96);
+  pointer-events:none;
+  animation:decorFloat 8s ease-in-out infinite;
+}
+.login-art img:not(.hero-decor-sheet) { z-index:1; }
+.hero-star,.hero-sticker,.login-art span { z-index:3; }
+@keyframes decorFloat { 0%,100% { transform:translate3d(0,0,0) rotate(-1deg); } 50% { transform:translate3d(0,-9px,0) rotate(1deg); } }
+.landing-about { background:rgba(255,250,246,.9); }
+.landing-operation { background:linear-gradient(180deg,rgba(255,240,243,.94),rgba(250,245,239,.96)); }
+.landing-operation-step { overflow:visible; }
+.step-decoration {
+  position:absolute;
+  top:13px;
+  right:18px;
+  color:#e7a4b6;
+  font:24px/1 Georgia,serif;
+  opacity:.68;
+  transform:rotate(11deg);
+  transition:transform .25s ease, opacity .25s ease, filter .25s ease;
+}
+.landing-operation-step:nth-child(2) .step-decoration { color:#d98da4; transform:rotate(-12deg) scale(.86); }
+.landing-operation-step:nth-child(3) .step-decoration { color:#efb7c6; transform:rotate(18deg) scale(1.15); }
+.landing-operation-step:nth-child(4) .step-decoration { color:#cf819c; transform:rotate(-8deg) scale(.92); }
+.landing-operation-step:hover .step-decoration { opacity:1; transform:translateY(-4px) rotate(0) scale(1.2); filter:drop-shadow(0 0 8px rgba(244,143,177,.55)); }
+.landing-operation-step:hover::after,.button:hover::after,.login-entry:hover::after {
+  content:"✦";
+  position:absolute;
+  color:#e79caf;
+  font:16px Georgia,serif;
+  animation:twinkle .7s ease both;
+}
+.landing-operation-step:hover::after { top:8px; left:8px; }
+.button,.login-entry { position:relative; }
+.button:hover::after,.login-entry:hover::after { top:-10px; right:-8px; }
+@keyframes twinkle { from { opacity:0; transform:scale(.5) rotate(-20deg); } to { opacity:1; transform:scale(1) rotate(0); } }
+.landing-about::after,.landing-about::before { z-index:0; }
+.landing-about-copy,.landing-section-label,.landing-operation-head,.landing-operation-grid { position:relative; z-index:1; }
+@media (prefers-reduced-motion: reduce) {
+  .login-art .hero-decor-sheet { animation:none; }
+  .landing-operation-step:hover::after,.button:hover::after,.login-entry:hover::after { animation:none; }
+}

@@ -78,6 +78,7 @@ export function LandingContent() {
       </header>
       <div className="landing-operation-grid">
         {operationSteps.map((step) => <article key={step.number} className="landing-operation-step" data-reveal>
+          <span className="step-decoration" aria-hidden="true">✧</span>
           <div className="landing-step-number">{step.number}</div>
           <h3>{step.title}</h3>
           {step.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
