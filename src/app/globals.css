@@ -1777,3 +1777,9 @@ body, .login-shell { background: linear-gradient(135deg, var(--princess-champagn
   .landing-about-copy { max-width: 100% !important; grid-template-columns: 1fr !important; }
   .landing-prose { grid-template-columns: 1fr !important; }
 }
+
+@media (min-width: 1101px) {
+  .landing-about-copy { grid-template-columns: 340px minmax(0, 1fr) !important; column-gap: 64px; }
+  .landing-prose { width: 100% !important; grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  .landing-prose p { min-height: 190px; }
+}
