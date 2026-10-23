@@ -2,7 +2,6 @@ import { AppHeader } from "@/components/app-header";
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
-import { BubbleField } from "@/components/bubble-field";
 
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient();
@@ -15,7 +14,6 @@ export default async function AppLayout({ children }: { children: React.ReactNod
 
   return (
     <div className="app-shell">
-      <BubbleField />
       <AppHeader name={profile?.display_name ?? user?.email?.split("@")[0] ?? "本機測試成員"} role={profile?.role ?? "member"} />
       {children}
       <footer className="app-footer"><small>NCUE IM Student Association · 2026</small></footer>
