@@ -37,6 +37,13 @@ export function LoginEntry({ error, message, label = "開始使用" }: { error?:
             </span>
           </div>
         </form>}
+        <div className="local-demo-access">
+          <div>
+            <strong>本機暫時展示</strong>
+            <span>不需要 Supabase 金鑰，可先查看介面。</span>
+          </div>
+          <a className="button ghost" href="/demo">免金鑰進入 <ArrowRight size={15} aria-hidden="true" /></a>
+        </div>
       </div>
     </section>, document.body)}
   </>;

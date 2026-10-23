@@ -8,6 +8,10 @@ export default async function LoginPage({
 }: {
   searchParams: Promise<{ error?: string; message?: string }>;
 }) {
+  const localOnly = !process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
+  if (localOnly) {
+    return <main className="login-shell"><PrismaHero handoverLabel="25 ➔ 26" /><LandingContent /><footer className="landing-footer"><small>NCUE IM Student Association · 2026</small></footer></main>;
+  }
   const supabase = await createClient();
   const { data } = await supabase.auth.getUser();
   if (data.user) redirect("/dashboard");
