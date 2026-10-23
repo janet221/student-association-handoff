@@ -2577,3 +2577,212 @@ body, .login-shell { background: linear-gradient(135deg, var(--princess-champagn
 .login-art.nitro-burst:hover { filter: drop-shadow(0 0 18px rgba(255,182,210,.36)); }
 .landing-operation-step.nitro-burst:hover { box-shadow: 0 24px 46px rgba(255,182,193,.26), 0 0 0 2px rgba(255,255,255,.64) !important; }
 @media (prefers-reduced-motion: reduce) { .login-art.nitro-burst:hover { filter: none; } }
+
+/* Coquette crest and a cream-drip navigation valance. */
+.landing-nav {
+  inset: 0 0 auto !important;
+  transform: none !important;
+  width: 100% !important;
+  height: 82px !important;
+  padding-inline: max(28px, calc((100vw - 1340px) / 2)) !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: rgba(255, 249, 239, .97) !important;
+  box-shadow: 0 7px 22px rgba(143, 101, 104, .08) !important;
+  isolation: isolate;
+}
+.landing-nav::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: 0;
+  right: 0;
+  bottom: -22px;
+  height: 26px;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 42px 20px at 7% 0, #fff9ef 97%, transparent 100%),
+    radial-gradient(ellipse 28px 14px at 23% 0, #fff9ef 97%, transparent 100%),
+    radial-gradient(ellipse 48px 24px at 39% 0, #fff9ef 97%, transparent 100%),
+    radial-gradient(ellipse 31px 17px at 58% 0, #fff9ef 97%, transparent 100%),
+    radial-gradient(ellipse 50px 23px at 77% 0, #fff9ef 97%, transparent 100%),
+    radial-gradient(ellipse 34px 18px at 94% 0, #fff9ef 97%, transparent 100%);
+}
+.landing-nav::after {
+  left: 4% !important;
+  right: 4% !important;
+  bottom: -2px !important;
+  height: 7px !important;
+  background:
+    radial-gradient(circle, #fff 0 2px, #d9dfe8 2.5px 3.5px, transparent 4px) 0 50% / 21px 7px repeat-x,
+    radial-gradient(circle, #fff 0 1.5px, #e8b7c5 2px 3px, transparent 3.5px) 10px 50% / 21px 7px repeat-x !important;
+  opacity: .96 !important;
+}
+.brand-lockup {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 12px;
+  color: #3B2A2A;
+  text-decoration: none;
+}
+.brand-lockup > img {
+  display: block;
+  width: 58px !important;
+  height: 58px !important;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 2px rgba(168,66,92,.12));
+}
+.brand-copy { display: grid; gap: 3px; }
+.brand-lockup .brand-copy strong { font-size: 16px; letter-spacing: .14em; }
+.brand-lockup .brand-copy strong::after { display: none; }
+.brand-copy small { color: #9b6472; font: 600 8px/1.2 Arial, sans-serif; letter-spacing: .16em; }
+.landing-nav nav { position: relative; z-index: 1; }
+.landing-nav nav > a { color: #4A3E3D !important; }
+.landing-nav .login-entry {
+  border-radius: 0 0 16px 16px !important;
+  border: 1px solid rgba(184,111,132,.42) !important;
+  background: linear-gradient(180deg, rgba(255,255,255,.82), rgba(255,235,240,.86)) !important;
+  box-shadow: 0 5px 12px rgba(184,111,132,.12) !important;
+}
+
+/* Four equal idea panels balance the reading flow and share workflow burst behavior. */
+.landing-idea-card-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  grid-template-rows: auto !important;
+  align-items: stretch;
+  gap: clamp(22px, 2.4vw, 34px) !important;
+}
+.landing-idea-card-one,
+.landing-idea-card-two,
+.landing-idea-card-three,
+.landing-idea-card-four {
+  grid-column: auto !important;
+  grid-row: auto !important;
+  min-height: 330px;
+  margin: 0 !important;
+}
+.landing-idea-card-four { margin-top: 0 !important; }
+.landing-idea-card.nitro-burst { cursor: inherit; }
+.landing-idea-card.nitro-burst:hover {
+  transform: translateY(-7px) !important;
+  box-shadow: 0 24px 48px rgba(255,182,193,.28), 0 0 0 2px rgba(255,255,255,.74) !important;
+}
+@media (max-width: 900px) {
+  .landing-nav { height: 74px !important; padding-inline: 18px !important; }
+  .brand-lockup > img { width: 48px !important; height: 48px !important; }
+  .landing-idea-card-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  .landing-idea-card-one,.landing-idea-card-two,.landing-idea-card-three,.landing-idea-card-four { min-height: 300px; }
+}
+@media (max-width: 600px) {
+  .landing-nav { height: 68px !important; padding-inline: 12px !important; }
+  .brand-lockup { gap: 7px; }
+  .brand-lockup > img { width: 42px !important; height: 42px !important; }
+  .brand-lockup .brand-copy strong { font-size: 13px; }
+  .brand-copy small { font-size: 6px; }
+  .landing-idea-card-grid { grid-template-columns: 1fr !important; }
+  .landing-idea-card-one,.landing-idea-card-two,.landing-idea-card-three,.landing-idea-card-four { min-height: 0; }
+}
+
+/* Chantilly eyelet lace, iridescent pearl trim, and soft pearl studs. */
+.landing-nav {
+  background:
+    radial-gradient(ellipse 9px 7px at 50% 100%, rgba(239,205,216,.76) 0 60%, transparent 67%) 0 100% / 18px 13px repeat-x,
+    linear-gradient(180deg, rgba(255,249,239,.98), rgba(255,249,239,.95)) !important;
+}
+.landing-nav::after {
+  bottom: -4px !important;
+  height: 8px !important;
+  background:
+    radial-gradient(circle at 50% 50%, #fff 0 2px, #dce2e9 2.5px 3px, #f0cfda 3.5px, transparent 4.5px) 0 50% / 19px 8px repeat-x,
+    radial-gradient(circle at 50% 50%, #fff 0 1px, #e7b9c7 1.5px 2px, transparent 3px) 9px 50% / 19px 8px repeat-x !important;
+}
+.landing-idea-feature { border-bottom: 0 !important; position: relative; }
+.landing-idea-feature::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 9px;
+  background:
+    radial-gradient(circle at 50% 50%, #fff 0 2px, #dce2e9 2.5px 3px, #efc9d6 3.5px, transparent 4.5px) 0 50% / 20px 9px repeat-x;
+  pointer-events: none;
+}
+.landing-idea-card,
+.landing-operation-step {
+  background-color: rgba(255,255,255,.88) !important;
+  background-image:
+    radial-gradient(circle at 18px 18px, rgba(255,255,255,.96) 0 2px, rgba(210,218,229,.68) 2.4px 3px, transparent 3.8px),
+    radial-gradient(circle at calc(100% - 18px) 18px, rgba(255,255,255,.96) 0 2px, rgba(210,218,229,.68) 2.4px 3px, transparent 3.8px),
+    radial-gradient(circle at 18px calc(100% - 18px), rgba(255,255,255,.96) 0 2px, rgba(210,218,229,.68) 2.4px 3px, transparent 3.8px),
+    radial-gradient(circle at calc(100% - 18px) calc(100% - 18px), rgba(255,255,255,.96) 0 2px, rgba(210,218,229,.68) 2.4px 3px, transparent 3.8px),
+    radial-gradient(circle, transparent 0 5px, rgba(190,143,161,.07) 5.5px 6px, transparent 6.5px) 0 0 / 34px 34px,
+    radial-gradient(ellipse 3px 6px at 50% 50%, rgba(190,143,161,.055) 0 52%, transparent 68%) 17px 0 / 34px 34px !important;
+  background-size: auto, auto, auto, auto, 34px 34px, 34px 34px !important;
+  box-shadow: 0 20px 42px rgba(255,182,193,.2), 0 0 0 1px rgba(255,255,255,.76), inset 0 1px 0 rgba(255,255,255,.96) !important;
+}
+.landing-idea-card { position: relative; overflow: hidden; }
+.landing-idea-card::before,
+.landing-operation-step::after {
+  content: "" !important;
+  position: absolute;
+  z-index: 0;
+  top: 19px;
+  left: 11%;
+  right: 11%;
+  height: 18px;
+  border-top: 1px solid rgba(220,190,204,.5);
+  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+  background:
+    radial-gradient(ellipse 5px 4px at 50% 0, rgba(255,255,255,.96) 0 55%, rgba(224,194,207,.68) 70%, transparent 80%) 0 0 / 14px 11px repeat-x,
+    radial-gradient(circle at 50% 10px, rgba(214,224,234,.8) 0 1.6px, transparent 2.4px) 7px 0 / 14px 13px repeat-x;
+  opacity: .78;
+  pointer-events: none;
+}
+.landing-idea-card > span,
+.landing-operation-step .landing-step-number {
+  border: 1px solid rgba(255,255,255,.94) !important;
+  box-shadow: 0 5px 12px rgba(184,111,132,.15), 0 0 0 2px rgba(255,255,255,.42) !important;
+}
+.landing-idea-card > span::after,
+.landing-operation-step .landing-step-number::after {
+  width: 7px !important;
+  height: 32px !important;
+  bottom: -29px !important;
+  background: radial-gradient(circle at center, #fff 0 2px, #d6dee9 2.5px 3px, #f1d2dd 3.4px, transparent 4px) center top / 7px 8px repeat-y !important;
+  box-shadow: none !important;
+}
+.landing-operation-step::before {
+  content: "" !important;
+  right: 17px !important;
+  top: 44% !important;
+  width: 8px !important;
+  height: 92px !important;
+  writing-mode: horizontal-tb !important;
+  background: radial-gradient(circle at center, #fff 0 2px, #d8e0e9 2.4px 3px, #f1d0dc 3.3px 3.7px, transparent 4.5px) center top / 8px 15px repeat-y !important;
+  filter: drop-shadow(0 1px 2px rgba(177,155,171,.2));
+}
+.landing-idea-card.nitro-burst:hover,
+.landing-operation-step.nitro-burst:hover {
+  border-color: rgba(255,255,255,.98) !important;
+  box-shadow: 0 24px 50px rgba(255,182,193,.28), 0 0 22px rgba(255,255,255,.72), 0 0 0 1px rgba(215,222,233,.76) !important;
+}
+.hero-cta .login-entry,
+.landing-nav .login-entry {
+  background-image:
+    radial-gradient(circle at 50% 100%, rgba(255,255,255,.96) 0 1.4px, rgba(220,226,235,.8) 1.8px, transparent 2.5px),
+    linear-gradient(135deg, #f5cad7, #e5e8ef 82%) !important;
+  background-size: 10px 6px, 100% 100% !important;
+  background-position: 0 100%, center !important;
+  background-repeat: repeat-x, no-repeat !important;
+  box-shadow: 0 8px 18px rgba(210,151,170,.18), inset 0 1px 0 rgba(255,255,255,.98) !important;
+}
+.hero-cta .login-entry:hover,
+.landing-nav .login-entry:hover {
+  box-shadow: 0 10px 24px rgba(210,151,170,.24), 0 0 14px rgba(255,255,255,.8) !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .landing-idea-card.nitro-burst:hover,
+  .landing-operation-step.nitro-burst:hover,
+  .hero-cta .login-entry:hover { transform: none !important; }
+}
