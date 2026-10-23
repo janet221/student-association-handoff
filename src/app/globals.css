@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;700;900&display=swap');
 @import "tailwindcss";
 
 :root { --ink:#171714; --paper:#f7f6f1; --line:#d8d6ce; --soft:#eceae3; --muted:#73726c; --green:#8ca687; --orange:#c67b4c; --red:#b65445; }
@@ -644,6 +645,27 @@ p,.landing-prose p,.landing-operation-step p,.landing-operation-head p { line-he
   .landing-about { padding-top:120px; }
   .landing-operation { padding-top:110px; }
 }
+
+/* Editorial type system: Noto Serif TC for every title and reading surface. */
+:root { --editorial-cocoa:#4A3E3D; --editorial-serif:"Noto Serif TC","Noto Serif CJK TC","PMingLiU",serif; }
+body { font-family:var(--editorial-serif); font-weight:400; color:var(--editorial-cocoa); line-height:1.85; letter-spacing:.03em; }
+h1,h2,h3,h4,h5,h6,
+.login-story h1,.hero-title,.landing-about-copy h2,.landing-operation-head h2,
+.landing-operation-step h3,.section-heading h1,.page-intro h1,.app-header h1,
+.overview-section-head h2,.virtual-calendar > header h2,.calendar-item h2,
+.announcement-list h2,.task-row h3,.archive-workflow h2,.preview-modal h3,
+.archive-notes h2,.archive-documents h2,.archive-highlights h2,.workspace-intro h1,
+.workspace-choice h2,.home-primary h1,.home-secondary h2,.home-section-head h2,
+.home-activity-card h3,.activity-task-overview > header h2,.department-menu summary b,
+.auth-overlay h2,.welcome-copy h2,.role-entry h2 {
+  font-family:var(--editorial-serif);
+  font-weight:700;
+  letter-spacing:.025em;
+}
+.login-story h1,.hero-title { font-weight:900; }
+p,.landing-prose p,.landing-operation-head p,.landing-operation-step p,
+.archive-notes blockquote,.landing-footer small { font-family:var(--editorial-serif); font-weight:400; color:var(--editorial-cocoa); line-height:1.85; letter-spacing:.03em; }
+.landing-operation-step h3 { font-weight:700; }
 
 /* Story motion: a slow ribbon track, staggered sticker drift and springy cards. */
 .landing-shell,.login-shell { cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 22 22'%3E%3Cpath d='M11 2l1.6 6.4L19 11l-6.4 1.6L11 19l-1.6-6.4L3 11l6.4-2.6z' fill='%23f49ab8' stroke='%23fff' stroke-width='1.2'/%3E%3C/svg%3E"), auto; }
