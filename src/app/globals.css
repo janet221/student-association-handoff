@@ -1817,3 +1817,34 @@ body, .login-shell { background: linear-gradient(135deg, var(--princess-champagn
   .landing-prose { column-count: 1; }
   .landing-prose p { margin-bottom: 24px; padding-bottom: 22px !important; }
 }
+
+/* source-extracted ribbon invitation frames */
+.landing-prose { column-count: 2; column-gap: 42px; }
+.landing-prose p {
+  min-height: 380px !important; margin: 0 0 26px !important; padding: 128px 52px 76px !important;
+  border: 0 !important; border-radius: 0 !important; background-color: transparent !important;
+  background-repeat: no-repeat !important; background-position: center !important; background-size: 100% 100% !important;
+  box-shadow: none !important; backdrop-filter: none !important; font-size: clamp(14px, 1vw, 17px); line-height: 1.85;
+}
+.landing-prose p:nth-child(1) { background-image: url('/images/decor/ribbon-frame-01.png') !important; }
+.landing-prose p:nth-child(2) { background-image: url('/images/decor/ribbon-frame-02.png') !important; }
+.landing-prose p:nth-child(3) { background-image: url('/images/decor/ribbon-frame-03.png') !important; }
+.landing-prose p:nth-child(4) { background-image: url('/images/decor/ribbon-frame-04.png') !important; }
+.landing-prose p:nth-child(5) { background-image: url('/images/decor/ribbon-frame-01.png') !important; }
+.landing-prose p::first-letter { float: none !important; margin: 0 !important; font: inherit !important; color: inherit !important; }
+.landing-prose p::before { display: none !important; }
+.landing-operation-step {
+  border: 0 !important; border-radius: 0 !important; background-color: transparent !important;
+  background-repeat: no-repeat !important; background-position: center !important; background-size: 100% 100% !important;
+  box-shadow: none !important; backdrop-filter: none !important; padding: 112px 46px 72px !important;
+}
+.landing-operation-step:nth-child(1) { background-image: url('/images/decor/ribbon-frame-01.png') !important; }
+.landing-operation-step:nth-child(2) { background-image: url('/images/decor/ribbon-frame-02.png') !important; }
+.landing-operation-step:nth-child(3) { background-image: url('/images/decor/ribbon-frame-03.png') !important; }
+.landing-operation-step:nth-child(4) { background-image: url('/images/decor/ribbon-frame-04.png') !important; }
+.landing-operation-step::before { display: none; }
+@media (max-width: 900px) {
+  .landing-prose { column-count: 1; }
+  .landing-prose p { min-height: 350px !important; padding: 118px 46px 68px !important; }
+  .landing-operation-step { min-height: 350px; padding: 112px 46px 70px !important; }
+}
