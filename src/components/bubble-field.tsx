@@ -38,6 +38,19 @@ function heartPoint(random: () => number, scale: number) {
   return { x: x * scale, y: -y * scale };
 }
 
+function drawHeartPath(context: CanvasRenderingContext2D, x: number, y: number, radius: number) {
+  const scale = radius / 16;
+  context.beginPath();
+  for (let step = 0; step <= 80; step += 1) {
+    const angle = (step / 80) * Math.PI * 2;
+    const heartX = 16 * Math.sin(angle) ** 3 * scale;
+    const heartY = -(13 * Math.cos(angle) - 5 * Math.cos(angle * 2) - 2 * Math.cos(angle * 3) - Math.cos(angle * 4)) * scale;
+    if (step === 0) context.moveTo(x + heartX, y + heartY);
+    else context.lineTo(x + heartX, y + heartY);
+  }
+  context.closePath();
+}
+
 export function BubbleField() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -202,8 +215,7 @@ export function BubbleField() {
         context.fillStyle = gradient;
         context.shadowColor = deep + "70";
         context.shadowBlur = 20 * depth;
-        context.beginPath();
-        context.arc(x, y, radius, 0, Math.PI * 2);
+        drawHeartPath(context, x, y, radius);
         context.fill();
         context.shadowBlur = 0;
         context.strokeStyle = "#ffffff99";
@@ -213,7 +225,7 @@ export function BubbleField() {
         context.globalAlpha *= 0.82;
         context.fillStyle = "#ffffff";
         context.beginPath();
-        context.ellipse(x - radius * 0.3, y - radius * 0.38, radius * 0.14, radius * 0.08, -0.45, 0, Math.PI * 2);
+        context.ellipse(x - radius * 0.3, y - radius * 0.36, radius * 0.13, radius * 0.07, -0.45, 0, Math.PI * 2);
         context.fill();
         context.globalAlpha = 1;
       });
