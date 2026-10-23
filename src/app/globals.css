@@ -1783,3 +1783,37 @@ body, .login-shell { background: linear-gradient(135deg, var(--princess-champagn
   .landing-prose { width: 100% !important; grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
   .landing-prose p { min-height: 190px; }
 }
+
+/* editorial article treatment: one idea, not a stack of cards */
+.landing-prose { display: block !important; column-count: 2; column-gap: clamp(42px, 6vw, 88px); }
+.landing-prose p {
+  display: block; min-height: 0 !important; margin: 0 0 30px; padding: 0 0 28px !important;
+  background: transparent !important; border: 0 !important; border-bottom: 1px solid rgba(190,132,148,.25) !important;
+  border-radius: 0 !important; box-shadow: none !important; backdrop-filter: none !important;
+  break-inside: avoid; font-size: clamp(16px, 1.1vw, 19px); line-height: 1.95;
+}
+.landing-prose p::before { display: none; }
+.landing-prose p:first-child::first-letter { float: left; margin: .08em .12em 0 0; color: #A8425C; font: 900 3.2em/.8 "Noto Serif TC", serif; }
+.landing-prose p:nth-child(2), .landing-prose p:nth-child(4) { transform: none; }
+.login-entry, .landing-nav nav .login-entry {
+  position: relative; border: 0 !important; border-radius: 0 !important; background: transparent !important;
+  color: #6e3d4b !important; padding: 11px 30px 13px 18px !important;
+  box-shadow: none !important; font-family: "Noto Serif TC", serif; font-weight: 700;
+  letter-spacing: .08em; overflow: visible;
+}
+.login-entry::before { content: ""; position: absolute; inset: 0 0 0 9px; border: 1px solid rgba(184,111,132,.55); border-left: 0; transform: skewX(-12deg); z-index: -1; }
+.login-entry::after { content: "✦"; position: absolute; right: 7px; top: 2px; color: #b86f84; font-size: 12px; opacity: .85; }
+.login-entry:hover { transform: translateY(-2px) !important; color: #A8425C !important; }
+.login-entry:hover::before { background: rgba(255,235,240,.5); }
+@keyframes princess-sway {
+  0%, 100% { transform: translateY(4px) rotate(-2deg) scale(1); }
+  50% { transform: translateY(-12px) rotate(2deg) scale(1.02); }
+}
+.section-bow-decor-about { animation-duration: 5.2s; }
+.section-bow-decor-about-secondary { animation-duration: 4.6s; }
+.section-bow-decor-operation { animation-duration: 5.5s; }
+.section-bow-decor-operation-secondary { animation-duration: 4.9s; }
+@media (max-width: 900px) {
+  .landing-prose { column-count: 1; }
+  .landing-prose p { margin-bottom: 24px; padding-bottom: 22px !important; }
+}
