@@ -2052,3 +2052,36 @@ body, .login-shell { background: linear-gradient(135deg, var(--princess-champagn
 @media (max-width: 900px) {
   .landing-operation-step::after { inset: 24px 7px; }
 }
+
+/* Balletcore readability and ornament cleanup */
+.landing-operation-step {
+  background: rgba(255,255,255,.88) !important;
+  background-image: none !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border-radius: 120px 120px 24px 24px !important;
+  border: 1.5px dashed #F2C2CE !important;
+}
+.landing-operation-step::after {
+  content: "" !important;
+  position: absolute; inset: 26px 10px 28px; pointer-events: none;
+  opacity: .56; background: none;
+  border-left: 1px dotted rgba(198,135,157,.65); border-right: 1px dotted rgba(198,135,157,.65);
+  border-radius: 100px 100px 18px 18px;
+}
+.landing-operation-step::before {
+  content: "•  •  •  •" !important; display: block; position: absolute; right: 15px; top: 43%; height: 108px;
+  color: rgba(205,166,187,.72); font-size: 17px; letter-spacing: .32em; writing-mode: vertical-rl;
+  text-shadow: 0 0 5px rgba(255,255,255,.95);
+}
+.landing-operation-step .landing-step-number::after {
+  content: ""; position: absolute; left: 50%; bottom: -14px; width: 1px; height: 18px;
+  background: rgba(184,111,132,.55); box-shadow: -6px 10px 0 -5px #fff, 6px 10px 0 -5px #fff;
+}
+.landing-operation-step:nth-child(2), .landing-operation-step:nth-child(4) { margin-top: 44px !important; }
+.walking-track { transform: translateY(-42px) !important; }
+.landing-operation-grid { margin-top: -14px; }
+.login-story, .landing-about, .landing-operation, .landing-footer { background: linear-gradient(135deg,#FFFDFB 0%,#FFF9FA 48%,#FFF2F5 100%) !important; border: 0 !important; }
+.login-shell::before { background: radial-gradient(circle at 18% 24%,rgba(255,119,169,.16),transparent 28%),radial-gradient(circle at 78% 18%,rgba(200,182,255,.16),transparent 30%),radial-gradient(circle at 52% 72%,rgba(255,255,255,.18),transparent 26%); filter: blur(60px); }
+@media (max-width: 900px) { .landing-operation-step:nth-child(2), .landing-operation-step:nth-child(4) { margin-top: 30px !important; } .walking-track { transform: translateY(-24px) !important; } }
+@media (max-width: 600px) { .landing-operation-step:nth-child(2), .landing-operation-step:nth-child(4) { margin-top: 0 !important; } }
