@@ -630,10 +630,10 @@ p,.landing-prose p,.landing-operation-step p,.landing-operation-head p { line-he
 }
 .landing-operation-step:hover { box-shadow:0 18px 38px rgba(255,182,193,.34); }
 .section-bow-decor {
-  opacity:.24;
+  opacity:.16;
   filter:saturate(.92) contrast(.9) drop-shadow(0 12px 20px rgba(215,137,157,.12));
 }
-.section-bow-decor-about-secondary,.section-bow-decor-operation-secondary { opacity:.16; }
+.section-bow-decor-about-secondary,.section-bow-decor-operation-secondary { opacity:.11; }
 .landing-footer {
   background:linear-gradient(180deg,#faf5ef 0%,#fff0f3 62%,#fffaf6 100%);
 }
@@ -643,6 +643,38 @@ p,.landing-prose p,.landing-operation-step p,.landing-operation-head p { line-he
   .landing-prose p { padding:18px 20px; }
   .landing-about { padding-top:120px; }
   .landing-operation { padding-top:110px; }
+}
+
+/* Story motion: a slow ribbon track, staggered sticker drift and springy cards. */
+.landing-shell,.login-shell { cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 22 22'%3E%3Cpath d='M11 2l1.6 6.4L19 11l-6.4 1.6L11 19l-1.6-6.4L3 11l6.4-2.6z' fill='%23f49ab8' stroke='%23fff' stroke-width='1.2'/%3E%3C/svg%3E"), auto; }
+a,button,.button,input,select,textarea { cursor:pointer; }
+.section-bow-decor-about { animation:gentleFloatAbout 6s ease-in-out infinite; }
+.section-bow-decor-about-secondary { animation:gentleFloatSmall 5.2s ease-in-out -1.4s infinite; }
+.section-bow-decor-operation { animation:gentleFloatSide 5.8s ease-in-out -2.2s infinite; }
+.section-bow-decor-operation-secondary { animation:gentleFloatCurl 6.4s ease-in-out -3.1s infinite; }
+@keyframes gentleFloatAbout { 0%,100% { transform:rotate(-12deg) translate3d(0,0,0); } 50% { transform:rotate(-7deg) translate3d(0,-12px,0); } }
+@keyframes gentleFloatSmall { 0%,100% { transform:rotate(6deg) scale(.78) translateY(0); } 50% { transform:rotate(10deg) scale(.8) translateY(-9px); } }
+@keyframes gentleFloatSide { 0%,100% { transform:rotate(8deg) scale(.9) translateY(0); } 50% { transform:rotate(4deg) scale(.92) translateY(-13px); } }
+@keyframes gentleFloatCurl { 0%,100% { transform:rotate(14deg) scale(.82) translateY(0); } 50% { transform:rotate(9deg) scale(.85) translateY(-10px); } }
+.walking-track { position:relative; z-index:1; width:min(920px,100%); height:38px; margin:10px auto 6px; }
+.walking-track-line { position:absolute; left:3%; right:3%; top:17px; height:0; border-top:2px dashed rgba(216,139,159,.55); transform:rotate(-1.5deg); }
+.walking-track-line::before,.walking-track-line::after { content:""; position:absolute; top:-5px; width:9px; height:9px; border-radius:50%; background:#f4a5bb; box-shadow:0 0 0 5px rgba(255,255,255,.6); }
+.walking-track-line::before { left:0; }.walking-track-line::after { right:0; }
+.walking-track-bunny { position:absolute; top:0; left:2%; color:#f08faa; font-size:27px; line-height:1; filter:drop-shadow(0 4px 5px rgba(210,125,150,.2)); animation:walkAlong 12s ease-in-out infinite; }
+@keyframes walkAlong { 0%,8% { left:2%; transform:rotate(-12deg) translateY(0); } 25% { transform:rotate(8deg) translateY(-8px); } 50% { left:34%; transform:rotate(-8deg) translateY(0); } 58% { transform:rotate(8deg) translateY(-8px); } 75% { left:66%; transform:rotate(-8deg) translateY(0); } 91%,100% { left:94%; transform:rotate(8deg) translateY(-8px); } }
+.landing-operation-step { transform-origin:center bottom; }
+.landing-operation-step:nth-child(1):hover { transform:translateY(-8px) rotate(-1.2deg) scale(1.035); }
+.landing-operation-step:nth-child(2):hover { transform:translateY(-8px) rotate(1deg) scale(1.045); }
+.landing-operation-step:nth-child(3):hover { transform:translateY(-8px) rotate(-.8deg) scale(1.04); }
+.landing-operation-step:nth-child(4):hover { transform:translateY(-8px) rotate(1.2deg) scale(1.035); }
+.landing-operation-step:hover::before { content:"✦  ˚  ✧"; position:absolute; right:18px; bottom:16px; color:#ef9fb5; font:14px Georgia,serif; letter-spacing:5px; animation:twinkle .75s ease both; }
+@media (prefers-reduced-motion: reduce) {
+  .section-bow-decor-about,.section-bow-decor-about-secondary,.section-bow-decor-operation,.section-bow-decor-operation-secondary,.walking-track-bunny { animation:none; }
+  .landing-operation-step:nth-child(n):hover { transform:translateY(-4px) scale(1.01); }
+}
+@media (max-width:700px) {
+  .walking-track { margin-top:4px; }
+  .walking-track-line { left:5%; right:5%; }
 }
 
 /* Mascot-led hero refinement: preserve paper space and let one character carry the page. */
@@ -1308,12 +1340,12 @@ body::before {
 .section-star-glow {
   width:min(900px,72vw);
   height:auto;
-  opacity:.34;
+  opacity:.13;
   mix-blend-mode:multiply;
   filter:saturate(.78) blur(.15px);
 }
 .section-star-glow-about { right:-120px; top:0; }
-.section-star-glow-operation { left:4%; top:0; opacity:.27; }
+.section-star-glow-operation { left:4%; top:0; opacity:.12; }
 .landing-operation::before { background:transparent; }
 .landing-footer { background:linear-gradient(180deg,rgba(250,245,239,.96),rgba(255,240,243,.98)); border-top:0; }
 .landing-footer::before { background:transparent; }

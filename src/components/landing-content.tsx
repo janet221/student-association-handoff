@@ -83,6 +83,7 @@ export function LandingContent() {
         <div className="reveal-label" data-reveal><div className="landing-section-label"><span>02</span><i /> WORKFLOW</div></div>
         <div data-reveal><h2>如何運作</h2><p>本屆工作是今年要確認和處理的事項；交接紀錄則放上一屆留下的文件、做法和提醒。</p><p>學弟妹從本屆工作開始，學長姐在活動結束後回到同一個活動補上今年的實際做法，再整理到交接紀錄。</p></div>
       </header>
+      <div className="walking-track" aria-hidden="true"><span className="walking-track-line" /><span className="walking-track-bunny">♢</span></div>
       <div className="landing-operation-grid">
         {operationSteps.map((step) => <article key={step.number} className="landing-operation-step" data-reveal>
           <span className="step-decoration" aria-hidden="true">✧</span>
