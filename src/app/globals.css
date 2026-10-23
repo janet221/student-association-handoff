@@ -1848,3 +1848,40 @@ body, .login-shell { background: linear-gradient(135deg, var(--princess-champagn
   .landing-prose p { min-height: 350px !important; padding: 118px 46px 68px !important; }
   .landing-operation-step { min-height: 350px; padding: 112px 46px 70px !important; }
 }
+
+/* restore workflow arches; keep one ribbon frame around the idea article only */
+.landing-prose {
+  position: relative;
+  display: block !important;
+  column-count: 2;
+  column-gap: 42px;
+  padding: 112px 92px 86px;
+  background: url('/images/decor/ribbon-frame-04.png') center / 100% 100% no-repeat !important;
+}
+.landing-prose p {
+  min-height: 0 !important; margin: 0 0 28px !important; padding: 0 0 24px !important;
+  background: transparent !important; border: 0 !important; box-shadow: none !important;
+  backdrop-filter: none !important; border-radius: 0 !important;
+}
+.landing-prose p::before { display: none !important; }
+.landing-operation-step {
+  min-height: clamp(380px, 34vw, 470px) !important;
+  padding: 54px 34px 36px !important;
+  border-radius: 120px 120px 24px 24px !important;
+  border: 1.5px dashed #F2C2CE !important;
+  background: rgba(255,255,255,.72) !important;
+  background-image: none !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  box-shadow: 0 22px 48px rgba(255,182,193,.25), inset 0 1px 0 rgba(255,255,255,.8) !important;
+}
+.landing-operation-step:nth-child(2), .landing-operation-step:nth-child(4) { margin-top: 45px; }
+.landing-operation-step::before { content: "🎀"; display: block; position: absolute; top: 18px; right: 26px; font-size: 22px; }
+@media (max-width: 900px) {
+  .landing-prose { column-count: 1; padding: 96px 56px 74px; background-size: 100% 100% !important; }
+  .landing-operation-step:nth-child(2), .landing-operation-step:nth-child(4) { margin-top: 20px; }
+}
+@media (max-width: 600px) {
+  .landing-prose { padding: 84px 40px 62px; }
+  .landing-operation-step:nth-child(2), .landing-operation-step:nth-child(4) { margin-top: 0; }
+}
