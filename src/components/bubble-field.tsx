@@ -96,7 +96,6 @@ export function BubbleField() {
 
     const draw = (time: number) => {
       const progress = window.scrollY / Math.max(height, 1);
-      const pinkShift = smoothstep(0.35, 1.45, progress);
       const fly = smoothstep(2.7, 3.45, progress);
       const palette = [
         ["#fffafb", "#ffb6cf", "#ff4f87"],
