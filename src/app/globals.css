@@ -1576,3 +1576,8 @@ body { background: #fffbf7; }
   .landing-operation::before { background-size: 42vw; opacity: .08; }
   .landing-footer::after { background-size: 42vw; }
 }
+
+/* flatter reference-style heart ribbon */
+.landing-about::before, .landing-operation::before, .landing-footer::after {
+  background-image: url('/images/decor/heart-ribbon-frame-flat.png');
+}
