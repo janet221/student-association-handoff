@@ -2,6 +2,7 @@
 
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
 
 function authErrorMessage(message: string) {
   if (message.toLowerCase().includes("fetch failed")) return "目前無法連線到登入服務，請確認網路後再試。";
@@ -56,6 +57,11 @@ export async function resendConfirmation(formData: FormData) {
 }
 
 export async function quickLogin() {
+  if (process.env.NODE_ENV !== "production") {
+    const cookieStore = await cookies();
+    cookieStore.set("local_test_session", "1", { httpOnly: true, sameSite: "lax", path: "/" });
+    redirect("/activities");
+  }
   const email = process.env.DEMO_LOGIN_EMAIL;
   const password = process.env.DEMO_LOGIN_PASSWORD;
 

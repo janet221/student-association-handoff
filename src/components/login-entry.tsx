@@ -1,17 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { createPortal } from "react-dom";
-import { ArrowRight } from "lucide-react";
 import { login, quickLogin, resendConfirmation, signup } from "@/app/login/actions";
 
-export function LoginEntry({ error, message, label = "開始使用" }: { error?: string; message?: string; label?: string }) {
+export function LoginEntry({ error, message }: { error?: string; message?: string }) {
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState<"login" | "signup">("login");
 
   return <>
-    <button className="login-entry" onClick={() => setOpen(true)}>{label} <span><ArrowRight size={17} aria-hidden="true" /></span></button>
-    {open && createPortal(<section className="auth-overlay" aria-label="登入或註冊">
+    <button className="login-entry" onClick={() => setOpen(true)}>開始使用 <span>→</span></button>
+    {open && <section className="auth-overlay" aria-label="登入或註冊">
       <button className="auth-back" onClick={() => setOpen(false)}>← 返回首頁</button>
       <div className="auth-overlay-inner">
         <h2>{mode === "login" ? "登入賬號" : "註冊賬號"}</h2>
@@ -37,14 +35,7 @@ export function LoginEntry({ error, message, label = "開始使用" }: { error?:
             </span>
           </div>
         </form>}
-        <div className="local-demo-access">
-          <div>
-            <strong>本機暫時展示</strong>
-            <span>不需要 Supabase 金鑰，可先查看介面。</span>
-          </div>
-          <a className="button ghost" href="/demo">免金鑰進入 <ArrowRight size={15} aria-hidden="true" /></a>
-        </div>
       </div>
-    </section>, document.body)}
+    </section>}
   </>;
 }
