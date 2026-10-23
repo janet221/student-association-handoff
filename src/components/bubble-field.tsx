@@ -11,8 +11,10 @@ type Bubble = {
   vz: number;
   radius: number;
   mass: number;
-  hue: number;
   phase: number;
+  targetX: number;
+  targetY: number;
+  color: number;
 };
 
 const clamp = (value: number, min = 0, max = 1) => Math.max(min, Math.min(max, value));
@@ -20,12 +22,19 @@ const smoothstep = (start: number, end: number, value: number) => {
   const t = clamp((value - start) / (end - start));
   return t * t * (3 - 2 * t);
 };
-const lerp = (start: number, end: number, amount: number) => start + (end - start) * amount;
 
-function heartPoint(index: number, total: number, scale: number) {
-  const angle = (index / total) * Math.PI * 2;
-  const x = 16 * Math.sin(angle) ** 3;
-  const y = 13 * Math.cos(angle) - 5 * Math.cos(angle * 2) - 2 * Math.cos(angle * 3) - Math.cos(angle * 4);
+function inHeart(x: number, y: number) {
+  const a = x * x + y * y - 1;
+  return a * a * a - x * x * y * y * y <= 0;
+}
+
+function heartPoint(random: () => number, scale: number) {
+  let x = 0;
+  let y = 0;
+  do {
+    x = random() * 2.5 - 1.25;
+    y = random() * 2.55 - 1.4;
+  } while (!inHeart(x, y));
   return { x: x * scale, y: -y * scale };
 }
 
@@ -45,20 +54,25 @@ export function BubbleField() {
     let bubbles: Bubble[] = [];
 
     const createBubbles = () => {
-      const count = window.innerWidth < 768 ? 54 : 96;
+      const random = Math.random;
+      const count = window.innerWidth < 768 ? 48 : 78;
+      const scale = Math.min(width, height) * 0.022;
       bubbles = Array.from({ length: count }, (_, index) => {
-        const radius = Math.random() < 0.3 ? 16 + Math.random() * 10 : Math.random() < 0.8 ? 25 + Math.random() * 13 : 39 + Math.random() * 16;
+        const target = heartPoint(random, scale);
+        const radius = index % 11 === 0 ? 52 + random() * 16 : index % 4 === 0 ? 32 + random() * 14 : 18 + random() * 18;
         return {
-          x: width * (0.25 + Math.random() * 0.5),
-          y: height * (0.18 + Math.random() * 0.62),
-          z: (Math.random() - 0.5) * 300,
-          vx: (Math.random() - 0.5) * 0.8,
-          vy: (Math.random() - 0.5) * 0.8,
+          x: width * 0.5 + target.x + (random() - 0.5) * radius * 0.7,
+          y: height * 0.48 + target.y + (random() - 0.5) * radius * 0.7,
+          z: (random() - 0.5) * 260,
+          vx: (random() - 0.5) * 0.24,
+          vy: (random() - 0.5) * 0.24,
           vz: 0,
           radius,
           mass: radius ** 3,
-          hue: index % 5,
-          phase: Math.random() * Math.PI * 2,
+          phase: random() * Math.PI * 2,
+          targetX: width * 0.5 + target.x,
+          targetY: height * 0.48 + target.y,
+          color: index % 5,
         };
       });
     };
@@ -66,72 +80,62 @@ export function BubbleField() {
     const resize = () => {
       width = window.innerWidth;
       height = window.innerHeight;
-      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      dpr = Math.min(window.devicePixelRatio || 1, 3);
       canvas.width = width * dpr;
       canvas.height = height * dpr;
       canvas.style.width = String(width) + "px";
       canvas.style.height = String(height) + "px";
       context.setTransform(dpr, 0, 0, dpr, 0, 0);
+      context.imageSmoothingEnabled = true;
       if (!bubbles.length) createBubbles();
     };
 
-    const move = (event: PointerEvent) => {
-      pointer.x = event.clientX;
-      pointer.y = event.clientY;
-    };
+    const move = (event: PointerEvent) => { pointer.x = event.clientX; pointer.y = event.clientY; };
     const press = () => { pointer.down = true; };
     const release = () => { pointer.down = false; };
 
     const draw = (time: number) => {
       const progress = window.scrollY / Math.max(height, 1);
-      const lime = smoothstep(0.55, 1.05, progress);
-      const pink = smoothstep(1.4, 1.95, progress);
-      const drop = smoothstep(0.4, 0.95, progress) * (1 - smoothstep(1.25, 1.75, progress));
-      const shape = smoothstep(1.4, 2.05, progress) * (1 - smoothstep(2.55, 3, progress));
+      const pinkShift = smoothstep(0.35, 1.45, progress);
       const fly = smoothstep(2.7, 3.45, progress);
+      const palette = [
+        ["#fffafb", "#ffb6cf", "#ff4f87"],
+        ["#fff7fb", "#f7b2ca", "#d84c88"],
+        ["#f8f3ff", "#d5bcff", "#8f64e9"],
+        ["#fffefe", "#ff9dbb", "#f12661"],
+        ["#fff6f9", "#ffb4d3", "#ed4d91"],
+      ] as const;
 
       context.clearRect(0, 0, width, height);
-      for (let i = 0; i < bubbles.length; i += 1) {
-        const bubble = bubbles[i];
-        const heroX = width * 0.5 + Math.cos(time * 0.0004 + bubble.phase) * width * 0.13;
-        const heroY = height * 0.46 + Math.sin(time * 0.0005 + bubble.phase) * height * 0.12;
-        const heart = heartPoint(i, bubbles.length, Math.min(width, height) * 0.012);
-        const targetX = lerp(heroX, width * 0.5 + heart.x, shape);
-        const targetY = lerp(heroY, height * 0.48 + heart.y, shape);
-        bubble.vx += (targetX - bubble.x) * (0.0007 + shape * 0.003);
-        bubble.vy += (targetY - bubble.y) * (0.0007 + shape * 0.003);
-        if (drop > 0.01) bubble.vy += 0.18 * drop;
+      bubbles.forEach((bubble) => {
+        const wobbleX = Math.cos(time * 0.00045 + bubble.phase) * 8;
+        const wobbleY = Math.sin(time * 0.0005 + bubble.phase) * 7;
+        const targetX = bubble.targetX + wobbleX;
+        const targetY = bubble.targetY + wobbleY;
+        bubble.vx += (targetX - bubble.x) * (0.0017 + (1 - fly) * 0.001);
+        bubble.vy += (targetY - bubble.y) * (0.0017 + (1 - fly) * 0.001);
         if (fly > 0.01) {
-          bubble.vz += 1.5 * fly;
-          bubble.vx += (bubble.x - width * 0.5) * 0.0004 * fly;
-          bubble.vy += (bubble.y - height * 0.5) * 0.0004 * fly;
+          bubble.vz += 1.45 * fly;
+          bubble.vx += (bubble.x - width * 0.5) * 0.00045 * fly;
+          bubble.vy += (bubble.y - height * 0.5) * 0.00045 * fly;
         }
 
         const dx = bubble.x - pointer.x;
         const dy = bubble.y - pointer.y;
         const distance = Math.hypot(dx, dy) || 1;
-        const repelRadius = pointer.down ? 230 : 180;
+        const repelRadius = pointer.down ? 220 : 155;
         if (distance < repelRadius) {
-          const force = (1 - distance / repelRadius) * (pointer.down ? 1.8 : 0.9);
+          const force = (1 - distance / repelRadius) * (pointer.down ? 1.3 : 0.6);
           bubble.vx += (dx / distance) * force;
           bubble.vy += (dy / distance) * force;
         }
-        bubble.vx *= drop ? 0.985 : 0.96;
-        bubble.vy *= drop ? 0.985 : 0.96;
+        bubble.vx *= 0.965;
+        bubble.vy *= 0.965;
         bubble.vz *= 0.99;
         bubble.x += bubble.vx;
         bubble.y += bubble.vy;
         bubble.z += bubble.vz;
-
-        const floor = height + bubble.radius;
-        if (drop && bubble.y > floor) {
-          bubble.y = floor;
-          bubble.vy *= -0.48;
-          bubble.vx *= 0.86;
-        }
-        if (bubble.x < -bubble.radius || bubble.x > width + bubble.radius) bubble.vx *= -0.75;
-        if (bubble.y < -bubble.radius) { bubble.y = -bubble.radius; bubble.vy *= -0.5; }
-      }
+      });
 
       for (let i = 0; i < bubbles.length; i += 1) {
         for (let j = i + 1; j < bubbles.length; j += 1) {
@@ -140,18 +144,18 @@ export function BubbleField() {
           const dx = second.x - first.x;
           const dy = second.y - first.y;
           const distance = Math.hypot(dx, dy) || 0.001;
-          const minimum = first.radius + second.radius;
+          const minimum = (first.radius + second.radius) * 0.82;
           if (distance >= minimum) continue;
           const nx = dx / distance;
           const ny = dy / distance;
-          const overlap = (minimum - distance) * 0.24;
+          const overlap = (minimum - distance) * 0.26;
           first.x -= nx * overlap;
           first.y -= ny * overlap;
           second.x += nx * overlap;
           second.y += ny * overlap;
           const relative = (second.vx - first.vx) * nx + (second.vy - first.vy) * ny;
           if (relative < 0) {
-            const impulse = -relative * 0.3;
+            const impulse = -relative * 0.24;
             first.vx -= nx * impulse;
             first.vy -= ny * impulse;
             second.vx += nx * impulse;
@@ -161,27 +165,39 @@ export function BubbleField() {
       }
 
       bubbles.slice().sort((a, b) => a.z - b.z).forEach((bubble) => {
-        const depth = clamp(1 - bubble.z / 900, 0.35, 1.8);
+        const depth = clamp(1 - bubble.z / 900, 0.55, 1.35);
         const radius = bubble.radius * depth * (1 + fly * 2.8);
-        const x = bubble.x + (bubble.x - width * 0.5) * fly * 0.35;
-        const y = bubble.y + (bubble.y - height * 0.5) * fly * 0.35;
-        const base = pink ? "#ff9eaf" : lime ? "#c8e86b" : "#4774ee";
-        const deep = pink ? "#d92f62" : lime ? "#6e9d38" : "#173bc4";
-        const gradient = context.createRadialGradient(x - radius * 0.35, y - radius * 0.42, 1, x, y, radius * 1.35);
+        const x = bubble.x + (bubble.x - width * 0.5) * fly * 0.4;
+        const y = bubble.y + (bubble.y - height * 0.5) * fly * 0.4;
+        const colors = palette[bubble.color];
+        const base = colors[1];
+        const deep = colors[2];
+        const gradient = context.createRadialGradient(x - radius * 0.34, y - radius * 0.44, 1, x, y, radius * 1.25);
         gradient.addColorStop(0, "#ffffff");
-        gradient.addColorStop(0.16, "#ffffffd9");
-        gradient.addColorStop(0.34, base + "e8");
-        gradient.addColorStop(0.78, deep + "e8");
-        gradient.addColorStop(1, deep + "20");
-        context.globalAlpha = clamp(1 - fly * 0.8, 0.08, 1);
+        gradient.addColorStop(0.13, "#ffffffef");
+        gradient.addColorStop(0.3, base + "f2");
+        gradient.addColorStop(0.7, deep + "e8");
+        gradient.addColorStop(0.91, deep + "8e");
+        gradient.addColorStop(1, "#ffffff0a");
+
+        context.globalAlpha = clamp(1 - fly * 0.82, 0.1, 1);
         context.fillStyle = gradient;
-        context.shadowColor = deep + "55";
-        context.shadowBlur = 18 * depth;
+        context.shadowColor = deep + "70";
+        context.shadowBlur = 20 * depth;
         context.beginPath();
         context.arc(x, y, radius, 0, Math.PI * 2);
         context.fill();
-        context.globalAlpha = 1;
         context.shadowBlur = 0;
+        context.strokeStyle = "#ffffff99";
+        context.lineWidth = Math.max(1, radius * 0.035);
+        context.stroke();
+
+        context.globalAlpha *= 0.82;
+        context.fillStyle = "#ffffff";
+        context.beginPath();
+        context.ellipse(x - radius * 0.3, y - radius * 0.38, radius * 0.14, radius * 0.08, -0.45, 0, Math.PI * 2);
+        context.fill();
+        context.globalAlpha = 1;
       });
       frame = requestAnimationFrame(draw);
     };
