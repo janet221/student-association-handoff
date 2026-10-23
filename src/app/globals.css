@@ -1947,3 +1947,20 @@ body, .login-shell { background: linear-gradient(135deg, var(--princess-champagn
 .landing-about::before { background-image: none !important; opacity: 0 !important; }
 .landing-prose { background: transparent !important; }
 .landing-prose::after { display: none !important; background: none !important; }
+
+/* Y2K cyber fairy cursor and holographic atmosphere */
+.login-shell, .login-shell a, .login-shell button {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24'%3E%3Cpath d='M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5Z' fill='%23FF9EBB'/%3E%3Cpath d='M12 4L13.5 10.5L20 12L13.5 13.5L12 20L10.5 13.5L4 12L10.5 10.5Z' fill='%23FFFFFF'/%3E%3C/svg%3E") 16 16, auto;
+}
+.login-shell::before {
+  content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background:
+    radial-gradient(circle at 18% 24%, rgba(255,182,193,.22), transparent 28%),
+    radial-gradient(circle at 78% 18%, rgba(200,182,255,.2), transparent 30%),
+    radial-gradient(circle at 52% 72%, rgba(137,218,255,.1), transparent 26%);
+  filter: blur(60px); mix-blend-mode: screen;
+}
+.magic-canvas { z-index: 9999; }
+@media (prefers-reduced-motion: reduce) {
+  .magic-canvas { display: none; }
+}
