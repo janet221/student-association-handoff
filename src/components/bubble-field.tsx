@@ -55,7 +55,7 @@ export function BubbleField() {
       bubbles = Array.from({ length: count }, (_, index) => {
         const radius = index % 13 === 0 ? 82 + random() * 34 : index % 4 === 0 ? 42 + random() * 26 : 20 + random() * 24;
         let targetX = width * (0.08 + random() * 0.84);
-        let targetY = height * (0.12 + random() * 0.76);
+        const targetY = height * (0.12 + random() * 0.76);
         if (targetX > width * 0.26 && targetX < width * 0.74 && targetY > height * 0.28 && targetY < height * 0.72) {
           targetX = random() < 0.5 ? width * (0.08 + random() * 0.14) : width * (0.78 + random() * 0.14);
         }
