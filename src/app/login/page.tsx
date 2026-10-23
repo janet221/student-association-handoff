@@ -1,6 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
-import Image from "next/image";
 import { LoginEntry } from "@/components/login-entry";
 import { LandingContent } from "@/components/landing-content";
 
@@ -31,7 +30,7 @@ export default async function LoginPage({
         <p className="eyebrow hero-reveal hero-eyebrow">HANDOVER &amp; ACTIVE SYSTEM</p>
         <h1 className="hero-title"><span>資管系學會</span><span>跨股協作與換屆交接平台</span></h1>
         <div className="login-art hero-art" aria-hidden="true">
-          <Image src="/images/handover-mascot.png" alt="" width={1024} height={1536} priority />
+          <div className="hero-cake"><i className="cake-tier cake-tier-top" /><i className="cake-tier cake-tier-middle" /><i className="cake-tier cake-tier-bottom" /><b className="cake-cherry" /></div>
           <span>留下做法<br />接著處理</span>
           <i className="hero-star hero-star-one" />
           <i className="hero-star hero-star-two" />

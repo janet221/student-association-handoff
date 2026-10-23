@@ -904,3 +904,66 @@ body {
 @media (max-width:900px) { .login-story { background:linear-gradient(180deg,#fffdf8 0 58%,#f5c6db55 58% 100%); } .login-art { right:2%; top:37%; width:min(72vw,520px); height:62%; } .login-story h1 { max-width:620px; } }
 @media (max-width:600px) { .login-story { min-height:900px; padding-top:125px; } .login-story h1 { max-width:100%; font-size:clamp(42px,11vw,64px); } .hero-title span:last-child { font-size:.64em; margin-left:1vw; } .login-art { right:3%; top:43%; width:94vw; height:53%; } .hero-poster-note { right:4%; bottom:4%; } }
 .login-art img { mix-blend-mode:normal; }
+
+/* Airy illustrated poster hero: no people, no oversized orb. */
+.login-story {
+  min-height:clamp(700px,92vh,860px);
+  background:#fffdf8;
+  border-bottom:1px solid #3a2d3b44;
+}
+.login-story::before {
+  width:38vw; height:14vw; right:3%; top:32%;
+  border:2px solid #aaa4d655; border-radius:50%; transform:rotate(-14deg);
+  box-shadow:none; opacity:.7;
+}
+.login-story::after {
+  left:8%; bottom:12%; width:12px; height:12px; border:1px solid #3a2d3b77;
+  box-shadow:180px -52px 0 -4px #efb6cb,180px -52px 0 -2px #3a2d3b55; opacity:.7;
+}
+.login-story h1 {
+  max-width:620px; color:#3a2d3b; font-family:"Noto Serif TC",Georgia,serif;
+  font-weight:500; letter-spacing:.02em; text-shadow:none; -webkit-text-stroke:0; transform:none;
+}
+.hero-title span:first-child { color:#d83e83; }
+.hero-title span:last-child { color:#3a2d3b; font-size:.62em; margin-left:2.5vw; margin-top:16px; }
+.login-art {
+  right:9%; top:14%; width:min(43vw,570px); height:min(54vw,510px);
+  z-index:2; background:transparent; border:0; box-shadow:none; transform:none; overflow:visible;
+}
+.login-art::before,.login-art::after,.login-art img { display:none; }
+.hero-cake { position:absolute; inset:8% 8% 3%; }
+.cake-tier { position:absolute; left:12%; width:76%; border:2px solid #3a2d3b; background:#fffdf8; }
+.cake-tier::before { content:""; position:absolute; left:-2px; right:-2px; top:-12px; height:20px; border:2px solid #3a2d3b; border-radius:50%; background:#efb6cb; }
+.cake-tier::after { content:"✦  ✦  ✦"; position:absolute; left:0; right:0; bottom:12px; text-align:center; color:#d83e83; font:18px Georgia,serif; letter-spacing:18px; }
+.cake-tier-top { top:25%; height:19%; width:58%; left:21%; background:#f3d2dd; border-radius:50% 50% 8px 8px; }
+.cake-tier-middle { top:40%; height:22%; background:#fffdf8; border-radius:10px 10px 5px 5px; }
+.cake-tier-bottom { top:58%; height:25%; background:#d8b5d3; border-radius:12px 12px 5px 5px; }
+.cake-cherry { position:absolute; left:46%; top:13%; width:28px; height:28px; border:2px solid #3a2d3b; border-radius:50%; background:#d83e83; }
+.cake-cherry::before { content:""; position:absolute; width:24px; height:18px; left:19px; top:-17px; border-left:2px solid #3a2d3b; border-radius:50%; transform:rotate(25deg); }
+.login-art span { right:0; top:11%; background:#fffdf8; color:#3a2d3b; border:1px solid #3a2d3b; box-shadow:3px 3px 0 #3a2d3b33; padding:10px 9px; font-size:10px; }
+.hero-star { filter:none; background:#fffdf8; }
+.hero-star-one { left:8%; top:18%; }
+.hero-star-two { right:7%; bottom:12%; background:#efb6cb; }
+.hero-sticker { left:3%; top:27%; border:1px solid #3a2d3b; background:#fffdf8; color:#3a2d3b; box-shadow:3px 3px 0 #3a2d3b33; }
+.hero-poster-note { right:2%; bottom:7%; color:#3a2d3b; font-weight:500; }
+.hero-poster-note em { color:#d83e83; }
+
+.landing-about,.landing-operation { border-top:1px solid #3a2d3b44; }
+.landing-about { background:#fffdf8; }
+.landing-operation { background:#eef7f3; }
+.landing-about-copy h2,.landing-operation-head h2 { text-shadow:none; -webkit-text-stroke:0; font-weight:500; }
+.landing-operation-step,.landing-operation-step:nth-child(even) { border:1px solid #3a2d3b55; box-shadow:none; background:#fffdf8cc; }
+.landing-operation-step:nth-child(2),.landing-operation-step:nth-child(3) { transform:none; }
+.landing-operation-step:hover { transform:translateY(-4px); box-shadow:0 10px 24px #3a2d3b12; }
+
+@media (max-width:900px) {
+  .login-story { background:#fffdf8; }
+  .login-art { right:2%; top:42%; width:min(72vw,520px); height:54%; }
+}
+@media (max-width:600px) {
+  .login-story { min-height:850px; padding-top:125px; }
+  .login-story h1 { max-width:100%; font-size:clamp(42px,11vw,64px); }
+  .hero-title span:last-child { font-size:.64em; margin-left:1vw; }
+  .login-art { right:3%; top:48%; width:94vw; height:45%; }
+  .hero-poster-note { right:4%; bottom:4%; }
+}
