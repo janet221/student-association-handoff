@@ -1041,3 +1041,66 @@ body { color:var(--soft-cocoa); }
   .login-art { right:1%; top:46%; width:96vw; height:47%; }
   .login-art img { transform:scale(1.08); }
 }
+
+/* Strawberry-milk softness: low-saturation pinks, cream waves and marshmallow depth. */
+:root {
+  --milk-pink: #ffb3c6;
+  --milk-rose: #f48fb1;
+  --milk-cream: #fffaf6;
+  --milk-peach: #ffe8df;
+  --milk-lilac: #ffe5ec;
+  --milk-cocoa: #8c6d6d;
+}
+body { color:var(--milk-cocoa); }
+html,body { overflow-x:hidden; }
+.landing-nav,.app-header { background:rgba(255,250,246,.78); border-bottom-color:#f0cbd2; }
+.brand-lockup strong { color:var(--milk-cocoa); }
+.brand-lockup span,.landing-nav nav > a,.eyebrow,.landing-section-label { color:var(--milk-cocoa); }
+.login-entry,.button.primary,.button-size,.task-edit > button {
+  background:linear-gradient(135deg,var(--milk-pink),var(--milk-rose));
+  color:#fffaf6; box-shadow:0 8px 20px rgba(244,143,177,.22);
+}
+.login-entry:hover,.button.primary:hover,.button-size:hover,.task-edit > button:hover { background:linear-gradient(135deg,#ffc0cf,#f09ab8); box-shadow:0 12px 25px rgba(244,143,177,.3); transform:translateY(-2px) scale(1.02); }
+.login-story { background:linear-gradient(180deg,var(--milk-cream),#fff7f2); }
+.login-story h1,.landing-about-copy h2,.landing-operation-head h2 { font-family:"Arial Rounded MT Bold","Noto Sans TC",sans-serif; color:var(--milk-cocoa); font-weight:700; }
+.login-story h1 { font-size:clamp(44px,6vw,82px); }
+.hero-title span:first-child { color:var(--milk-rose); }
+.hero-title span:last-child { color:var(--milk-cocoa); }
+.hero-poster-note,.hero-poster-note em { color:var(--milk-cocoa); }
+.hero-poster-note em { color:var(--milk-rose); }
+.landing-about { position:relative; background:var(--milk-cream); }
+.landing-about::after {
+  content:""; position:absolute; right:10%; top:38px; width:11px; height:11px; border-radius:50%; background:#ffd8e1;
+  box-shadow:24px 18px 0 -3px #ffb3c6, -20px 32px 0 -4px #f9c5d5; opacity:.8;
+}
+.landing-operation { position:relative; background:linear-gradient(180deg,var(--milk-peach),#fff0eb); border-top:0; }
+.landing-operation::before,.landing-footer::before {
+  content:""; position:absolute; left:-2%; right:-2%; top:-26px; height:48px; z-index:0;
+  background:var(--milk-cream); border-radius:50% 50% 0 0 / 100% 100% 0 0;
+}
+.landing-operation > *,.landing-footer > * { position:relative; z-index:1; }
+.landing-operation-step,.landing-operation-step:nth-child(even) {
+  border:0; border-radius:34px; background:rgba(255,250,246,.9);
+  box-shadow:0 10px 25px rgba(255,182,193,.3); transition:transform .25s ease, box-shadow .25s ease;
+}
+.landing-operation-step:hover { transform:translateY(-6px) scale(1.015); box-shadow:0 16px 32px rgba(255,182,193,.38); }
+.landing-step-number { color:var(--milk-rose); }
+.landing-operation-step h3 { color:var(--milk-cocoa); font-family:"Arial Rounded MT Bold","Noto Sans TC",sans-serif; }
+.landing-footer { position:relative; background:linear-gradient(135deg,var(--milk-lilac),#fff0f3); border-top:0; }
+.landing-footer::before { top:-20px; height:38px; background:#fff0eb; }
+.button,.button.ghost { border:0; border-radius:999px; }
+.button.ghost { background:rgba(255,250,246,.92); color:var(--milk-cocoa); box-shadow:0 7px 16px rgba(185,126,139,.12); }
+.button.ghost:hover { color:var(--milk-rose); box-shadow:0 11px 23px rgba(244,143,177,.2); transform:translateY(-2px) scale(1.02); }
+.auth-overlay { background:linear-gradient(145deg,#fffaf6,#ffe8df); }
+.auth-overlay-inner { border-radius:34px; background:rgba(255,250,246,.9); box-shadow:0 18px 46px rgba(185,126,139,.17); }
+.auth-overlay h2 { color:var(--milk-rose); font-family:"Arial Rounded MT Bold","Noto Sans TC",sans-serif; }
+.auth-mode-switch { border-color:#f0cbd2; }
+.auth-mode-switch button.active { background:var(--milk-rose); }
+.activity-card,.department-menu,.empty-state { border-radius:30px; box-shadow:0 10px 25px rgba(255,182,193,.22); }
+.card-art { border-radius:26px; background:linear-gradient(145deg,#ffe8df,#ffcfdb 58%,#ead9e5); }
+.status-pill { background:#ffe5ec; color:var(--milk-cocoa); }
+
+@media (max-width:600px) {
+  .landing-operation::before { top:-16px; height:32px; }
+  .landing-footer::before { top:-13px; height:26px; }
+}
