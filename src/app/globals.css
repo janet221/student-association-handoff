@@ -1439,6 +1439,43 @@ body::before {
   .landing-prose { grid-template-columns: 1fr; }
   .landing-operation-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
+
+/* Japanese comfort atmosphere */
+body { background: #fffbf7; }
+.login-shell { background: radial-gradient(circle at 50% 12%, #fffbf7 0%, #fff8f7 45%, #fff0f3 100%) !important; animation: page-arrival .8s ease both; }
+.login-story, .landing-about, .landing-operation, .landing-footer {
+  background: transparent !important;
+}
+.login-story::after, .landing-about::after, .landing-operation::after {
+  content: ""; position: absolute; width: min(520px, 42vw); height: 360px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 210, 190, .28), rgba(255, 226, 233, .13) 48%, transparent 72%);
+  filter: blur(40px); pointer-events: none; z-index: 0;
+}
+.login-story::after { right: 18%; top: 18%; }
+.landing-about::after { left: 5%; top: 30%; }
+.landing-operation::after { right: 8%; top: 18%; }
+.landing-prose p, .landing-operation-step {
+  border-radius: 28px !important;
+  background: rgba(255,255,255,.75) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 20px 40px rgba(255,182,193,.18) !important;
+}
+.story-ribbon { left: 54%; top: 480px; width: 42vw; height: 2300px; opacity: .34; border-right-width: 10px; border-color: rgba(232,142,165,.5); animation: ribbon-breathe 5s ease-in-out infinite; }
+.story-ribbon span { inset: 120px 0 620px 28%; border-width: 8px; border-color: rgba(244,177,193,.46); border-left-color: transparent; border-bottom-color: transparent; }
+.section-bow-decor, .section-star-glow, .hero-decor-sheet { animation: floating 5s ease-in-out infinite; }
+.section-bow-decor-about-secondary { animation-delay: -1.3s; }
+.section-bow-decor-operation { animation-delay: -2.4s; }
+.section-bow-decor-operation-secondary { animation-delay: -3.6s; }
+@keyframes page-arrival { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+@keyframes floating { 0%,100% { transform: translateY(0) rotate(var(--decor-rotation, 0deg)); } 50% { transform: translateY(-9px) rotate(var(--decor-rotation, 0deg)); } }
+@keyframes ribbon-breathe { 0%,100% { transform: rotate(-5deg) translateY(0); } 50% { transform: rotate(-3deg) translateY(-8px); } }
+@media (prefers-reduced-motion: reduce) {
+  .login-shell, .story-ribbon, .section-bow-decor, .section-star-glow, .hero-decor-sheet { animation: none; }
+}
+@media (max-width: 900px) {
+  .story-ribbon { left: 35%; width: 72vw; height: 2200px; opacity: .2; }
+}
 @media (max-width: 600px) {
   .landing-operation-grid { grid-template-columns: 1fr; }
   .landing-operation-step { min-height: 0; }
