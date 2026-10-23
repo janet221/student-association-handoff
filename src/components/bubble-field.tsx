@@ -39,15 +39,13 @@ function heartPoint(random: () => number, scale: number) {
 }
 
 function drawHeartPath(context: CanvasRenderingContext2D, x: number, y: number, radius: number) {
-  const scale = radius / 16;
+  const scale = radius;
   context.beginPath();
-  for (let step = 0; step <= 80; step += 1) {
-    const angle = (step / 80) * Math.PI * 2;
-    const heartX = 16 * Math.sin(angle) ** 3 * scale;
-    const heartY = -(13 * Math.cos(angle) - 5 * Math.cos(angle * 2) - 2 * Math.cos(angle * 3) - Math.cos(angle * 4)) * scale;
-    if (step === 0) context.moveTo(x + heartX, y + heartY);
-    else context.lineTo(x + heartX, y + heartY);
-  }
+  context.moveTo(x, y - scale * 0.18);
+  context.bezierCurveTo(x - scale * 0.36, y - scale * 0.86, x - scale * 1.08, y - scale * 0.74, x - scale * 1.08, y - scale * 0.08);
+  context.bezierCurveTo(x - scale * 1.08, y + scale * 0.38, x - scale * 0.55, y + scale * 0.68, x, y + scale * 0.98);
+  context.bezierCurveTo(x + scale * 0.55, y + scale * 0.68, x + scale * 1.08, y + scale * 0.38, x + scale * 1.08, y - scale * 0.08);
+  context.bezierCurveTo(x + scale * 1.08, y - scale * 0.74, x + scale * 0.36, y - scale * 0.86, x, y - scale * 0.18);
   context.closePath();
 }
 
@@ -72,7 +70,7 @@ export function BubbleField() {
       const scale = Math.min(width, height) * 0.20;
       bubbles = Array.from({ length: count }, (_, index) => {
         const target = heartPoint(random, scale);
-        const radius = index % 11 === 0 ? 52 + random() * 16 : index % 4 === 0 ? 32 + random() * 14 : 18 + random() * 18;
+        const radius = index % 13 === 0 ? 76 + random() * 24 : index % 4 === 0 ? 40 + random() * 20 : 20 + random() * 22;
         return {
           x: width * 0.5 + target.x + (random() - 0.5) * radius * 0.35,
           y: height * 0.48 + target.y + (random() - 0.5) * radius * 0.35,
@@ -124,8 +122,10 @@ export function BubbleField() {
         const wobbleY = Math.sin(time * 0.0005 + bubble.phase) * 7;
         const targetX = bubble.targetX + wobbleX;
         const targetY = bubble.targetY + wobbleY;
-        bubble.vx += (targetX - bubble.x) * (0.0032 + (1 - fly) * 0.0012);
-        bubble.vy += (targetY - bubble.y) * (0.0032 + (1 - fly) * 0.0012);
+        bubble.vx += (targetX - bubble.x) * (0.0022 + (1 - fly) * 0.001);
+        bubble.vy += (targetY - bubble.y) * (0.0022 + (1 - fly) * 0.001);
+        bubble.vy += 0.022;
+        bubble.vy += Math.sin(time * 0.0006 + bubble.phase) * 0.012;
         if (fly > 0.01) {
           bubble.vz += 1.45 * fly;
           bubble.vx += (bubble.x - width * 0.5) * 0.00045 * fly;
@@ -147,6 +147,12 @@ export function BubbleField() {
         bubble.x += bubble.vx;
         bubble.y += bubble.vy;
         bubble.z += bubble.vz;
+        const floor = height * 0.92 - bubble.radius;
+        if (bubble.y > floor) {
+          bubble.y = floor;
+          bubble.vy *= -0.66;
+          bubble.vx *= 0.86;
+        }
       });
 
       for (let i = 0; i < bubbles.length; i += 1) {
@@ -156,11 +162,11 @@ export function BubbleField() {
           const dx = second.x - first.x;
           const dy = second.y - first.y;
           const distance = Math.hypot(dx, dy) || 0.001;
-          const minimum = (first.radius + second.radius) * 0.58;
+          const minimum = (first.radius + second.radius) * 0.62;
           if (distance >= minimum) continue;
           const nx = dx / distance;
           const ny = dy / distance;
-          const overlap = (minimum - distance) * 0.12;
+          const overlap = (minimum - distance) * 0.1;
           first.x -= nx * overlap;
           first.y -= ny * overlap;
           second.x += nx * overlap;
@@ -175,25 +181,6 @@ export function BubbleField() {
           }
         }
       }
-
-      const heartScale = Math.min(width, height) * 0.018;
-      context.save();
-      context.translate(width * 0.5, height * 0.48);
-      context.beginPath();
-      for (let step = 0; step <= 120; step += 1) {
-        const angle = (step / 120) * Math.PI * 2;
-        const heartX = 16 * Math.sin(angle) ** 3 * heartScale;
-        const heartY = -(13 * Math.cos(angle) - 5 * Math.cos(angle * 2) - 2 * Math.cos(angle * 3) - Math.cos(angle * 4)) * heartScale;
-        if (step === 0) context.moveTo(heartX, heartY);
-        else context.lineTo(heartX, heartY);
-      }
-      context.closePath();
-      context.fillStyle = "#ff9fbd12";
-      context.strokeStyle = "#ff77a966";
-      context.lineWidth = 2;
-      context.fill();
-      context.stroke();
-      context.restore();
 
       bubbles.slice().sort((a, b) => a.z - b.z).forEach((bubble) => {
         const depth = clamp(1 - bubble.z / 900, 0.55, 1.35);

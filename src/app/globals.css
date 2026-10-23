@@ -817,6 +817,40 @@ footer small { justify-self:end; color:var(--muted); }
   transform: none;
 }
 
+body:has(.login-shell),
+body:has(.app-shell) {
+  background: #fff3f8;
+}
+
+.login-shell,
+.app-shell {
+  background:
+    radial-gradient(circle at 18% 18%, #ffe1ed 0, transparent 28rem),
+    radial-gradient(circle at 84% 70%, #fbd8e9 0, transparent 32rem),
+    #fff3f8;
+}
+
+.bubble-field {
+  background:
+    radial-gradient(circle at 50% 36%, #fffafd 0, #ffeef6aa 42%, transparent 76%),
+    #fff3f8;
+}
+
+.landing-nav,
+.app-header {
+  background: #fff9fcbd;
+  border-bottom-color: #f2cbdc;
+}
+
+.login-story {
+  background: linear-gradient(135deg, #fff9fca8 0%, #ffeef69c 55%, #ffdcea72 100%);
+}
+
+.landing-about,
+.landing-operation {
+  background: #fffafd82;
+}
+
 @media (max-width: 600px) {
   .login-shell::before {
     top: 104px;
