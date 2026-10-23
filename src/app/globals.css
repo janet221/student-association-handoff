@@ -1768,3 +1768,12 @@ body, .login-shell { background: linear-gradient(135deg, var(--princess-champagn
   .landing-prose p:nth-child(2), .landing-prose p:nth-child(4) { transform: none; }
   .landing-about-copy::before { right: 8%; top: -28px; }
 }
+
+/* remove legacy narrow prose constraint */
+.landing-about-copy { max-width: 1340px !important; grid-template-columns: minmax(300px, .72fr) minmax(0, 1.9fr) !important; }
+.landing-prose { width: 100%; max-width: none !important; min-width: 0; grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+.landing-prose p { min-width: 0; width: auto; font-size: clamp(15px, 1.05vw, 18px); }
+@media (max-width: 900px) {
+  .landing-about-copy { max-width: 100% !important; grid-template-columns: 1fr !important; }
+  .landing-prose { grid-template-columns: 1fr !important; }
+}
