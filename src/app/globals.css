@@ -1632,3 +1632,39 @@ body { background: #fffbf7; }
 @media (max-width: 600px) {
   .landing-operation-step:nth-child(2), .landing-operation-step:nth-child(4) { margin-top: 0; }
 }
+
+/* structural repair: centered wide grids and connected visual groups */
+.login-story { display: block; min-height: min(860px, 88vh); }
+.login-story > .hero-edition, .login-story > .hero-eyebrow, .login-story > .hero-title, .login-story > .hero-poster-note {
+  width: min(100%, 1340px); margin-inline: auto; padding-left: clamp(12px, 3vw, 52px);
+}
+.login-story > .hero-edition { padding-top: 2vh; }
+.login-story > .hero-eyebrow { margin-top: 20px; }
+.login-story > .hero-title { max-width: 1340px; margin-top: 18px; padding-right: 48%; }
+.login-art { right: max(4%, calc((100vw - 1340px) / 2)); width: min(53vw, 760px); height: min(68vw, 720px); top: 14%; }
+.hero-poster-note { right: max(3%, calc((100vw - 1340px) / 2)); }
+.landing-about, .landing-operation { padding-inline: clamp(24px, 5vw, 72px); }
+.landing-about-copy, .landing-operation-head, .landing-operation-grid { width: min(100%, 1340px); margin-inline: auto; }
+.landing-about-copy { grid-template-columns: minmax(320px, .85fr) minmax(0, 1.45fr); gap: clamp(40px, 6vw, 108px); }
+.landing-prose { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(22px, 2.4vw, 36px); }
+.landing-prose p { font-size: clamp(16px, 1.2vw, 20px); }
+.landing-operation-head { display: grid; grid-template-columns: .7fr 1.3fr; gap: 64px; align-items: end; }
+.landing-operation-head h2 { margin-bottom: 0; }
+.landing-operation-head > div:last-child { max-width: 740px; }
+.landing-operation-grid { gap: clamp(28px, 3.2vw, 52px); }
+.landing-operation-step { min-height: clamp(380px, 34vw, 470px); padding-inline: clamp(28px, 2.8vw, 42px) !important; }
+.login-story::after, .landing-about::after, .landing-operation::after { opacity: .85; }
+.section-bow-decor-about, .section-bow-decor-about-secondary, .section-bow-decor-operation, .section-bow-decor-operation-secondary { opacity: .34; }
+@media (max-width: 1100px) {
+  .login-story > .hero-title { padding-right: 42%; }
+  .login-art { right: 2%; width: min(54vw, 640px); }
+  .landing-operation-head { grid-template-columns: 1fr; gap: 18px; }
+}
+@media (max-width: 900px) {
+  .login-story { min-height: 900px; }
+  .login-story > .hero-title { padding-right: 0; }
+  .login-art { right: 2%; width: 88vw; height: 52%; top: 45%; }
+  .landing-about-copy { grid-template-columns: 1fr; gap: 24px; }
+  .landing-prose { grid-template-columns: 1fr; }
+  .landing-operation-head { display: block; }
+}
