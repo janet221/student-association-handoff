@@ -3,12 +3,12 @@
 import { useState } from "react";
 import { login, quickLogin, resendConfirmation, signup } from "@/app/login/actions";
 
-export function LoginEntry({ error, message }: { error?: string; message?: string }) {
+export function LoginEntry({ error, message, label = "開始使用" }: { error?: string; message?: string; label?: string }) {
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState<"login" | "signup">("login");
 
   return <>
-    <button className="login-entry" onClick={() => setOpen(true)}>開始使用 <span>→</span></button>
+    <button className="login-entry" onClick={() => setOpen(true)}>{label} <span>→</span></button>
     {open && <section className="auth-overlay" aria-label="登入或註冊">
       <button className="auth-back" onClick={() => setOpen(false)}>← 返回首頁</button>
       <div className="auth-overlay-inner">
