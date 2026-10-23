@@ -66,18 +66,17 @@ export function LandingContent() {
     if (!ctx) return () => canvas.remove();
     let particles: Array<{ x:number; y:number; vx:number; vy:number; size:number; life:number; decay:number; color:string }> = [];
     let frame = 0;
-    const colors = ["#FF77A9", "#FFB6C1", "#E6E6FA", "#FFFFFF", "#FFE45C", "#C8B6FF"];
+    const colors = ["#ffb6c1", "#ffd1dc", "#fff0f5", "#ffe4e1", "#f5d58a"];
     const resize = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; };
     const drawStar = (x:number, y:number, r:number, color:string, alpha:number) => {
       ctx.save(); ctx.translate(x, y); ctx.globalAlpha = alpha; ctx.fillStyle = color; ctx.beginPath();
-      ctx.shadowColor = color; ctx.shadowBlur = 12;
-      for (let i = 0; i < 8; i += 1) { const radius = i % 2 === 0 ? r : r / 4; const angle = (i * Math.PI) / 4; ctx.lineTo(Math.cos(angle) * radius, Math.sin(angle) * radius); }
+      for (let i = 0; i < 8; i += 1) { const radius = i % 2 === 0 ? r : r / 2.5; const angle = (i * Math.PI) / 4; ctx.lineTo(Math.cos(angle) * radius, Math.sin(angle) * radius); }
       ctx.closePath(); ctx.fill(); ctx.restore();
     };
     const move = (event: MouseEvent) => {
       if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-      for (let i = 0; i < 3; i += 1) particles.push({ x:event.clientX + (Math.random() - .5) * 20, y:event.clientY + (Math.random() - .5) * 20, vx:(Math.random() - .5) * 2.5, vy:(Math.random() - .5) * 2.5 + .8, size:Math.random() * 12 + 10, life:1, decay:Math.random() * .015 + .01, color:colors[Math.floor(Math.random() * colors.length)] });
-      if (particles.length > 120) particles = particles.slice(-120);
+      for (let i = 0; i < 2; i += 1) particles.push({ x:event.clientX + (Math.random() - .5) * 14, y:event.clientY + (Math.random() - .5) * 14, vx:(Math.random() - .5) * 1.2, vy:Math.random() * .7 + .25, size:Math.random() * 4 + 2, life:1, decay:Math.random() * .025 + .018, color:colors[Math.floor(Math.random() * colors.length)] });
+      if (particles.length > 90) particles = particles.slice(-90);
     };
     const animate = () => { ctx.clearRect(0, 0, canvas.width, canvas.height); particles = particles.filter((p) => p.life > 0); particles.forEach((p) => { p.x += p.vx; p.y += p.vy; p.life -= p.decay; drawStar(p.x, p.y, p.size, p.color, p.life); }); frame = requestAnimationFrame(animate); };
     resize(); window.addEventListener("resize", resize); window.addEventListener("mousemove", move); frame = requestAnimationFrame(animate);
