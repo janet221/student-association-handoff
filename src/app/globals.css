@@ -1104,3 +1104,44 @@ html,body { overflow-x:hidden; }
   .landing-operation::before { top:-16px; height:32px; }
   .landing-footer::before { top:-13px; height:26px; }
 }
+
+/* Final Korean sweet-girl polish: peach-strawberry gradients and airy cocoa type. */
+:root {
+  --strawberry-milk: #fff0f3;
+  --peach-cream: #faf5ef;
+  --cocoa: #5c4b4b;
+  --cocoa-soft: #8b7373;
+}
+body { color:var(--cocoa); letter-spacing:.03em; }
+p { line-height:1.8; }
+.landing-nav,.app-header { color:var(--cocoa); }
+.landing-nav nav > a,.brand-lockup span,.eyebrow,.landing-section-label { color:var(--cocoa-soft); }
+.login-story h1,.landing-about-copy h2,.landing-operation-head h2,.section-heading h1,.page-intro h1,.app-header h1,
+.landing-operation-step h3 { font-family:"Arial Rounded MT Bold","Noto Sans TC","Microsoft JhengHei",sans-serif; color:var(--cocoa); letter-spacing:.03em; }
+.hero-title span:first-child,.landing-about-copy h2,.landing-operation-head h2 { color:#d68b9f; }
+.hero-title span:last-child { color:var(--cocoa); }
+.landing-operation { background:linear-gradient(180deg,var(--strawberry-milk),var(--peach-cream)); }
+.landing-footer { background:linear-gradient(135deg,var(--strawberry-milk),var(--peach-cream)); }
+.landing-operation::before { background:var(--milk-cream); }
+.landing-footer::before { background:var(--strawberry-milk); }
+.landing-operation-step,.landing-operation-step:nth-child(even) {
+  box-shadow:0 14px 35px rgba(255,182,193,.22);
+}
+.landing-operation-step:hover { box-shadow:0 17px 38px rgba(255,182,193,.3); }
+.landing-operation-step p,.landing-prose p,.landing-operation-head p { color:var(--cocoa); line-height:1.8; letter-spacing:.03em; }
+.login-entry,.button.primary,.button-size,.task-edit > button {
+  border:1.5px solid rgba(255,255,255,.8); border-radius:999px;
+  box-shadow:0 8px 20px rgba(244,143,177,.2), inset 0 1px 0 rgba(255,255,255,.65);
+}
+.login-entry:hover,.button.primary:hover,.button-size:hover,.task-edit > button:hover { transform:scale(1.03); }
+.login-art::before { filter:blur(8px); opacity:.52; background:radial-gradient(circle at 48% 45%,#ffdce5 0 34%,#fff2ee 58%,transparent 74%); box-shadow:none; }
+.hero-star-one { width:30px; height:30px; background:#fff5f7; opacity:.78; }
+.hero-star-two { width:38px; height:38px; background:#f4b6c8; opacity:.72; }
+.hero-poster-note::after {
+  content:""; display:block; position:absolute; right:-24px; bottom:-12px; width:12px; height:12px; border-radius:50%; background:#fff;
+  box-shadow:20px 12px 0 -2px #ffd6e0, -24px 18px 0 -4px #f4b6c8; opacity:.75;
+}
+.landing-about::before {
+  content:"✦"; position:absolute; right:16%; top:26%; color:#f2b3c4; font:22px Georgia,serif; opacity:.55;
+}
+.landing-about::after { background:#ffd6e0; box-shadow:24px 18px 0 -3px #f4b6c8, -20px 32px 0 -4px #ffe4eb; }
