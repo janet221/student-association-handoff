@@ -1935,3 +1935,10 @@ body, .login-shell { background: linear-gradient(135deg, var(--princess-champagn
 .landing-prose p { background: transparent !important; border: 0 !important; box-shadow: none !important; padding-inline: 0 !important; }
 @keyframes bow-breathe { 0%,100% { transform: rotate(-8deg) translateY(0); } 50% { transform: rotate(5deg) translateY(-5px); } }
 @media (max-width: 900px) { .landing-about-copy::after { right: 5%; top: -10px; font-size: 26px; } }
+
+/* specificity override: remove extracted frames from workflow cards */
+.landing-operation-step:nth-child(1), .landing-operation-step:nth-child(2), .landing-operation-step:nth-child(3), .landing-operation-step:nth-child(4) {
+  background-image: none !important;
+  background: rgba(255,253,251,.82) !important;
+  border-radius: 120px 120px 24px 24px !important;
+}
