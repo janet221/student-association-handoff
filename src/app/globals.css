@@ -1224,11 +1224,44 @@ body::before {
   .login-art .hero-decor-sheet { animation:none; }
   .landing-operation-step:hover::after,.button:hover::after,.login-entry:hover::after { animation:none; }
 }
+/* Keep the bow-bunny illustration below the hero so the cake remains the sole hero focal point. */
+.landing-about,.landing-operation { overflow:hidden; }
+.section-bow-decor,.section-star-glow {
+  position:absolute;
+  pointer-events:none;
+  user-select:none;
+  z-index:0;
+}
+.section-bow-decor {
+  width:min(760px,62vw);
+  height:auto;
+  opacity:.18;
+  mix-blend-mode:multiply;
+  filter:saturate(.82) contrast(.94);
+  animation:sectionFloat 10s ease-in-out infinite;
+}
+.section-bow-decor-about { right:-130px; top:42px; transform:rotate(7deg); }
+.section-bow-decor-operation { left:-165px; bottom:-80px; transform:rotate(-9deg) scale(.9); animation-delay:-3s; }
+.section-star-glow {
+  width:min(900px,72vw);
+  height:auto;
+  opacity:.34;
+  mix-blend-mode:multiply;
+  filter:saturate(.78) blur(.15px);
+}
+.section-star-glow-about { right:-120px; top:0; }
+.section-star-glow-operation { left:4%; top:0; opacity:.27; }
+.landing-about-copy,.landing-section-label,.landing-operation-head,.landing-operation-grid { z-index:1; }
+@keyframes sectionFloat { 0%,100% { margin-top:0; } 50% { margin-top:-8px; } }
 @media (max-width:900px) {
   .login-story { padding-top:150px; }
   .login-art { top:43%; height:56%; }
+  .section-bow-decor { width:78vw; opacity:.13; }
+  .section-star-glow { width:100vw; opacity:.16; }
 }
 @media (max-width:600px) {
   .login-story { padding-top:130px; }
   .login-art { top:47%; height:48%; }
+  .section-bow-decor-about { right:-190px; top:80px; }
+  .section-bow-decor-operation { left:-200px; bottom:-30px; }
 }

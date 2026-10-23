@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import Image from "next/image";
 
 const operationSteps = [
   {
@@ -58,6 +59,8 @@ export function LandingContent() {
 
   return <div ref={contentRef}>
     <section className="landing-about" id="about">
+      <Image className="section-bow-decor section-bow-decor-about" src="/images/decor/angel-ribbon-sparkles.png" alt="" width={1536} height={1024} aria-hidden="true" />
+      <Image className="section-star-glow section-star-glow-about" src="/images/decor/pink-star-glow.png" alt="" width={1402} height={1122} aria-hidden="true" />
       <div className="landing-section-label reveal-label" data-reveal><span>01</span><i /> PROJECT IDEA</div>
       <div className="landing-about-copy" data-reveal>
         <h2>專案理念</h2>
@@ -72,6 +75,8 @@ export function LandingContent() {
     </section>
 
     <section className="landing-operation" id="operation">
+      <Image className="section-bow-decor section-bow-decor-operation" src="/images/decor/angel-ribbon-sparkles.png" alt="" width={1536} height={1024} aria-hidden="true" />
+      <Image className="section-star-glow section-star-glow-operation" src="/images/decor/pink-star-glow.png" alt="" width={1402} height={1122} aria-hidden="true" />
       <header className="landing-operation-head">
         <div className="reveal-label" data-reveal><div className="landing-section-label"><span>02</span><i /> WORKFLOW</div></div>
         <div data-reveal><h2>如何運作</h2><p>本屆工作是今年要確認和處理的事項；交接紀錄則放上一屆留下的文件、做法和提醒。</p><p>學弟妹從本屆工作開始，學長姐在活動結束後回到同一個活動補上今年的實際做法，再整理到交接紀錄。</p></div>
