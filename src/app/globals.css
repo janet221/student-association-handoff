@@ -1502,3 +1502,35 @@ body { background: #fffbf7; }
   .landing-prose { grid-column: auto; }
 }
 
+
+/* heart ribbon frame accents */
+.landing-about::before {
+  background-image: url('/images/decor/heart-ribbon-frame.png');
+  background-repeat: no-repeat;
+  background-position: right 8% center;
+  background-size: min(430px, 32vw);
+  opacity: .13;
+  filter: saturate(.82);
+}
+.landing-operation::before {
+  background-image: url('/images/decor/heart-ribbon-frame.png');
+  background-repeat: no-repeat;
+  background-position: left 4% bottom 12%;
+  background-size: min(360px, 27vw);
+  opacity: .1;
+  filter: saturate(.8);
+}
+.landing-footer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url('/images/decor/heart-ribbon-frame.png') no-repeat center 22%;
+  background-size: min(300px, 24vw);
+  opacity: .1;
+  pointer-events: none;
+}
+@media (max-width: 900px) {
+  .landing-about::before { background-size: 48vw; background-position: right -8% center; opacity: .1; }
+  .landing-operation::before { background-size: 42vw; opacity: .08; }
+  .landing-footer::after { background-size: 42vw; }
+}
