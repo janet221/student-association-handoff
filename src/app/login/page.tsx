@@ -2,6 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import { LoginEntry } from "@/components/login-entry";
 import { LandingContent } from "@/components/landing-content";
+import { BubbleField } from "@/components/bubble-field";
 
 export default async function LoginPage({
   searchParams,
@@ -21,6 +22,7 @@ export default async function LoginPage({
 
   return (
     <main className="login-shell">
+      <BubbleField />
       <header className="landing-nav">
         <a href="#top" className="brand-lockup"><strong>NCUE IM</strong><span>STUDENT<br />ASSOCIATION</span></a>
         <nav aria-label="首頁導覽"><a href="#about">專案理念</a><a href="#operation">如何運作</a><LoginEntry error={notice.error} message={notice.message} /></nav>
