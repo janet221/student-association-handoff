@@ -1387,3 +1387,20 @@ body::before {
   .section-bow-decor-about { right:-190px; top:80px; }
   .section-bow-decor-operation { left:-200px; bottom:-30px; }
 }
+
+/* narrative ribbon and visual weight refinements */
+.login-shell { position: relative; overflow-x: clip; }
+.magic-canvas { position: fixed; inset: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 9999; }
+.story-ribbon { position: absolute; z-index: 0; pointer-events: none; left: 62%; top: clamp(560px, 68vh, 760px); width: 34vw; height: 680px; opacity: .5; transform: rotate(-5deg); border-right: 8px solid rgba(232,142,165,.36); border-radius: 50%; filter: drop-shadow(0 8px 12px rgba(216,139,159,.14)); }
+.story-ribbon::before { content: ""; position: absolute; left: -6px; bottom: 6px; width: 96px; height: 52px; border: 7px solid rgba(232,142,165,.4); border-radius: 52% 48% 48% 52%; transform: rotate(18deg); }
+.story-ribbon span { position: absolute; inset: 80px -10px 180px 36%; border: 6px solid rgba(244,177,193,.34); border-left-color: transparent; border-bottom-color: transparent; border-radius: 50%; transform: rotate(16deg); }
+@media (min-width: 901px) {
+  .landing-about-copy { max-width: 1120px; }
+  .landing-prose { grid-template-columns: repeat(2, minmax(280px, 1fr)); gap: 26px 30px; }
+  .landing-prose p { min-height: 154px; padding: 26px 30px; }
+  .landing-about-copy h2, .landing-operation-head h2 { font-size: clamp(52px, 6vw, 92px); }
+  .section-bow-decor-about, .section-bow-decor-operation { opacity: .22; }
+  .section-bow-decor-about { width: min(880px, 70vw); }
+  .section-bow-decor-operation { width: min(840px, 68vw); }
+}
+
