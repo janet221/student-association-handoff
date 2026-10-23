@@ -1885,3 +1885,28 @@ body, .login-shell { background: linear-gradient(135deg, var(--princess-champagn
   .landing-prose { padding: 84px 40px 62px; }
   .landing-operation-step:nth-child(2), .landing-operation-step:nth-child(4) { margin-top: 0; }
 }
+
+/* keep extracted frame decorative without distorting the long article */
+.landing-prose {
+  background: transparent !important;
+  padding: 42px 28px 36px !important;
+  position: relative;
+  isolation: isolate;
+}
+.landing-prose::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: url('/images/decor/ribbon-frame-04.png') center / 100% 100% no-repeat;
+  opacity: .18;
+  pointer-events: none;
+}
+.landing-prose p { padding-inline: 24px !important; }
+.landing-operation-step {
+  background: rgba(255,255,255,.72) !important;
+  background-image: none !important;
+  border-radius: 120px 120px 24px 24px !important;
+  border: 1.5px dashed #F2C2CE !important;
+  box-shadow: 0 22px 48px rgba(255,182,193,.25), inset 0 1px 0 rgba(255,255,255,.8) !important;
+}
