@@ -1942,3 +1942,8 @@ body, .login-shell { background: linear-gradient(135deg, var(--princess-champagn
   background: rgba(255,253,251,.82) !important;
   border-radius: 120px 120px 24px 24px !important;
 }
+
+/* remove all extracted ribbon frames from project idea section */
+.landing-about::before { background-image: none !important; opacity: 0 !important; }
+.landing-prose { background: transparent !important; }
+.landing-prose::after { display: none !important; background: none !important; }
