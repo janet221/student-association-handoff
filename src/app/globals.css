@@ -646,7 +646,6 @@ footer small { justify-self:end; color:var(--muted); }
   object-fit:contain; object-position:center; mix-blend-mode:normal;
   filter:none;
 }
-.hero-cake { display:none; }
 
 /* Y2K manga poster layer: bold outlines, candy pastels and scrapbook overlap. */
 :root {
