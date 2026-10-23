@@ -29,7 +29,13 @@ export default async function LoginPage({
         <div className="edition hero-reveal hero-edition">{handoverLabel.includes("➔") ? <><span>{handoverLabel.split(" ➔ ")[0]}</span><b className="handover-arrow" aria-label="交接至" /><span>{handoverLabel.split(" ➔ ")[1]}</span></> : <span>{handoverLabel}</span>}</div>
         <p className="eyebrow hero-reveal hero-eyebrow">HANDOVER &amp; ACTIVE SYSTEM</p>
         <h1 className="hero-title"><span>資管系學會</span><span>跨股協作與換屆交接平台</span></h1>
-        <div className="login-art hero-art" aria-hidden="true"><span>留下做法<br />接著處理</span></div>
+        <div className="login-art hero-art" aria-hidden="true">
+          <span>留下做法<br />接著處理</span>
+          <i className="hero-star hero-star-one" />
+          <i className="hero-star hero-star-two" />
+          <i className="hero-sticker">OPEN<br /><b>25—26</b></i>
+        </div>
+        <div className="hero-poster-note" aria-hidden="true">KEEP IT<br /><em>in the story</em></div>
       </section>
       <LandingContent />
       <footer className="landing-footer"><small>NCUE IM Student Association · 2026</small></footer>
