@@ -1581,3 +1581,54 @@ body { background: #fffbf7; }
 .landing-about::before, .landing-operation::before, .landing-footer::after {
   background-image: url('/images/decor/heart-ribbon-frame-flat.png');
 }
+
+/* wide editorial composition and arch cards */
+:root { --editorial-ink: #3D2E2E; --editorial-wine: #A8425C; --stitch-pink: #F2C2CE; }
+.login-story > *, .landing-about-copy, .landing-operation-head, .landing-operation-grid { width: min(100%, 1340px); }
+.login-story { padding-inline: clamp(32px, 5vw, 88px); }
+.login-story h1, .hero-title, .hero-title span, .landing-about-copy h2, .landing-operation-head h2, .landing-operation-step h3 {
+  font-family: "Noto Serif TC", "Noto Serif CJK TC", serif !important;
+  font-weight: 900 !important;
+  color: var(--editorial-ink) !important;
+  letter-spacing: .12em !important;
+}
+.login-story h1 { font-size: clamp(3.4rem, 5vw, 4rem) !important; }
+.hero-title span:first-child { color: var(--editorial-ink) !important; }
+.hero-title span:last-child { color: var(--editorial-wine) !important; }
+.landing-about-copy h2, .landing-operation-head h2 { font-size: clamp(2.5rem, 4vw, 3rem) !important; }
+.landing-section-label, .landing-section-label span, .landing-step-number { color: var(--editorial-wine); }
+.landing-operation-grid { align-items: start; }
+.landing-operation-step {
+  border: 1.5px dashed var(--stitch-pink) !important;
+  border-radius: 120px 120px 24px 24px !important;
+  padding: 54px 34px 36px !important;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  position: relative;
+}
+.landing-operation-step:nth-child(2), .landing-operation-step:nth-child(4) { margin-top: 45px; }
+.landing-operation-step::before {
+  content: "🎀";
+  position: absolute;
+  top: 18px;
+  right: 26px;
+  font-size: 22px;
+  filter: saturate(.72);
+}
+.landing-operation-step:hover { transform: translateY(-10px) rotate(-1deg) !important; }
+@keyframes floating {
+  0%, 100% { transform: translateY(0) rotate(-7deg) scale(1); }
+  50% { transform: translateY(-24px) rotate(5deg) scale(1.06); }
+}
+.section-bow-decor-about { animation-duration: 4.3s; animation-delay: -.7s; }
+.section-bow-decor-about-secondary { animation-duration: 5.5s; animation-delay: -2.1s; }
+.section-bow-decor-operation { animation-duration: 4.8s; animation-delay: -1.4s; }
+.section-bow-decor-operation-secondary { animation-duration: 5.2s; animation-delay: -3.2s; }
+.section-star-glow { animation-duration: 4.6s; }
+@media (max-width: 900px) {
+  .login-story h1 { font-size: clamp(2.6rem, 10vw, 3.4rem) !important; }
+  .landing-operation-step:nth-child(2), .landing-operation-step:nth-child(4) { margin-top: 20px; }
+}
+@media (max-width: 600px) {
+  .landing-operation-step:nth-child(2), .landing-operation-step:nth-child(4) { margin-top: 0; }
+}
