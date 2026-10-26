@@ -1,0 +1,412 @@
+[
+  {
+    "minX": 45,
+    "maxX": 359,
+    "minY": 24,
+    "maxY": 278,
+    "area": 51558,
+    "width": 315,
+    "height": 255,
+    "name": "sticker-01.png"
+  },
+  {
+    "minX": 756,
+    "maxX": 1031,
+    "minY": 24,
+    "maxY": 200,
+    "area": 34115,
+    "width": 276,
+    "height": 177,
+    "name": "sticker-02.png"
+  },
+  {
+    "minX": 387,
+    "maxX": 719,
+    "minY": 45,
+    "maxY": 160,
+    "area": 23761,
+    "width": 333,
+    "height": 116,
+    "name": "sticker-03.png"
+  },
+  {
+    "minX": 361,
+    "maxX": 718,
+    "minY": 163,
+    "maxY": 329,
+    "area": 46878,
+    "width": 358,
+    "height": 167,
+    "name": "sticker-04.png"
+  },
+  {
+    "minX": 748,
+    "maxX": 1040,
+    "minY": 212,
+    "maxY": 335,
+    "area": 29725,
+    "width": 293,
+    "height": 124,
+    "name": "sticker-05.png"
+  },
+  {
+    "minX": 45,
+    "maxX": 231,
+    "minY": 270,
+    "maxY": 359,
+    "area": 14591,
+    "width": 187,
+    "height": 90,
+    "name": "sticker-06.png"
+  },
+  {
+    "minX": 271,
+    "maxX": 340,
+    "minY": 285,
+    "maxY": 351,
+    "area": 2886,
+    "width": 70,
+    "height": 67,
+    "name": "sticker-07.png"
+  },
+  {
+    "minX": 346,
+    "maxX": 395,
+    "minY": 303,
+    "maxY": 348,
+    "area": 1486,
+    "width": 50,
+    "height": 46,
+    "name": "sticker-08.png"
+  },
+  {
+    "minX": 640,
+    "maxX": 1057,
+    "minY": 351,
+    "maxY": 417,
+    "area": 27711,
+    "width": 418,
+    "height": 67,
+    "name": "sticker-09.png"
+  },
+  {
+    "minX": 305,
+    "maxX": 617,
+    "minY": 354,
+    "maxY": 416,
+    "area": 17643,
+    "width": 313,
+    "height": 63,
+    "name": "sticker-10.png"
+  },
+  {
+    "minX": 44,
+    "maxX": 295,
+    "minY": 384,
+    "maxY": 424,
+    "area": 9983,
+    "width": 252,
+    "height": 41,
+    "name": "sticker-11.png"
+  },
+  {
+    "minX": 410,
+    "maxX": 796,
+    "minY": 434,
+    "maxY": 479,
+    "area": 13572,
+    "width": 387,
+    "height": 46,
+    "name": "sticker-12.png"
+  },
+  {
+    "minX": 807,
+    "maxX": 1061,
+    "minY": 436,
+    "maxY": 613,
+    "area": 35820,
+    "width": 255,
+    "height": 178,
+    "name": "sticker-13.png"
+  },
+  {
+    "minX": 45,
+    "maxX": 325,
+    "minY": 440,
+    "maxY": 545,
+    "area": 28851,
+    "width": 281,
+    "height": 106,
+    "name": "sticker-14.png"
+  },
+  {
+    "minX": 345,
+    "maxX": 602,
+    "minY": 486,
+    "maxY": 554,
+    "area": 15936,
+    "width": 258,
+    "height": 69,
+    "name": "sticker-15.png"
+  },
+  {
+    "minX": 638,
+    "maxX": 685,
+    "minY": 492,
+    "maxY": 537,
+    "area": 1462,
+    "width": 48,
+    "height": 46,
+    "name": "sticker-16.png"
+  },
+  {
+    "minX": 696,
+    "maxX": 765,
+    "minY": 499,
+    "maxY": 566,
+    "area": 2939,
+    "width": 70,
+    "height": 68,
+    "name": "sticker-17.png"
+  },
+  {
+    "minX": 46,
+    "maxX": 395,
+    "minY": 559,
+    "maxY": 737,
+    "area": 62311,
+    "width": 350,
+    "height": 179,
+    "name": "sticker-18.png"
+  },
+  {
+    "minX": 426,
+    "maxX": 625,
+    "minY": 567,
+    "maxY": 738,
+    "area": 24952,
+    "width": 200,
+    "height": 172,
+    "name": "sticker-19.png"
+  },
+  {
+    "minX": 634,
+    "maxX": 1052,
+    "minY": 589,
+    "maxY": 764,
+    "area": 49163,
+    "width": 419,
+    "height": 176,
+    "name": "sticker-20.png"
+  },
+  {
+    "minX": 38,
+    "maxX": 477,
+    "minY": 743,
+    "maxY": 814,
+    "area": 30968,
+    "width": 440,
+    "height": 72,
+    "name": "sticker-21.png"
+  },
+  {
+    "minX": 495,
+    "maxX": 668,
+    "minY": 753,
+    "maxY": 812,
+    "area": 9546,
+    "width": 174,
+    "height": 60,
+    "name": "sticker-22.png"
+  },
+  {
+    "minX": 687,
+    "maxX": 769,
+    "minY": 766,
+    "maxY": 841,
+    "area": 5734,
+    "width": 83,
+    "height": 76,
+    "name": "sticker-23.png"
+  },
+  {
+    "minX": 789,
+    "maxX": 1045,
+    "minY": 771,
+    "maxY": 820,
+    "area": 11006,
+    "width": 257,
+    "height": 50,
+    "name": "sticker-24.png"
+  },
+  {
+    "minX": 49,
+    "maxX": 772,
+    "minY": 824,
+    "maxY": 1166,
+    "area": 96772,
+    "width": 724,
+    "height": 343,
+    "name": "sticker-25.png"
+  },
+  {
+    "minX": 45,
+    "maxX": 150,
+    "minY": 834,
+    "maxY": 932,
+    "area": 9421,
+    "width": 106,
+    "height": 99,
+    "name": "sticker-26.png"
+  },
+  {
+    "minX": 793,
+    "maxX": 1050,
+    "minY": 835,
+    "maxY": 1019,
+    "area": 32176,
+    "width": 258,
+    "height": 185,
+    "name": "sticker-27.png"
+  },
+  {
+    "minX": 407,
+    "maxX": 829,
+    "minY": 960,
+    "maxY": 1051,
+    "area": 38231,
+    "width": 423,
+    "height": 92,
+    "name": "sticker-28.png"
+  },
+  {
+    "minX": 947,
+    "maxX": 1038,
+    "minY": 997,
+    "maxY": 1074,
+    "area": 5184,
+    "width": 92,
+    "height": 78,
+    "name": "sticker-29.png"
+  },
+  {
+    "minX": 392,
+    "maxX": 923,
+    "minY": 1063,
+    "maxY": 1140,
+    "area": 35484,
+    "width": 532,
+    "height": 78,
+    "name": "sticker-30.png"
+  },
+  {
+    "minX": 960,
+    "maxX": 1026,
+    "minY": 1083,
+    "maxY": 1146,
+    "area": 2981,
+    "width": 67,
+    "height": 64,
+    "name": "sticker-31.png"
+  },
+  {
+    "minX": 261,
+    "maxX": 326,
+    "minY": 1103,
+    "maxY": 1165,
+    "area": 2896,
+    "width": 66,
+    "height": 63,
+    "name": "sticker-32.png"
+  },
+  {
+    "minX": 280,
+    "maxX": 712,
+    "minY": 1145,
+    "maxY": 1234,
+    "area": 29122,
+    "width": 433,
+    "height": 90,
+    "name": "sticker-33.png"
+  },
+  {
+    "minX": 720,
+    "maxX": 1050,
+    "minY": 1153,
+    "maxY": 1419,
+    "area": 69892,
+    "width": 331,
+    "height": 267,
+    "name": "sticker-34.png"
+  },
+  {
+    "minX": 49,
+    "maxX": 253,
+    "minY": 1170,
+    "maxY": 1238,
+    "area": 11057,
+    "width": 205,
+    "height": 69,
+    "name": "sticker-35.png"
+  },
+  {
+    "minX": 175,
+    "maxX": 522,
+    "minY": 1242,
+    "maxY": 1340,
+    "area": 25881,
+    "width": 348,
+    "height": 99,
+    "name": "sticker-36.png"
+  },
+  {
+    "minX": 598,
+    "maxX": 691,
+    "minY": 1242,
+    "maxY": 1334,
+    "area": 6638,
+    "width": 94,
+    "height": 93,
+    "name": "sticker-37.png"
+  },
+  {
+    "minX": 120,
+    "maxX": 167,
+    "minY": 1265,
+    "maxY": 1313,
+    "area": 1843,
+    "width": 48,
+    "height": 49,
+    "name": "sticker-38.png"
+  },
+  {
+    "minX": 530,
+    "maxX": 578,
+    "minY": 1266,
+    "maxY": 1313,
+    "area": 1841,
+    "width": 49,
+    "height": 48,
+    "name": "sticker-39.png"
+  },
+  {
+    "minX": 62,
+    "maxX": 127,
+    "minY": 1308,
+    "maxY": 1371,
+    "area": 2969,
+    "width": 66,
+    "height": 64,
+    "name": "sticker-40.png"
+  },
+  {
+    "minX": 127,
+    "maxX": 709,
+    "minY": 1346,
+    "maxY": 1428,
+    "area": 39078,
+    "width": 583,
+    "height": 83,
+    "name": "sticker-41.png"
+  }
+]

@@ -1,36 +1,35 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
-import { SectionHeading } from "@/components/section-heading";
-import { activityDepartment } from "@/lib/activity-departments";
+import { resolvedDepartment } from "@/lib/activity-departments";
+import { createDemoActivity, createDemoAnnouncements } from "@/lib/demo-content";
 
-type Task = { id: string; name: string; status: string; fixed_deadline: string | null; deadline_type: string | null };
-type Activity = { id: string; name: string; activity_date: string | null; phases: { tasks: Task[] }[] };
-function todayKey() { return new Date().toISOString().slice(0, 10); }
-function dateLabel(value: string | null) { return value ? value.replaceAll("-", "/") : "日期待確認"; }
+type Activity = { id: string; name: string; department: string | null; description: string | null; status: string; activity_date: string | null; phases: { tasks: { status: string }[] }[]; is_demo?: boolean };
+function statusLabel(value: string) { return ({ planning: "籌備中", active: "進行中", completed: "已完成" } as Record<string, string>)[value] ?? value; }
 
 export default async function DashboardPage() {
   const supabase = await createClient();
-  const [{ data: activities }, { data: collaborations }, { data: announcements }] = await Promise.all([
-    supabase.from("activities").select("id, name, activity_date, phases(tasks(id, name, status, fixed_deadline, deadline_type))").neq("status", "archived").order("activity_date", { ascending: true }),
-    supabase.from("collaboration_requests").select("id, activity_id, owner_department, support_department, description, requested_date, status, activities(name)").eq("status", "待確認").order("requested_date", { ascending: true }).limit(6),
-    supabase.from("announcements").select("id, title, content, is_pinned, created_at").order("is_pinned", { ascending: false }).order("created_at", { ascending: false }).limit(5),
+  const [{ data: activities }, { data: announcements }] = await Promise.all([
+    supabase.from("activities").select("id, name, department, description, status, activity_date, phases(tasks(status))").neq("status", "archived").order("activity_date", { ascending: true }),
+    supabase.from("announcements").select("id, title, summary, content, department, author_department, target_department, announcement_type, is_pinned, published_on, created_at").order("published_on", { ascending: false, nullsFirst: false }).order("created_at", { ascending: false }).limit(3),
   ]);
-  const list = (activities ?? []) as unknown as Activity[];
-  const allTasks = list.flatMap((activity) => activity.phases.flatMap((phase) => phase.tasks.map((task) => ({ ...task, activity }))));
-  const today = todayKey();
-  const dueSoon = allTasks.filter((item) => item.fixed_deadline && item.status !== "completed" && item.fixed_deadline >= today).sort((a, b) => (a.fixed_deadline ?? "").localeCompare(b.fixed_deadline ?? "")).slice(0, 6);
-  const overdue = allTasks.filter((item) => item.fixed_deadline && item.status !== "completed" && item.fixed_deadline < today).slice(0, 6);
-  const dateGroups = new Map<string, string[]>();
-  for (const activity of list) if (activity.activity_date) dateGroups.set(activity.activity_date, [...(dateGroups.get(activity.activity_date) ?? []), activity.name]);
-  const conflicts = [...dateGroups.entries()].filter(([, names]) => names.length > 1);
+  const realActivities = (activities ?? []) as Activity[];
+  const list = realActivities.length ? realActivities : [createDemoActivity()];
+  const today = new Date(); today.setHours(0,0,0,0);
+  const dated = list.filter((a) => a.activity_date).sort((a,b) => String(a.activity_date).localeCompare(String(b.activity_date)));
+  const undated = list.filter((a) => !a.activity_date);
+  const upcoming = dated.filter((a) => new Date(`${a.activity_date}T00:00:00`) >= today);
+  const soon = upcoming.filter((a) => (new Date(`${a.activity_date}T00:00:00`).getTime()-today.getTime()) <= 7*86400000);
+  const realAnnouncements = (announcements ?? []) as { id: string; title: string; summary: string | null; content: string; department: string | null; author_department: string | null; announcement_type: string; is_pinned: boolean; published_on: string | null; created_at: string; target_department: string | null; is_demo?: boolean }[];
+  const announcementsList = realAnnouncements.length ? realAnnouncements : createDemoAnnouncements().slice(0, 3);
   return <main className="page-wrap overview-page">
-    <section className="page-intro"><SectionHeading label="OVERVIEW · 全會工作入口" title="全會總覽" description="先處理需要回覆與即將到期的事情，再進入各股的工作內容。" /><div className="page-intro-actions"><Link className="button" href="/calendar">查看共同月曆 <span>→</span></Link><Link className="button primary" href="/activities">進入本屆工作 <span>→</span></Link></div></section>
-    <div className="overview-grid">
-      <section className="overview-section overview-priority"><div className="overview-section-head"><span>01 / ACTIONS</span><h2>現在需要處理</h2></div>{overdue.map((item) => <Link className="overview-row overview-alert" href={`/activities/${item.activity.id}#task-${item.id}`} key={item.id}><div><b>{item.name}</b><small>{item.activity.name} · 已逾期</small></div><strong>{dateLabel(item.fixed_deadline)}</strong><span>→</span></Link>)}{(collaborations ?? []).map((item) => <article className="overview-request" key={item.id}><small>{item.activities?.[0]?.name ?? "活動"} · {item.owner_department} → {item.support_department}</small><b>{item.description}</b><span>等待回覆：{dateLabel(item.requested_date)}</span></article>)}{!overdue.length && !collaborations?.length && <p className="empty-inline">目前沒有逾期工作或待回覆的協作需求。</p>}</section>
-      <section className="overview-section"><div className="overview-section-head"><span>02 / DEADLINES</span><h2>接下來的期限</h2></div>{dueSoon.map((item) => <Link className="overview-row" href={`/activities/${item.activity.id}#task-${item.id}`} key={item.id}><div><b>{item.name}</b><small>{item.activity.name}</small></div><strong>{dateLabel(item.fixed_deadline)}</strong><span>→</span></Link>)}{!dueSoon.length && <p className="empty-inline">目前沒有已設定的近期期限。</p>}</section>
-      <section className="overview-section"><div className="overview-section-head"><span>03 / CALENDAR</span><h2>日期衝突</h2></div>{conflicts.map(([date, names]) => <Link className="overview-row overview-alert" href={`/calendar?month=${date.slice(0, 7)}`} key={date}><div><b>{dateLabel(date)}</b><small>{names.join("、")}</small></div><strong>同日活動</strong><span>→</span></Link>)}{!conflicts.length && <p className="empty-inline">目前沒有同日活動；完整日期請查看共同月曆。</p>}<Link href="/calendar" className="text-link">查看共同月曆 →</Link></section>
-      <section className="overview-section"><div className="overview-section-head"><span>04 / ACTIVITIES</span><h2>本屆活動</h2></div>{list.slice(0, 6).map((activity) => <Link className="overview-row" href={`/activities/${activity.id}`} key={activity.id}><div><b>{activity.name}</b><small>{activityDepartment(activity.name)}</small></div><strong>{dateLabel(activity.activity_date)}</strong><span>→</span></Link>)}{!list.length && <p className="empty-inline">目前還沒有本屆活動。</p>}<Link href="/activities" className="text-link">查看全部本屆工作 →</Link></section>
-      <section className="overview-section"><div className="overview-section-head"><span>05 / NOTICE</span><h2>公告欄</h2></div>{(announcements ?? []).map((item) => <article className="overview-announcement" key={item.id}><small>{item.is_pinned ? "置頂" : "全會公告"}</small><b>{item.title}</b><p>{item.content}</p></article>)}{!announcements?.length && <p className="empty-inline">目前沒有公告。</p>}<Link href="/announcements" className="text-link">查看公告欄 →</Link></section>
+    <section className="page-title-center"><h1>Events</h1></section>
+    <div className="overview-main-grid">
+      <section className="overview-activities-panel">
+        <div className="overview-panel-heading"><span>活動安排</span><h2>近期活動與全部活動</h2></div>
+        {soon.length > 0 && <section className="overview-reminders"><h3>近期提醒</h3><p>{soon.length === 1 ? "接下來 7 天有 1 項活動" : `接下來 ${soon.length} 項活動將在 7 天內開始`}</p>{soon.slice(0,3).map((a) => <Link href={`/activities/${a.id}`} key={a.id}><b>{a.activity_date?.replaceAll("-","/")}</b><span>{a.name} · {resolvedDepartment(a.department,a.name)}</span></Link>)}</section>}
+    {list.length > 0 && <section className="activity-overview-list">{dated.map((activity) => <Link className="activity-overview-row" href={activity.is_demo ? "/calendar" : "/activities/" + activity.id} key={activity.id}><div><small>{activity.is_demo ? "示範活動 · " : ""}{activity.activity_date?.replaceAll("-","/")} · {resolvedDepartment(activity.department, activity.name)}</small><h2>{activity.name}</h2><p>{activity.description || ""}</p></div><div className="activity-overview-meta"><span className={"status-pill " + activity.status}>{activity.is_demo ? "示範" : statusLabel(activity.status)}</span></div><span>→</span></Link>)}{undated.map((activity) => <Link className="activity-overview-row undated" href={"/activities/" + activity.id} key={activity.id}><div><small>尚未安排日期 · {resolvedDepartment(activity.department, activity.name)}</small><h2>{activity.name}</h2><p>{activity.description || ""}</p></div><span>→</span></Link>)}</section>}
+      </section>
+      <section className="overview-section overview-announcements"><div className="overview-panel-heading"><span>公告</span><h2>最新公告</h2></div>{announcementsList.map((item) => <Link className="overview-announcement" href="/announcements" key={item.id}>{item.is_demo && <small className="demo-content-mark">畫面示範</small>}{item.target_department && <small className="announcement-tags">{item.target_department.split(",").map((tag) => `#${tag}`).join(" ")}</small>}<b>{item.title}</b><small>{item.author_department || item.department || "全會"} · {item.published_on || item.created_at.slice(0,10)}</small><p>{item.summary || item.content}</p></Link>)}{!announcementsList.length && <p className="empty-inline">目前還沒有公告</p>}<Link href="/announcements" className="text-link">查看全部公告 →</Link></section>
     </div>
   </main>;
 }

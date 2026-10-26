@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 42 48" fill="none">
+  <!-- Openwork repeats without a tile box, so the vertical seam stays clean. -->
+  <path d="M1 0V48M41 0V48" stroke="#D9A0AF" stroke-width="1.1"/>
+  <g stroke="#D99AAA" stroke-width="1.05" fill="#FFFDF9">
+    <circle cx="21" cy="24" r="16.6"/>
+    <circle cx="21" cy="24" r="13.1" fill="none" stroke="#E2B5C1" stroke-width=".8"/>
+    <circle cx="21" cy="6.4" r="2.25"/><circle cx="33.5" cy="11.5" r="2.25"/>
+    <circle cx="38.6" cy="24" r="2.25"/><circle cx="33.5" cy="36.5" r="2.25"/>
+    <circle cx="21" cy="41.6" r="2.25"/><circle cx="8.5" cy="36.5" r="2.25"/>
+    <circle cx="3.4" cy="24" r="2.25"/><circle cx="8.5" cy="11.5" r="2.25"/>
+    <path d="M21 8.6C26.7 14.2 26.7 18.3 21 24C15.3 18.3 15.3 14.2 21 8.6ZM36.4 24C30.8 29.7 26.7 29.7 21 24C26.7 18.3 30.8 18.3 36.4 24ZM21 39.4C15.3 33.8 15.3 29.7 21 24C26.7 29.7 26.7 33.8 21 39.4ZM5.6 24C11.2 18.3 15.3 18.3 21 24C15.3 29.7 11.2 29.7 5.6 24Z"/>
+    <circle cx="21" cy="24" r="2.7" fill="#E7B7C3"/>
+  </g>
+  <g fill="#FFFDF9" stroke="#E2B5C1" stroke-width=".8">
+    <circle cx="21" cy="1.8" r="1.25"/><circle cx="21" cy="46.2" r="1.25"/>
+  </g>
+</svg>

@@ -14,6 +14,7 @@ function authErrorMessage(message: string) {
 }
 
 export async function login(formData: FormData) {
+  await prepareAccountAuth();
   const supabase = await createClient();
   const email = String(formData.get("email") ?? "");
   const password = String(formData.get("password") ?? "");
@@ -24,6 +25,7 @@ export async function login(formData: FormData) {
 }
 
 export async function signup(formData: FormData) {
+  await prepareAccountAuth();
   const supabase = await createClient();
   const email = String(formData.get("email") ?? "");
   const password = String(formData.get("password") ?? "");
@@ -43,6 +45,7 @@ export async function signup(formData: FormData) {
 }
 
 export async function resendConfirmation(formData: FormData) {
+  await prepareAccountAuth();
   const supabase = await createClient();
   const email = String(formData.get("resendEmail") ?? "");
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
@@ -56,28 +59,32 @@ export async function resendConfirmation(formData: FormData) {
   redirect(`/login?message=${encodeURIComponent("驗證信已重新寄出，請查看收件匣與垃圾郵件。")}`);
 }
 
-export async function quickLogin() {
-  if (process.env.NODE_ENV !== "production") {
-    const cookieStore = await cookies();
-    cookieStore.set("local_test_session", "1", { httpOnly: true, sameSite: "lax", path: "/" });
-    redirect("/activities");
-  }
-  const email = process.env.DEMO_LOGIN_EMAIL;
-  const password = process.env.DEMO_LOGIN_PASSWORD;
-
-  if (!email || !password) {
-    redirect(`/login?error=${encodeURIComponent("測試快速進入尚未設定。")}`);
-  }
-
-  const supabase = await createClient();
-  const { error } = await supabase.auth.signInWithPassword({ email, password });
-
-  if (error) redirect(`/login?error=${encodeURIComponent(authErrorMessage(error.message))}`);
+export async function enterDemo() {
+  const cookieStore = await cookies();
+  cookieStore.set("demo_session", "1", {
+    httpOnly: true,
+    sameSite: "lax",
+    secure: process.env.NODE_ENV === "production",
+    path: "/",
+    maxAge: 60 * 60 * 8,
+  });
   redirect("/activities");
 }
 
 export async function logout() {
-  const supabase = await createClient();
-  await supabase.auth.signOut();
+  const cookieStore = await cookies();
+  cookieStore.delete("demo_session");
+  if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY) {
+    const supabase = await createClient();
+    await supabase.auth.signOut();
+  }
   redirect("/login");
+}
+
+async function prepareAccountAuth() {
+  // Account actions always use real auth, even after visiting the demo.
+  (await cookies()).delete("demo_session");
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY) {
+    redirect(`/login?error=${encodeURIComponent("帳號服務尚未設定，你可以先從免金鑰展示入口瀏覽。")}`);
+  }
 }

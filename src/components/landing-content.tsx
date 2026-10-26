@@ -1,45 +1,58 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import { LoginEntry } from "@/components/login-entry";
 
 const operationSteps = [
   {
     number: "01",
-    title: "看交接紀錄",
+    caption: "LOOK BACK",
+    title: "先從歷屆活動找做法",
     paragraphs: [
-      "先從交接紀錄找上一屆的活動，看看當時有哪些工作、怎麼分工、用過哪些器材。",
-      "系運的場地、宣傳、比賽安排和工作分配，都可以從留下的文件開始看。",
+      "在交接紀錄中選一項活動，查看當時的工作流程、執行紀錄和相關雲端文件。",
     ],
   },
   {
     number: "02",
-    title: "建立本屆",
+    caption: "START WITH A FRAME",
+    title: "沿用架構，再按今年調整",
     paragraphs: [
-      "找到相關活動後，就到本屆工作建立今年要處理的內容。",
-      "上一屆的工作階段和文件可以拿來參考，日期、場地和負責人再依今年的情況填寫。",
+      "建立本屆活動時，可以帶入歷屆的工作階段和器材需求，再重新安排日期、場地與人員。",
     ],
   },
   {
     number: "03",
-    title: "依現況調整",
+    caption: "PLAN THIS TERM",
+    title: "把本屆工作排清楚",
     paragraphs: [
-      "建立活動後，逐項確認今年真的會做哪些工作。",
-      "日期改了、人手不同，或器材來源變了，就直接更新本屆工作；上一屆的資料仍會保留在交接紀錄裡。",
+      "替每個工作項目設定負責人、期限和檢查清單；活動日期與工作期限也能在共同月曆一起查看。",
     ],
   },
   {
     number: "04",
-    title: "留下執行紀錄",
+    caption: "LEAVE A NOTE",
+    title: "把做過的事留下來",
     paragraphs: [
-      "活動結束後，補上今年實際的做法、文件和想提醒下一屆的事。",
-      "整理完成後封存到交接紀錄，下一屆可以直接看到這次最後怎麼做。",
+      "工作完成後，記下實際做法、注意事項和結果。活動封存後，下一屆仍能在交接紀錄中找到。",
     ],
   },
 ];
 
 export function LandingContent() {
   const contentRef = useRef<HTMLDivElement>(null);
+  const [revealedCards, setRevealedCards] = useState<Set<string>>(() => new Set());
+  const [activeScrollStep, setActiveScrollStep] = useState(0);
+  const [expandedCards, setExpandedCards] = useState<Set<string>>(() => new Set());
+
+  const toggleCard = (cardId: string) => {
+    setExpandedCards((current) => {
+      const next = new Set(current);
+      if (next.has(cardId)) next.delete(cardId);
+      else next.add(cardId);
+      return next;
+    });
+  };
 
   useEffect(() => {
     const root = contentRef.current;
@@ -48,6 +61,13 @@ export function LandingContent() {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
+          const cardId = (entry.target as HTMLElement).dataset.cardId;
+          if (cardId) setRevealedCards((current) => {
+            if (current.has(cardId)) return current;
+            const next = new Set(current);
+            next.add(cardId);
+            return next;
+          });
           entry.target.classList.add("is-visible");
           observer.unobserve(entry.target);
         }
@@ -58,112 +78,180 @@ export function LandingContent() {
   }, []);
 
   useEffect(() => {
-    const canvas = document.createElement("canvas");
-    canvas.className = "magic-canvas";
-    canvas.setAttribute("aria-hidden", "true");
-    document.body.appendChild(canvas);
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return () => canvas.remove();
-    type Particle = { x:number; y:number; vx:number; vy:number; size:number; life:number; decay:number; color:string; kind:"star"|"pearl"; rotation:number; spin:number; glow:number };
-    let particles: Particle[] = [];
-    let frame = 0;
-    let loadBurst = 0;
-    const trailColors = ["#ffb6c1", "#ffd1dc", "#fff0f5", "#ffe4e1", "#f5d58a", "#dfe4eb", "#ffffff"];
-    const burstColors = ["#FF77A9", "#FFD1DC", "#E6E6FA", "#FFFFFF", "#C8B6FF", "#DCE2E9", "#F7FBFF"];
-    const resize = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; };
-    const drawParticle = (particle: Particle) => {
-      ctx.save(); ctx.translate(particle.x, particle.y); ctx.rotate(particle.rotation); ctx.globalAlpha = Math.max(0, particle.life); ctx.fillStyle = particle.color;
-      if (particle.glow) { ctx.shadowColor = particle.color; ctx.shadowBlur = particle.glow; }
-      ctx.beginPath();
-      if (particle.kind === "pearl") {
-        const radius = particle.size / 2;
-        const pearl = ctx.createRadialGradient(-radius * .34, -radius * .38, radius * .08, 0, 0, radius);
-        pearl.addColorStop(0, "#ffffff"); pearl.addColorStop(.34, "#fff9fc"); pearl.addColorStop(.72, particle.color); pearl.addColorStop(1, "#c9ced8");
-        ctx.fillStyle = pearl; ctx.arc(0, 0, radius, 0, Math.PI * 2); ctx.fill();
-        ctx.shadowBlur = 0; ctx.fillStyle = "rgba(255,255,255,.92)"; ctx.beginPath(); ctx.arc(-radius * .28, -radius * .3, Math.max(1, radius * .2), 0, Math.PI * 2); ctx.fill();
-      } else {
-        for (let i = 0; i < 8; i += 1) { const radius = i % 2 === 0 ? particle.size : particle.size / 4; const angle = (i * Math.PI) / 4; ctx.lineTo(Math.cos(angle) * radius, Math.sin(angle) * radius); }
-        ctx.closePath(); ctx.fill();
-      }
-      ctx.restore();
-    };
-    const move = (event: MouseEvent) => {
-      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-      for (let i = 0; i < 2; i += 1) particles.push({ x:event.clientX + (Math.random() - .5) * 14, y:event.clientY + (Math.random() - .5) * 14, vx:(Math.random() - .5) * 1.2, vy:Math.random() * .7 + .25, size:Math.random() * 4 + 2, life:1, decay:Math.random() * .025 + .018, color:trailColors[Math.floor(Math.random() * trailColors.length)], kind:Math.random() > .52 ? "star" : "pearl", rotation:0, spin:(Math.random() - .5) * .08, glow:2 });
-      if (particles.length > 110) particles = particles.slice(-110);
-    };
-    const burst = (x:number, y:number, amount = 34) => {
-      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-      for (let i = 0; i < amount; i += 1) {
-        const angle = Math.random() * Math.PI * 2;
-        const speed = Math.random() * 6 + 4;
-        particles.push({ x, y, vx:Math.cos(angle) * speed, vy:Math.sin(angle) * speed - 1.6, size:Math.random() * 9 + 7, life:1, decay:Math.random() * .018 + .016, color:burstColors[Math.floor(Math.random() * burstColors.length)], kind:Math.random() > .48 ? "star" : "pearl", rotation:Math.random() * Math.PI, spin:(Math.random() - .5) * .14, glow:11 });
-      }
-      if (particles.length > 220) particles = particles.slice(-220);
-    };
-    const targets = Array.from(document.querySelectorAll<HTMLElement>(".nitro-burst"));
-    const onEnter = (event: Event) => { const rect = (event.currentTarget as HTMLElement).getBoundingClientRect(); burst(rect.left + rect.width / 2, rect.top + rect.height / 2); };
-    const onClick = (event: Event) => { const pointer = event as MouseEvent; burst(pointer.clientX, pointer.clientY, 40); };
-    targets.forEach((target) => { target.addEventListener("mouseenter", onEnter); target.addEventListener("click", onClick); });
-    const animate = () => { ctx.clearRect(0, 0, canvas.width, canvas.height); particles = particles.filter((p) => p.life > 0); particles.forEach((p) => { p.x += p.vx; p.y += p.vy; if (p.kind === "pearl") p.vy += .09; p.vx *= .95; p.vy *= .95; p.rotation += p.spin; p.life -= p.decay; drawParticle(p); }); frame = requestAnimationFrame(animate); };
-    resize(); window.addEventListener("resize", resize); window.addEventListener("mousemove", move); frame = requestAnimationFrame(animate);
-    loadBurst = window.setTimeout(() => { const hero = document.querySelector<HTMLElement>(".login-art.nitro-burst"); if (hero) { const rect = hero.getBoundingClientRect(); burst(rect.left + rect.width / 2, rect.top + rect.height / 2, 22); } }, 680);
-    return () => { cancelAnimationFrame(frame); window.clearTimeout(loadBurst); window.removeEventListener("resize", resize); window.removeEventListener("mousemove", move); targets.forEach((target) => { target.removeEventListener("mouseenter", onEnter); target.removeEventListener("click", onClick); }); canvas.remove(); };
+    const sections = ["top", "about", "operation"]
+      .map((id) => document.getElementById(id))
+      .filter((section): section is HTMLElement => section !== null);
+    if (!("IntersectionObserver" in window) || sections.length === 0) return;
+    const observer = new IntersectionObserver((entries) => {
+      const current = entries
+        .filter((entry) => entry.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (current) setActiveScrollStep(sections.indexOf(current.target as HTMLElement));
+    }, { threshold: [0.12, 0.3, 0.55], rootMargin: "-30% 0px -45%" });
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    const ribbon = document.querySelector<HTMLElement>(".journey-ribbon");
+    if (!ribbon) return;
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        ribbon.style.setProperty("--ribbon-hidden", "0%");
+        return;
+      }
+      const bounds = ribbon.getBoundingClientRect();
+      const visibleLength = window.innerHeight * .82 - bounds.top;
+      const progress = Math.min(1, Math.max(.08, visibleLength / bounds.height));
+      ribbon.style.setProperty("--ribbon-hidden", `${((1 - progress) * 100).toFixed(2)}%`);
+    };
+    const schedule = () => { if (!frame) frame = window.requestAnimationFrame(update); };
+    update();
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
+    return () => { window.cancelAnimationFrame(frame); window.removeEventListener("scroll", schedule); window.removeEventListener("resize", schedule); };
+  }, []);
+
+  useEffect(() => {
+    const art = document.querySelector<HTMLElement>(".login-art.hero-art");
+    const fountain = art?.querySelector<HTMLElement>(".hero-art-fountain img");
+    if (!art || !fountain) return;
+    const move = (event: PointerEvent) => {
+      if (event.pointerType === "touch" || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      const rect = art.getBoundingClientRect();
+      const x = (event.clientX - rect.left) / rect.width - .5;
+      const y = (event.clientY - rect.top) / rect.height - .5;
+      fountain.style.setProperty("--sculpture-tilt-x", `${(-y * 3.5).toFixed(2)}deg`);
+      fountain.style.setProperty("--sculpture-tilt-y", `${(x * 4.2).toFixed(2)}deg`);
+    };
+    const reset = () => {
+      fountain.style.setProperty("--sculpture-tilt-x", "0deg");
+      fountain.style.setProperty("--sculpture-tilt-y", "0deg");
+    };
+    art.addEventListener("pointermove", move);
+    art.addEventListener("pointerleave", reset);
+    return () => { art.removeEventListener("pointermove", move); art.removeEventListener("pointerleave", reset); reset(); };
+  }, []);
+
+  useEffect(() => {
+    const cards = Array.from(document.querySelectorAll<HTMLElement>(".landing-idea-card, .landing-operation-step"));
+    const move = (event: PointerEvent) => {
+      if (event.pointerType === "touch" || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      const card = event.currentTarget as HTMLElement;
+      if (!card.classList.contains("landing-idea-card") || card.classList.contains("is-expanded")) return;
+      const rect = card.getBoundingClientRect();
+      const x = (event.clientX - rect.left) / rect.width - .5;
+      const y = (event.clientY - rect.top) / rect.height - .5;
+      card.style.setProperty("--card-tilt-x", `${(x * 5).toFixed(2)}deg`);
+      card.style.setProperty("--card-tilt-y", `${(-y * 5).toFixed(2)}deg`);
+      card.style.setProperty("--card-magnet-x", `${(x * 2).toFixed(1)}px`);
+      card.style.setProperty("--card-magnet-y", `${(y * 2).toFixed(1)}px`);
+    };
+    const reset = (event: Event) => {
+      const card = event.currentTarget as HTMLElement;
+      card.style.setProperty("--card-tilt-x", "0deg");
+      card.style.setProperty("--card-tilt-y", "0deg");
+      card.style.setProperty("--card-magnet-x", "0px");
+      card.style.setProperty("--card-magnet-y", "0px");
+    };
+    cards.forEach((card) => { card.addEventListener("pointermove", move); card.addEventListener("pointerleave", reset); });
+    return () => cards.forEach((card) => {
+      card.removeEventListener("pointermove", move);
+      card.removeEventListener("pointerleave", reset);
+      reset({ currentTarget: card } as unknown as Event);
+    });
+  }, []);
+
+
+
   return <div ref={contentRef}>
-    <div className="story-ribbon" aria-hidden="true"><span /></div>
+    <aside className={`pearl-timeline ${activeScrollStep === 0 ? "is-hero" : ""}`} aria-label="頁面閱讀進度">
+      {[
+        { number: "01", label: "TOP", href: "#top", name: "回到首頁" },
+        { number: "02", label: "IDEA", href: "#about", name: "前往專案理念" },
+        { number: "03", label: "FLOW", href: "#operation", name: "前往如何運作" },
+      ].map((step, index) => (
+        <a key={step.number} className={activeScrollStep === index ? "is-active" : ""} href={step.href} aria-label={step.name} title={step.name} aria-current={activeScrollStep === index ? "location" : undefined} onClick={() => setActiveScrollStep(index)}>
+          <span className="pearl-timeline-orb" aria-hidden="true" />
+          <span className="pearl-timeline-label"><strong>{step.number}</strong><small>{step.label}</small></span>
+        </a>
+      ))}
+    </aside>
     <section className="landing-about" id="about">
-      <Image className="section-bow-decor section-bow-decor-about" src="/images/decor/angel-ribbon-sparkles.png" alt="" width={1536} height={1024} aria-hidden="true" />
-      <Image className="section-bow-decor section-bow-decor-about-secondary" src="/images/decor/angel-ribbon-sparkles.png" alt="" width={1536} height={1024} aria-hidden="true" />
+      <span className="section-rabbit section-rabbit-about-main" aria-hidden="true" />
+      <span className="section-rabbit section-rabbit-about-small" aria-hidden="true" />
+      <span className="collage-flower" aria-hidden="true">✿</span>
+      <span className="collage-label" aria-hidden="true">FIELD NOTE · 25—26</span>
       <Image className="section-star-glow section-star-glow-about" src="/images/decor/pink-star-glow.png" alt="" width={1402} height={1122} aria-hidden="true" />
       <div className="landing-section-label reveal-label" data-reveal><span>01</span><i /> PROJECT IDEA</div>
       <div className="landing-about-copy" data-reveal>
         <header className="landing-idea-feature" data-reveal>
-          <span className="idea-card-kicker">THE PURPOSE</span>
-          <h2>專案理念</h2>
-          <p>把每一屆做過的事留下來，讓下一屆從清楚的起點開始。</p>
+          <h2 className="landing-editorial-cn">專案理念</h2>
+          <p>把活動、工作項目和期限放在同一處，也讓歷屆留下的做法在下一次需要時找得到。</p>
           <span className="idea-card-signature">HANDOVER TO ACTIVE</span>
         </header>
         <div className="landing-idea-card-grid">
-          <article className="landing-idea-card landing-idea-card-one nitro-burst" data-reveal>
-            <span>01</span><h3>重複發生的工作，值得留下脈絡。</h3>
-            <p>系學會的工作具有明顯週期性。系運、招生、系學大會或其他活動，每年可能由不同的人負責，實際需要處理的工作卻有相當一部分會再次出現。</p>
+          <article className={`landing-envelope-card landing-idea-card landing-idea-card-one nitro-burst ${expandedCards.has("idea-01") ? "is-expanded" : ""} ${revealedCards.has("idea-01") ? "is-visible" : ""}`} data-reveal data-card-id="idea-01" role="button" tabIndex={0} aria-expanded={expandedCards.has("idea-01")} aria-label="查看歷屆活動資料。點擊展開或收起內容" onClick={() => toggleCard("idea-01")} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); toggleCard("idea-01"); } }}>
+            <span>01</span><small className="card-micro">ACTIVITY RECORD · ✧</small><h3>從活動找到上一屆留下的資料。</h3>
+            <span className="card-envelope-flap" aria-hidden="true" /><Image className="envelope-sticker" src="/images/stickers/joy-of-being.png" alt="" aria-hidden="true" width={591} height={292} /><span className="envelope-cover-instructions">點開查看</span>
+            <div className="card-letter-copy"><p>每項活動都會整理成一份交接紀錄。打開後，可以查看工作階段、工作項目、執行內容，以及相關的雲端文件。</p></div><small className="card-open-hint">{expandedCards.has("idea-01") ? "收起內容 ↑" : "查看內容 ↓"}</small>
           </article>
-          <article className="landing-idea-card landing-idea-card-two nitro-burst" data-reveal>
-            <span>02</span><h3>讓資料在需要時找得到。</h3>
-            <p>企劃書、報名表、器材清單和工作紀錄通常都有留下來，但常散落在雲端硬碟、群組訊息與不同幹部手中。</p>
+          <article className={`landing-envelope-card landing-idea-card landing-idea-card-two nitro-burst ${expandedCards.has("idea-02") ? "is-expanded" : ""} ${revealedCards.has("idea-02") ? "is-visible" : ""}`} data-reveal data-card-id="idea-02" role="button" tabIndex={0} aria-expanded={expandedCards.has("idea-02")} aria-label="沿用歷屆工作架構。點擊展開或收起內容" onClick={() => toggleCard("idea-02")} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); toggleCard("idea-02"); } }}>
+            <span>02</span><small className="card-micro">REUSE THE STRUCTURE · ✧</small><h3>先沿用架構，再填入今年的安排。</h3>
+            <span className="card-envelope-flap" aria-hidden="true" /><Image className="envelope-sticker" src="/images/stickers/one-day.png" alt="" aria-hidden="true" width={376} height={512} /><span className="envelope-cover-instructions">點開查看</span>
+            <div className="card-letter-copy"><p>建立本屆活動時，可以先帶入歷屆的工作階段和器材需求。舊活動仍會留在交接紀錄中；日期、場地、人員和狀態再依今年情況設定。</p></div><small className="card-open-hint">{expandedCards.has("idea-02") ? "收起內容 ↑" : "查看內容 ↓"}</small>
           </article>
-          <article className="landing-idea-card landing-idea-card-three nitro-burst" data-reveal>
-            <span>03</span><h3>接手先理解，再按現況調整。</h3>
-            <p>找到資料只是第一步。新一屆還需要理解過去的流程、分工與安排，知道哪些內容仍適合今年使用。</p>
-            <p>系統把歷屆活動流程、文件、器材、分工和執行紀錄整理在同一個脈絡中，方便接手的人從完整活動開始理解。</p>
+          <article className={`landing-envelope-card landing-idea-card landing-idea-card-three nitro-burst ${expandedCards.has("idea-03") ? "is-expanded" : ""} ${revealedCards.has("idea-03") ? "is-visible" : ""}`} data-reveal data-card-id="idea-03" role="button" tabIndex={0} aria-expanded={expandedCards.has("idea-03")} aria-label="查看本屆工作安排。點擊展開或收起內容" onClick={() => toggleCard("idea-03")} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); toggleCard("idea-03"); } }}>
+            <span>03</span><small className="card-micro">CURRENT WORK · ✧</small><h3>清楚看見分工、期限和進度。</h3>
+            <span className="card-envelope-flap" aria-hidden="true" /><Image className="envelope-sticker" src="/images/stickers/best-yet.png" alt="" aria-hidden="true" width={460} height={460} /><span className="envelope-cover-instructions">點開查看</span>
+            <div className="card-letter-copy"><p>每個工作項目都能記下負責人、優先順序、期限和檢查清單，活動日期也能和工作期限放在一起查看。</p></div><small className="card-open-hint">{expandedCards.has("idea-03") ? "收起內容 ↑" : "查看內容 ↓"}</small>
           </article>
-          <article className="landing-idea-card landing-idea-card-four nitro-burst" data-reveal>
-            <span>04</span><h3>把每一屆的做法，留給下一屆。</h3>
-            <p>本屆可依日期、場地、人員與活動需求修改；活動結束後，再留下真正用過的做法和文件，讓下一屆接著往前走。</p>
+          <article className={`landing-envelope-card landing-idea-card landing-idea-card-four nitro-burst ${expandedCards.has("idea-04") ? "is-expanded" : ""} ${revealedCards.has("idea-04") ? "is-visible" : ""}`} data-reveal data-card-id="idea-04" role="button" tabIndex={0} aria-expanded={expandedCards.has("idea-04")} aria-label="整理工作紀錄。點擊展開或收起內容" onClick={() => toggleCard("idea-04")} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); toggleCard("idea-04"); } }}>
+            <span>04</span><small className="card-micro">EXPERIENCE NOTES · ✧</small><h3>把這次的做法交給下一屆。</h3>
+            <span className="card-envelope-flap" aria-hidden="true" /><Image className="envelope-sticker" src="/images/stickers/my-year.png" alt="" aria-hidden="true" width={572} height={563} /><span className="envelope-cover-instructions">點開查看</span>
+            <div className="card-letter-copy"><p>工作完成後，記下執行情況、建議、注意事項和結果。活動封存後，下一屆可以直接參考這些紀錄。</p></div><small className="card-open-hint">{expandedCards.has("idea-04") ? "收起內容 ↑" : "查看內容 ↓"}</small>
           </article>
         </div>
       </div>
     </section>
 
     <section className="landing-operation" id="operation">
-      <Image className="section-bow-decor section-bow-decor-operation" src="/images/decor/angel-ribbon-sparkles.png" alt="" width={1536} height={1024} aria-hidden="true" />
-      <Image className="section-bow-decor section-bow-decor-operation-secondary" src="/images/decor/angel-ribbon-sparkles.png" alt="" width={1536} height={1024} aria-hidden="true" />
+      <span className="section-rabbit section-rabbit-operation-main" aria-hidden="true" />
+      <span className="section-rabbit section-rabbit-operation-small" aria-hidden="true" />
       <Image className="section-star-glow section-star-glow-operation" src="/images/decor/pink-star-glow.png" alt="" width={1402} height={1122} aria-hidden="true" />
       <header className="landing-operation-head">
-        <div className="reveal-label" data-reveal><div className="landing-section-label"><span>02</span><i /> WORKFLOW</div></div>
-        <div data-reveal><h2>如何運作</h2><p>本屆工作是今年要確認和處理的事項；交接紀錄則放上一屆留下的文件、做法和提醒。</p><p>學弟妹從本屆工作開始，學長姐在活動結束後回到同一個活動補上今年的實際做法，再整理到交接紀錄。</p></div>
+        <div className="operation-heading-group" data-reveal><div className="landing-section-label"><span>02</span><i /> WORKFLOW</div><h2 className="landing-editorial-cn">如何運作</h2></div>
+        <div className="operation-intro" data-reveal>
+          <p>本屆工作用來管理正在進行的活動、工作階段、負責人和期限；交接紀錄則留下已完成活動的工作內容與執行筆記。</p>
+          <p>建立活動時，可以參考歷屆架構，再依今年的人員、日期和進度調整。</p>
+        </div>
       </header>
       <div className="walking-track" aria-hidden="true"><span className="walking-track-line" /><span className="walking-track-bunny">♢</span></div>
       <div className="landing-operation-grid">
-        {operationSteps.map((step) => <article key={step.number} className="landing-operation-step nitro-burst" data-reveal>
+        {operationSteps.map((step) => <article key={step.number} className={`landing-envelope-card landing-operation-step nitro-burst ${expandedCards.has(`step-${step.number}`) ? "is-expanded" : ""} ${revealedCards.has(`step-${step.number}`) ? "is-visible" : ""}`} data-reveal data-card-id={`step-${step.number}`} role="button" tabIndex={0} aria-expanded={expandedCards.has(`step-${step.number}`)} aria-label={`${step.title}。點擊展開或收起內容`} onClick={() => toggleCard(`step-${step.number}`)} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); toggleCard(`step-${step.number}`); } }}>
           <span className="step-decoration" aria-hidden="true">✧</span>
+          <small className="card-micro">{step.caption} · ✧</small>
           <div className="landing-step-number">{step.number}</div>
+          <span className="landing-step-stamp" aria-hidden="true">{step.number}</span>
           <h3>{step.title}</h3>
-          {step.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+          <span className="card-envelope-flap" aria-hidden="true" /><Image className="envelope-sticker" src={step.number === "01" ? "/images/stickers/my-year.png" : step.number === "02" ? "/images/stickers/joy-of-being.png" : step.number === "03" ? "/images/stickers/best-yet.png" : "/images/stickers/one-day.png"} alt="" aria-hidden="true" width={step.number === "01" ? 572 : step.number === "02" ? 591 : step.number === "03" ? 460 : 376} height={step.number === "01" ? 563 : step.number === "02" ? 292 : step.number === "03" ? 460 : 512} /><span className="envelope-cover-instructions">點開查看</span>
+          <div className="card-letter-copy">{step.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</div>
+          <small className="card-open-hint">{expandedCards.has(`step-${step.number}`) ? "收起內容 ↑" : "查看內容 ↓"}</small>
           <span className="landing-step-arrow" aria-hidden="true">↗</span>
         </article>)}
+      </div>
+      <div className="ready-to-begin" data-reveal>
+        <span className="ready-note-index">25—26 · 交接手記</span>
+        <div className="ready-note-copy">
+          <h3>把做法留下來，<br /><em>下一屆就接得上。</em></h3>
+          <p>先查找歷屆活動，再建立本屆工作；完成後，把實際做法和結果留在活動紀錄裡。</p>
+        </div>
+        <span className="ready-note-signature" aria-hidden="true">NCUE IM<br />STUDENT ASSOCIATION</span>
+        <LoginEntry label="接著寫下去" />
+        <Image className="journal-sticker journal-sticker-one" src="/images/stickers/best-yet.png" alt="" aria-hidden="true" width={460} height={460} />
+        <Image className="journal-sticker journal-sticker-two" src="/images/stickers/pearl-star.svg" alt="" aria-hidden="true" width={128} height={128} />
       </div>
     </section>
   </div>;

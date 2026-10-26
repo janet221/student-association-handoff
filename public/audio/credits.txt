@@ -1,0 +1,5 @@
+Track: Ethereal Magical Reverie
+Artist: ViraMiller
+Source: https://pixabay.com/music/ambient-ethereal-magical-reverie-276713/
+License: Pixabay Content License (free for use; see https://pixabay.com/service/license-summary/)
+Local file: public/audio/ethereal-magical-reverie.mp3

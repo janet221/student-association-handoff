@@ -4,6 +4,7 @@ import { SectionHeading } from "@/components/section-heading";
 import { HandoverPreview } from "@/components/handover-preview";
 import { experienceLabel, siteCopy } from "@/lib/site-copy";
 import { archiveFolderLinks } from "@/lib/archive-folders";
+import { resolvedDepartment } from "@/lib/activity-departments";
 import {
   createChecklistItem, createTask,
   deleteTask, moveTask, setTaskAssignee,
@@ -26,10 +27,12 @@ type Phase = { id: string; name: string; description: string | null; tasks: Task
 type ScheduleItem = { id: string; source_schedule_item_id: string | null; name: string; starts_at: string | null; ends_at: string | null; venue: string | null; note: string | null; position: number };
 type Equipment = { id: string; source_equipment_id: string | null; name: string; quantity: number; is_confirmed: boolean; note: string | null; source: string | null; preparation_status: string };
 type Experience = { id: string; task_id: string | null; kind: string; content: string };
+type HandoverEntry = { id: string; kind: string; content: string; created_at: string };
 type Activity = {
-  id: string; term_id: string; source_activity_id: string | null; name: string; description: string | null; status: string; activity_date: string | null;
+  id: string; term_id: string; source_activity_id: string | null; name: string; department: string | null; description: string | null; status: string; activity_date: string | null;
   terms: { name: string; ordinal: number } | null; phases: Phase[]; activity_schedule_items: ScheduleItem[];
   equipment: Equipment[]; document_links: { id: string; name: string; url: string; document_type: string; description: string | null; handover_note: string | null }[]; experiences: Experience[];
+  handover_entries?: HandoverEntry[];
 };
 type Member = { id: string; name: string };
 
@@ -41,7 +44,7 @@ export default async function ActivityDetailPage({ params, searchParams }: { par
   const supabase = await createClient();
   const [{ data }, { data: { user } }] = await Promise.all([
     supabase.from("activities").select(`
-      id, term_id, source_activity_id, name, description, status, activity_date, terms(name, ordinal),
+      id, term_id, source_activity_id, name, department, description, status, activity_date, terms(name, ordinal),
       activity_schedule_items(id, source_schedule_item_id, name, starts_at, ends_at, venue, note, position),
       phases(id, name, description, position, tasks(
         id, source_task_id, name, category, description, status, priority, deadline_type, fixed_deadline, relative_days,
@@ -56,17 +59,19 @@ export default async function ActivityDetailPage({ params, searchParams }: { par
   ]);
   if (!data) notFound();
   const activity = data as unknown as Activity;
-  const [{ data: profile }, { data: members }, { data: sourceData }] = await Promise.all([
+  const [{ data: profile }, { data: members }, { data: sourceData }, { data: handoverEntries }] = await Promise.all([
     user ? supabase.from("profiles").select("role").eq("id", user.id).maybeSingle() : Promise.resolve({ data: null }),
     supabase.from("members").select("id, name").eq("term_id", activity.term_id).order("name"),
     activity.source_activity_id ? supabase.from("activities").select(`
-      id, name, activity_date, terms(name, ordinal),
+      id, name, department, activity_date, terms(name, ordinal),
       activity_schedule_items(id, name, starts_at, ends_at, venue, note, position),
       equipment(id, name, quantity, note, source, preparation_status),
       document_links(id, name, url, document_type, description, handover_note), experiences(id, task_id, kind, content),
       phases(id, tasks(id, name, experiences(id, task_id, kind, content)))
     `).eq("id", activity.source_activity_id).single() : Promise.resolve({ data: null }),
+    supabase.from("handover_entries").select("id, kind, content, created_at").eq("activity_id", activity.id).order("created_at", { ascending: false }),
   ]);
+  activity.handover_entries = (handoverEntries ?? []) as HandoverEntry[];
   const source = sourceData as unknown as Activity | null;
   const editable = profile?.role === "admin" && activity.status !== "archived" && preview !== "1";
   const tasks = activity.phases.flatMap((phase) => phase.tasks).sort((a, b) => a.position - b.position);
@@ -77,8 +82,9 @@ export default async function ActivityDetailPage({ params, searchParams }: { par
     <main className="page-wrap activity-detail">
       {created && <div className="notice success">{created === "existing" ? `已開啟既有的本屆${activity.name}。` : `已從上一屆建立本屆${activity.name}。日期、場地、人員、狀態與執行情況都已重設，請依本屆情況調整。`}</div>}
       <section className="detail-hero">
-        <SectionHeading label={activity.status === "archived" ? "ARCHIVE DETAIL" : "ACTIVE PROJECT"} title={`${activity.terms?.ordinal ?? "—"}th ${activity.name}`} description={editable ? "編輯本屆成員要執行的工作流程與期限" : "查看今年要執行的工作流程與期限"} />
+        <SectionHeading label={`${resolvedDepartment(activity.department, activity.name)} · ${activity.status === "archived" ? "ARCHIVE DETAIL" : "ACTIVE PROJECT"}`} title={`${activity.terms?.ordinal ?? "—"}th ${activity.name}`} description={editable ? "編輯本屆成員要執行的工作流程與期限" : "查看今年要執行的工作流程與期限"} />
       </section>
+      {activity.handover_entries.length > 0 && <section className="handover-entries-section"><h2>活動交接內容</h2>{activity.handover_entries.map((entry) => <article className="handover-entry-card" key={entry.id}><small>{entry.kind.toUpperCase()} · {new Date(entry.created_at).toLocaleDateString("zh-TW")}</small><p>{entry.content}</p></article>)}</section>}
 
       <section className="phase-stack">
         {activity.phases.map((phase, phaseIndex) => (

@@ -64,15 +64,15 @@ export async function inheritActivity(formData: FormData) {
   ]);
   if (sourceDocuments?.length) {
     const { error: documentError } = await supabase.from("document_links").insert(
-      sourceDocuments.map((document) => ({ ...document, activity_id: newActivityId }))
+    sourceDocuments.map((document: { name: string; url: string; document_type: string; description: string | null; handover_note: string | null }) => ({ ...document, activity_id: newActivityId }))
     );
     if (documentError) redirect(`/history?error=${encodeURIComponent(documentError.message)}`);
   }
   if (sourceExperiences?.length) {
     const { data: allTargetTasks } = await supabase.from("tasks").select("id, source_task_id, phases!inner(activity_id)").eq("phases.activity_id", newActivityId);
-    const completeTaskMap = new Map((allTargetTasks ?? []).map((task) => [task.source_task_id, task.id]));
+    const completeTaskMap = new Map((allTargetTasks ?? []).map((task: { source_task_id: string | null; id: string }) => [task.source_task_id, task.id]));
     const { error: experienceError } = await supabase.from("experiences").insert(
-      sourceExperiences.map((experience) => ({ activity_id: newActivityId, task_id: experience.task_id ? (completeTaskMap.get(experience.task_id) ?? null) : null, kind: experience.kind, content: experience.content }))
+      sourceExperiences.map((experience: { task_id: string | null; kind: string; content: string }) => ({ activity_id: newActivityId, task_id: experience.task_id ? (completeTaskMap.get(experience.task_id) ?? null) : null, kind: experience.kind, content: experience.content }))
     );
     if (experienceError) redirect(`/history?error=${encodeURIComponent(experienceError.message)}`);
   }
@@ -373,12 +373,97 @@ export async function updateCollaborationStatus(formData: FormData) {
 export async function createAnnouncement(formData: FormData) {
   const supabase = await requireAdmin();
   const scope = value(formData, "scope");
+  const assistance = formData.getAll("assistanceDepartment").map(String).join(",");
   const { error } = await supabase.from("announcements").insert({
-    title: value(formData, "title"), content: value(formData, "content"),
+    title: value(formData, "title"), summary: optional(formData, "summary"), content: value(formData, "content"), announcement_type: value(formData, "announcementType") || "general",
     scope: scope === "department" ? "department" : "all",
     department: scope === "department" ? optional(formData, "department") : null,
+    author_department: optional(formData, "authorDepartment"), target_department: assistance || optional(formData, "targetDepartment"),
+    published_on: optional(formData, "publishedOn") ?? new Date().toISOString().slice(0, 10),
     is_pinned: formData.get("isPinned") === "on",
   });
   if (error) throw new Error(error.message);
   revalidatePath("/dashboard"); revalidatePath("/announcements");
+}
+
+export async function updateAnnouncement(formData: FormData) {
+  const supabase = await requireAdmin();
+  const id = value(formData, "announcementId");
+  const scope = value(formData, "scope");
+  const assistance = formData.getAll("assistanceDepartment").map(String).join(",");
+  const { error } = await supabase.from("announcements").update({
+    title: value(formData, "title"), summary: optional(formData, "summary"), content: value(formData, "content"), announcement_type: value(formData, "announcementType") || "general",
+    scope: scope === "department" ? "department" : "all", department: scope === "department" ? optional(formData, "department") : null,
+    author_department: optional(formData, "authorDepartment"), target_department: assistance || optional(formData, "targetDepartment"), published_on: optional(formData, "publishedOn") ?? new Date().toISOString().slice(0, 10), is_pinned: formData.get("isPinned") === "on",
+  }).eq("id", id);
+  if (error) throw new Error(error.message);
+  revalidatePath("/dashboard"); revalidatePath("/announcements");
+}
+
+export async function deleteAnnouncement(formData: FormData) {
+  const supabase = await requireAdmin();
+  const { error } = await supabase.from("announcements").delete().eq("id", value(formData, "announcementId"));
+  if (error) throw new Error(error.message);
+  revalidatePath("/dashboard"); revalidatePath("/announcements");
+}
+
+export async function createCalendarActivity(formData: FormData) {
+  const supabase = await requireAdmin();
+  const termId = value(formData, "termId");
+  const { error } = await supabase.from("activities").insert({
+    term_id: termId,
+    name: value(formData, "name"),
+    department: value(formData, "department") || "會長",
+    activity_date: value(formData, "activityDate"), activity_end_date: optional(formData, "activityEndDate"),
+    description: optional(formData, "description"),
+    status: "planning",
+  });
+  if (error) throw new Error(error.message);
+  revalidatePath("/calendar"); revalidatePath("/dashboard"); revalidatePath("/activities");
+}
+
+export async function updateCalendarActivity(formData: FormData) {
+  const supabase = await requireAdmin();
+  const id = value(formData, "activityId");
+  const { error } = await supabase.from("activities").update({
+    name: value(formData, "name"),
+    department: value(formData, "department") || "會長",
+    activity_date: value(formData, "activityDate"), activity_end_date: optional(formData, "activityEndDate"),
+    description: optional(formData, "description"),
+  }).eq("id", id).neq("status", "archived");
+  if (error) throw new Error(error.message);
+  revalidatePath("/calendar"); revalidatePath("/dashboard"); revalidatePath(`/activities/${id}`);
+}
+
+export async function deleteCalendarActivity(formData: FormData) {
+  const supabase = await requireAdmin();
+  const id = value(formData, "activityId");
+  const { error } = await supabase.from("activities").update({ status: "archived", archived_at: new Date().toISOString() }).eq("id", id).neq("status", "archived");
+  if (error) throw new Error(error.message);
+  revalidatePath("/calendar"); revalidatePath("/dashboard"); revalidatePath("/activities");
+}
+
+export async function createHandoverEntry(formData: FormData) {
+  const supabase = await requireAdmin();
+  const { error } = await supabase.from("handover_entries").insert({
+    term_id: value(formData, "termId"), department: value(formData, "department"),
+    activity_id: optional(formData, "activityId"), kind: value(formData, "kind") || "note", content: value(formData, "content"),
+  });
+  if (error) throw new Error(error.message);
+  revalidatePath("/activities"); revalidatePath("/history");
+}
+
+export async function updateHandoverEntry(formData: FormData) {
+  const supabase = await requireAdmin();
+  const id = value(formData, "handoverId");
+  const { error } = await supabase.from("handover_entries").update({ department: value(formData, "department"), activity_id: optional(formData, "activityId"), kind: value(formData, "kind") || "note", content: value(formData, "content") }).eq("id", id);
+  if (error) throw new Error(error.message);
+  revalidatePath("/activities"); revalidatePath("/history");
+}
+
+export async function deleteHandoverEntry(formData: FormData) {
+  const supabase = await requireAdmin();
+  const { error } = await supabase.from("handover_entries").delete().eq("id", value(formData, "handoverId"));
+  if (error) throw new Error(error.message);
+  revalidatePath("/activities"); revalidatePath("/history");
 }

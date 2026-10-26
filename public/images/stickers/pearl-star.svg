@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Pearl star">
+  <path d="M64 7 Q69 7 74 21 L82 43 L109 45 Q121 46 123 55 Q125 63 115 71 L94 87 L101 111 Q104 122 94 125 Q88 128 78 121 L64 110 L48 121 Q38 129 31 123 Q24 117 28 106 L35 86 L13 70 Q2 63 6 54 Q9 46 20 45 L46 42 L55 18 Q59 7 64 7 Z" fill="#fffdfb" stroke="#a6667f" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M64 18 L76 50 L111 56 L83 78 L91 113 L64 94 L37 113 L45 78 L17 56 L52 50 Z" fill="#ffe5ef" stroke="#e6a9bf" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M63 29 L70 54 L92 57 L75 70 L79 94 L63 79 L47 94 L51 70 L34 57 L56 54 Z" fill="#fdf6fc"/>
+  <path d="M64 34 L68 53 L86 58 L69 63 L64 83 L60 63 L42 58 L60 53 Z" fill="#f9ffff" opacity=".9"/>
+</svg>
