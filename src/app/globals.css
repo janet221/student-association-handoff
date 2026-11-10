@@ -5953,6 +5953,9 @@ html { scroll-behavior: smooth; }
   color: #a45e79 !important;
   font-size: 9px !important;
   line-height: 1.2 !important;
+  appearance: none !important;
+  font-family: inherit !important;
+  cursor: pointer !important;
 }
 .landing-envelope-card > .card-letter-copy { display: none !important; }
 .landing-envelope-card.is-expanded {
@@ -6124,7 +6127,7 @@ html { scroll-behavior: smooth; }
   .operation-intro { font-size: 10px !important; line-height: 1.7 !important; }
   .landing-operation-grid { grid-template-columns: repeat(4, minmax(0, 1fr)) !important; gap: 7px !important; }
   .landing-operation-step { min-height: 148px !important; padding: 8px 4px 30px !important; }
-  .landing-envelope-card.is-expanded { grid-column: span 2; }
+  .landing-envelope-card.is-expanded { grid-column: 1 / -1 !important; width: 100% !important; min-height: 230px !important; }
   .ready-to-begin { grid-template-columns: 1fr !important; gap: 10px !important; min-height: 0 !important; margin-top: 52px !important; padding: 22px 20px !important; }
   .ready-to-begin > .login-entry { grid-column: 1 !important; grid-row: auto !important; justify-self: start !important; }
   .ready-note-signature { right: 12px !important; top: 12px !important; }
