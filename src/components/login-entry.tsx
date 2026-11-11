@@ -37,7 +37,7 @@ export function LoginEntry({ error, message, label = "開始使用", showNotice 
 
   return <>
     <span className="login-entry-wrap">
-      <button className="login-entry" onClick={() => setOpen(true)}>{label} <span>→</span></button>
+      <button type="button" className={"login-entry" + (label === "開始使用" ? " login-entry-journal" : "")} onClick={() => setOpen(true)}>{label}{label !== "開始使用" && <span aria-hidden="true">→</span>}</button>
     </span>
     {open && typeof document !== "undefined" && createPortal(<section ref={dialog} className="auth-overlay auth-arch-stage" aria-labelledby={`${id}-title`} role="dialog" aria-modal="true">
       <button type="button" className="auth-back" onClick={() => setOpen(false)}><span aria-hidden="true">←</span> 返回首頁</button>

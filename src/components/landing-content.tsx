@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import Image from "next/image";
 import { LoginEntry } from "@/components/login-entry";
 
@@ -39,20 +40,74 @@ const operationSteps = [
   },
 ];
 
+type LetterContent = { number: string; label: string; title: string; paragraphs: string[] };
+
+const ideaLetters: Record<string, LetterContent> = {
+  "idea-01": { number: "01", label: "ACTIVITY RECORD", title: "從活動找到上一屆留下的資料。", paragraphs: ["每項活動都會整理成一份交接紀錄。打開後，可以查看工作階段、工作項目、執行內容，以及相關的雲端文件。"] },
+  "idea-02": { number: "02", label: "REUSE THE STRUCTURE", title: "先沿用架構，再填入今年的安排。", paragraphs: ["建立本屆活動時，可以先帶入歷屆的工作階段和器材需求。舊活動仍會留在交接紀錄中；日期、場地、人員和狀態再依今年情況設定。"] },
+  "idea-03": { number: "03", label: "CURRENT WORK", title: "清楚看見分工、期限和進度。", paragraphs: ["每個工作項目都能記下負責人、優先順序、期限和檢查清單，活動日期也能和工作期限放在一起查看。"] },
+  "idea-04": { number: "04", label: "EXPERIENCE NOTES", title: "把這次的做法交給下一屆。", paragraphs: ["工作完成後，記下執行情況、建議、注意事項和結果。活動封存後，下一屆可以直接參考這些紀錄。"] },
+};
+
+const letterContent: Record<string, LetterContent> = {
+  ...ideaLetters,
+  ...Object.fromEntries(operationSteps.map((step) => [
+    "step-" + step.number,
+    { number: step.number, label: step.caption, title: step.title, paragraphs: step.paragraphs },
+  ])),
+};
+
 export function LandingContent() {
   const contentRef = useRef<HTMLDivElement>(null);
   const [revealedCards, setRevealedCards] = useState<Set<string>>(() => new Set());
   const [activeScrollStep, setActiveScrollStep] = useState(0);
-  const [expandedCards, setExpandedCards] = useState<Set<string>>(() => new Set());
+  const [expandedCards] = useState<Set<string>>(() => new Set());
+  const [activeLetterId, setActiveLetterId] = useState<string | null>(null);
+  const [isClosing, setIsClosing] = useState(false);
+  const closeTimer = useRef<number | null>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const previousFocusRef = useRef<HTMLElement | null>(null);
 
   const toggleCard = (cardId: string) => {
-    setExpandedCards((current) => {
-      const next = new Set(current);
-      if (next.has(cardId)) next.delete(cardId);
-      else next.add(cardId);
-      return next;
-    });
+    if (closeTimer.current) window.clearTimeout(closeTimer.current);
+    previousFocusRef.current = document.activeElement as HTMLElement | null;
+    setIsClosing(false);
+    setActiveLetterId(cardId);
   };
+
+  const closeLetter = useCallback(() => {
+    if (isClosing) return;
+    setIsClosing(true);
+    closeTimer.current = window.setTimeout(() => {
+      setActiveLetterId(null);
+      setIsClosing(false);
+      previousFocusRef.current?.focus();
+      closeTimer.current = null;
+    }, 420);
+  }, [isClosing]);
+
+  useEffect(() => {
+    if (!activeLetterId) return;
+    const priorOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    closeButtonRef.current?.focus();
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") closeLetter();
+      if (event.key === "Tab") {
+        event.preventDefault();
+        closeButtonRef.current?.focus();
+      }
+    };
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.body.style.overflow = priorOverflow;
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [activeLetterId, closeLetter]);
+
+  useEffect(() => () => {
+    if (closeTimer.current) window.clearTimeout(closeTimer.current);
+  }, []);
 
   useEffect(() => {
     const root = contentRef.current;
@@ -166,6 +221,8 @@ export function LandingContent() {
 
 
 
+  const activeLetter = activeLetterId ? letterContent[activeLetterId] : null;
+
   return <div ref={contentRef}>
     <aside className={`pearl-timeline ${activeScrollStep === 0 ? "is-hero" : ""}`} aria-label="頁面閱讀進度">
       {[
@@ -182,34 +239,33 @@ export function LandingContent() {
     <section className="landing-about" id="about">
       <span className="section-rabbit section-rabbit-about-main" aria-hidden="true" />
       <span className="section-rabbit section-rabbit-about-small" aria-hidden="true" />
-      <span className="collage-flower" aria-hidden="true">✿</span>
       <Image className="section-star-glow section-star-glow-about" src="/images/decor/pink-star-glow.png" alt="" width={1402} height={1122} aria-hidden="true" />
       <div className="landing-section-label reveal-label" data-reveal><span>01</span><i /> PROJECT IDEA</div>
       <div className="landing-about-copy" data-reveal>
         <header className="landing-idea-feature" data-reveal>
-          <h2 className="landing-editorial-cn">專案理念</h2>
+          <h2 className="landing-editorial-cn">理念說明</h2>
           <p>把活動、工作項目和期限放在同一處，也讓歷屆留下的做法在下一次需要時找得到。</p>
           <span className="idea-card-signature">HANDOVER TO ACTIVE</span>
         </header>
         <div className="landing-idea-card-grid">
           <article className={`landing-envelope-card landing-idea-card landing-idea-card-one nitro-burst ${expandedCards.has("idea-01") ? "is-expanded" : ""} ${revealedCards.has("idea-01") ? "is-visible" : ""}`} data-reveal data-card-id="idea-01" role="button" tabIndex={0} aria-expanded={expandedCards.has("idea-01")} aria-label="查看歷屆活動資料。點擊展開或收起內容" onClick={() => toggleCard("idea-01")} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); toggleCard("idea-01"); } }}>
             <span>01</span><small className="card-micro">ACTIVITY RECORD · ✧</small><h3>從活動找到上一屆留下的資料。</h3>
-            <span className="card-envelope-flap" aria-hidden="true" /><Image className="envelope-sticker" src="/images/stickers/joy-of-being.png" alt="" aria-hidden="true" width={591} height={292} /><button type="button" className="envelope-cover-instructions" onClick={(event) => { event.stopPropagation(); toggleCard("idea-01"); }}>點開查看</button>
+            <span className="card-envelope-flap" aria-hidden="true" /><Image className="envelope-sticker" src="/images/stickers/joy-of-being.png" alt="" aria-hidden="true" width={591} height={292} /><button type="button" className="envelope-tap-target" aria-label="打開信封閱讀內容" onClick={(event) => { event.stopPropagation(); toggleCard("idea-01"); }} /><button type="button" className="envelope-cover-instructions" onClick={(event) => { event.stopPropagation(); toggleCard("idea-01"); }}>Click Me</button>
             <div className="card-letter-copy"><p>每項活動都會整理成一份交接紀錄。打開後，可以查看工作階段、工作項目、執行內容，以及相關的雲端文件。</p></div><small className="card-open-hint">{expandedCards.has("idea-01") ? "收起內容 ↑" : "查看內容 ↓"}</small>
           </article>
           <article className={`landing-envelope-card landing-idea-card landing-idea-card-two nitro-burst ${expandedCards.has("idea-02") ? "is-expanded" : ""} ${revealedCards.has("idea-02") ? "is-visible" : ""}`} data-reveal data-card-id="idea-02" role="button" tabIndex={0} aria-expanded={expandedCards.has("idea-02")} aria-label="沿用歷屆工作架構。點擊展開或收起內容" onClick={() => toggleCard("idea-02")} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); toggleCard("idea-02"); } }}>
             <span>02</span><small className="card-micro">REUSE THE STRUCTURE · ✧</small><h3>先沿用架構，再填入今年的安排。</h3>
-            <span className="card-envelope-flap" aria-hidden="true" /><Image className="envelope-sticker" src="/images/stickers/one-day.png" alt="" aria-hidden="true" width={376} height={512} /><button type="button" className="envelope-cover-instructions" onClick={(event) => { event.stopPropagation(); toggleCard("idea-02"); }}>點開查看</button>
+            <span className="card-envelope-flap" aria-hidden="true" /><Image className="envelope-sticker" src="/images/stickers/one-day.png" alt="" aria-hidden="true" width={376} height={512} /><button type="button" className="envelope-tap-target" aria-label="打開信封閱讀內容" onClick={(event) => { event.stopPropagation(); toggleCard("idea-02"); }} /><button type="button" className="envelope-cover-instructions" onClick={(event) => { event.stopPropagation(); toggleCard("idea-02"); }}>Click Me</button>
             <div className="card-letter-copy"><p>建立本屆活動時，可以先帶入歷屆的工作階段和器材需求。舊活動仍會留在交接紀錄中；日期、場地、人員和狀態再依今年情況設定。</p></div><small className="card-open-hint">{expandedCards.has("idea-02") ? "收起內容 ↑" : "查看內容 ↓"}</small>
           </article>
           <article className={`landing-envelope-card landing-idea-card landing-idea-card-three nitro-burst ${expandedCards.has("idea-03") ? "is-expanded" : ""} ${revealedCards.has("idea-03") ? "is-visible" : ""}`} data-reveal data-card-id="idea-03" role="button" tabIndex={0} aria-expanded={expandedCards.has("idea-03")} aria-label="查看本屆工作安排。點擊展開或收起內容" onClick={() => toggleCard("idea-03")} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); toggleCard("idea-03"); } }}>
             <span>03</span><small className="card-micro">CURRENT WORK · ✧</small><h3>清楚看見分工、期限和進度。</h3>
-            <span className="card-envelope-flap" aria-hidden="true" /><Image className="envelope-sticker" src="/images/stickers/best-yet.png" alt="" aria-hidden="true" width={460} height={460} /><button type="button" className="envelope-cover-instructions" onClick={(event) => { event.stopPropagation(); toggleCard("idea-03"); }}>點開查看</button>
+            <span className="card-envelope-flap" aria-hidden="true" /><Image className="envelope-sticker" src="/images/stickers/best-yet.png" alt="" aria-hidden="true" width={460} height={460} /><button type="button" className="envelope-tap-target" aria-label="打開信封閱讀內容" onClick={(event) => { event.stopPropagation(); toggleCard("idea-03"); }} /><button type="button" className="envelope-cover-instructions" onClick={(event) => { event.stopPropagation(); toggleCard("idea-03"); }}>Click Me</button>
             <div className="card-letter-copy"><p>每個工作項目都能記下負責人、優先順序、期限和檢查清單，活動日期也能和工作期限放在一起查看。</p></div><small className="card-open-hint">{expandedCards.has("idea-03") ? "收起內容 ↑" : "查看內容 ↓"}</small>
           </article>
           <article className={`landing-envelope-card landing-idea-card landing-idea-card-four nitro-burst ${expandedCards.has("idea-04") ? "is-expanded" : ""} ${revealedCards.has("idea-04") ? "is-visible" : ""}`} data-reveal data-card-id="idea-04" role="button" tabIndex={0} aria-expanded={expandedCards.has("idea-04")} aria-label="整理工作紀錄。點擊展開或收起內容" onClick={() => toggleCard("idea-04")} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); toggleCard("idea-04"); } }}>
             <span>04</span><small className="card-micro">EXPERIENCE NOTES · ✧</small><h3>把這次的做法交給下一屆。</h3>
-            <span className="card-envelope-flap" aria-hidden="true" /><Image className="envelope-sticker" src="/images/stickers/my-year.png" alt="" aria-hidden="true" width={572} height={563} /><button type="button" className="envelope-cover-instructions" onClick={(event) => { event.stopPropagation(); toggleCard("idea-04"); }}>點開查看</button>
+            <span className="card-envelope-flap" aria-hidden="true" /><Image className="envelope-sticker" src="/images/stickers/my-year.png" alt="" aria-hidden="true" width={572} height={563} /><button type="button" className="envelope-tap-target" aria-label="打開信封閱讀內容" onClick={(event) => { event.stopPropagation(); toggleCard("idea-04"); }} /><button type="button" className="envelope-cover-instructions" onClick={(event) => { event.stopPropagation(); toggleCard("idea-04"); }}>Click Me</button>
             <div className="card-letter-copy"><p>工作完成後，記下執行情況、建議、注意事項和結果。活動封存後，下一屆可以直接參考這些紀錄。</p></div><small className="card-open-hint">{expandedCards.has("idea-04") ? "收起內容 ↑" : "查看內容 ↓"}</small>
           </article>
         </div>
@@ -235,7 +291,7 @@ export function LandingContent() {
           <div className="landing-step-number">{step.number}</div>
           <span className="landing-step-stamp" aria-hidden="true">{step.number}</span>
           <h3>{step.title}</h3>
-          <span className="card-envelope-flap" aria-hidden="true" /><Image className="envelope-sticker" src={step.number === "01" ? "/images/stickers/my-year.png" : step.number === "02" ? "/images/stickers/joy-of-being.png" : step.number === "03" ? "/images/stickers/best-yet.png" : "/images/stickers/one-day.png"} alt="" aria-hidden="true" width={step.number === "01" ? 572 : step.number === "02" ? 591 : step.number === "03" ? 460 : 376} height={step.number === "01" ? 563 : step.number === "02" ? 292 : step.number === "03" ? 460 : 512} /><button type="button" className="envelope-cover-instructions" onClick={(event) => { event.stopPropagation(); toggleCard(`step-${step.number}`); }}>點開查看</button>
+          <span className="card-envelope-flap" aria-hidden="true" /><Image className="envelope-sticker" src={step.number === "01" ? "/images/stickers/my-year.png" : step.number === "02" ? "/images/stickers/joy-of-being.png" : step.number === "03" ? "/images/stickers/best-yet.png" : "/images/stickers/one-day.png"} alt="" aria-hidden="true" width={step.number === "01" ? 572 : step.number === "02" ? 591 : step.number === "03" ? 460 : 376} height={step.number === "01" ? 563 : step.number === "02" ? 292 : step.number === "03" ? 460 : 512} /><button type="button" className="envelope-tap-target" aria-label="打開信封閱讀內容" onClick={(event) => { event.stopPropagation(); toggleCard(`step-${step.number}`); }} /><button type="button" className="envelope-cover-instructions" onClick={(event) => { event.stopPropagation(); toggleCard(`step-${step.number}`); }}>Click Me</button>
           <div className="card-letter-copy">{step.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</div>
           <small className="card-open-hint">{expandedCards.has(`step-${step.number}`) ? "收起內容 ↑" : "查看內容 ↓"}</small>
           <span className="landing-step-arrow" aria-hidden="true">↗</span>
@@ -253,5 +309,27 @@ export function LandingContent() {
         <Image className="journal-sticker journal-sticker-two" src="/images/stickers/pearl-star.svg" alt="" aria-hidden="true" width={128} height={128} />
       </div>
     </section>
+
+    {activeLetter && createPortal(
+      <div className={"letter-modal-overlay" + (isClosing ? " is-closing" : "")}>
+        <div className="letter-modal-backdrop" aria-hidden="true" onClick={closeLetter} />
+        <div className="letter-modal" role="dialog" aria-modal="true" aria-labelledby="letter-modal-title" aria-describedby="letter-modal-body">
+          <div className="letter-envelope-shadow" aria-hidden="true" />
+          <div className="letter-paper">
+            <div className="letter-paper-topline"><span>NCUE IM · 25—26</span><span>HANDOVER LETTER</span></div>
+            <span className="letter-paper-index">{activeLetter.number} / {activeLetter.label}</span>
+            <h2 id="letter-modal-title">{activeLetter.title}</h2>
+            <div id="letter-modal-body" className="letter-paper-body">
+              {activeLetter.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+            </div>
+            <div className="letter-paper-footer">
+              <span aria-hidden="true">✦</span>
+              <button ref={closeButtonRef} type="button" onClick={closeLetter} aria-label="收回信封">收回信封 <span aria-hidden="true">✕</span></button>
+            </div>
+          </div>
+        </div>
+      </div>,
+      document.body
+    )}
   </div>;
 }
