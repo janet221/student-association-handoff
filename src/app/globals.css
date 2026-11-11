@@ -2801,6 +2801,17 @@ body, .login-shell { background: linear-gradient(135deg, var(--princess-champagn
   .landing-nav .login-entry { padding-inline: 19px !important; }
 }
 
+/* Keep the new envelope cutouts visible even when the legacy card rules load later. */
+.login-shell .landing-idea-card-one > .envelope-sticker { content: url('/images/envelopes/pink-swan.png') !important; }
+.login-shell .landing-idea-card-two > .envelope-sticker { content: url('/images/envelopes/cream-heart.png') !important; }
+.login-shell .landing-idea-card-three > .envelope-sticker { content: url('/images/envelopes/white-gold-trimmed.png') !important; }
+.login-shell .landing-idea-card-four > .envelope-sticker { content: url('/images/envelopes/olive-letter.png') !important; }
+.login-shell .landing-operation-step:nth-child(1) > .envelope-sticker { content: url('/images/envelopes/olive-letter.png') !important; }
+.login-shell .landing-operation-step:nth-child(2) > .envelope-sticker { content: url('/images/envelopes/pink-swan.png') !important; }
+.login-shell .landing-operation-step:nth-child(3) > .envelope-sticker { content: url('/images/envelopes/white-gold-trimmed.png') !important; }
+.login-shell .landing-operation-step:nth-child(4) > .envelope-sticker { content: url('/images/envelopes/cream-heart.png') !important; }
+.login-shell .ready-note-index { display: none !important; }
+
 /* Centered fluid hero grid at every zoom level. */
 .login-shell {
   min-height: 100vh;
