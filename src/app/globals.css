@@ -7683,3 +7683,44 @@ body:has(.auth-arch-stage) .global-sound-toggle{top:max(16px,env(safe-area-inset
     font-size: clamp(25px, 7vw, 32px) !important;
   }
 }
+
+/* Keep the plaque centered like a scrapbook label, with softer ink. */
+.login-shell .landing-idea-feature {
+  grid-template-columns: minmax(0, 1fr) !important;
+  grid-template-areas: "lead" "copy" "signature" !important;
+  gap: 0 !important;
+}
+.login-shell .landing-idea-feature > h2.landing-editorial-cn,
+.login-shell .operation-heading-group > h2.landing-editorial-cn {
+  isolation: isolate;
+  justify-self: center !important;
+  width: min(100%, 430px) !important;
+  margin: 0 auto 12px !important;
+  padding-top: clamp(24px, 3vw, 39px) !important;
+  background: none !important;
+  color: #81586a !important;
+  font-size: clamp(24px, 2.4vw, 32px) !important;
+  letter-spacing: .09em !important;
+}
+.login-shell .landing-idea-feature > h2.landing-editorial-cn::before,
+.login-shell .operation-heading-group > h2.landing-editorial-cn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: url("/images/title-plaque-blank.png") center / 100% 100% no-repeat;
+  filter: hue-rotate(-19deg) saturate(.72) brightness(1.01);
+  pointer-events: none;
+}
+.login-shell .landing-idea-feature > .idea-card-signature {
+  justify-self: end !important;
+  margin: 8px 0 0 !important;
+}
+@media (max-width: 700px) {
+  .login-shell .landing-idea-feature > h2.landing-editorial-cn,
+  .login-shell .operation-heading-group > h2.landing-editorial-cn {
+    width: min(100%, 350px) !important;
+    font-size: clamp(22px, 6vw, 27px) !important;
+    padding-top: 27px !important;
+  }
+}
