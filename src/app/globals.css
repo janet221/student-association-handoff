@@ -7724,3 +7724,37 @@ body:has(.auth-arch-stage) .global-sound-toggle{top:max(16px,env(safe-area-inset
     padding-top: 27px !important;
   }
 }
+
+/* Give the workflow plaque its own centered row so the copy cannot crowd it. */
+.login-shell .landing-operation-head {
+  grid-template-columns: minmax(0, 1fr) !important;
+  gap: clamp(12px, 2vw, 24px) !important;
+  align-items: start !important;
+}
+.login-shell .operation-heading-group {
+  width: 100%;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(12px, 2vw, 22px) !important;
+}
+.login-shell .operation-heading-group > h2.landing-editorial-cn {
+  font-size: clamp(23px, 2.2vw, 29px) !important;
+  letter-spacing: .08em !important;
+  margin-bottom: 0 !important;
+}
+.login-shell .operation-heading-group > h2.landing-editorial-cn::before {
+  filter: hue-rotate(-23deg) saturate(.68) brightness(1.02);
+}
+.login-shell .operation-intro {
+  width: min(100%, 780px);
+  max-width: none !important;
+  justify-self: center;
+  align-self: start;
+  padding: 0 !important;
+  font-size: clamp(15px, 1.3vw, 18px) !important;
+  line-height: 1.85 !important;
+}
+@media (max-width: 700px) {
+  .login-shell .operation-heading-group > h2.landing-editorial-cn {
+    font-size: clamp(21px, 5.6vw, 25px) !important;
+  }
+}
