@@ -76,8 +76,8 @@ export default async function LoginPage({
           </a>
         </section>
         <LandingContent />
-        <footer className="landing-footer"><small>NCUE IM Student Association · 2026</small></footer>
       </div>
+      <footer className="landing-footer"><small>NCUE IM Student Association · 2026</small></footer>
     </main>
   );
 }

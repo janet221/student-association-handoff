@@ -7921,3 +7921,46 @@ body:has(.auth-arch-stage) .global-sound-toggle{top:max(16px,env(safe-area-inset
   .login-shell .curtain-invitation::before { opacity: 1; transform: none; }
   .motion-ready .landing-operation .curtain-invitation > .ready-to-begin[data-reveal] { opacity: 1 !important; translate: none; }
 }
+
+/* Align the stage with the white page edges and finish with opaque velvet. */
+.login-shell .landing-operation {
+  padding-bottom: 0 !important;
+  overflow: visible !important;
+}
+.login-shell .curtain-invitation {
+  left: 50%;
+  width: min(95vw, 1300px);
+  margin: clamp(36px, 5vw, 70px) 0 0;
+  background: #9e5e7a;
+  transform: translateX(-50%) !important;
+}
+.motion-ready .landing-operation .curtain-invitation[data-reveal] {
+  transform: translateX(-50%) !important;
+}
+.login-shell .curtain-invitation::after {
+  background: linear-gradient(to bottom,
+    #fffdfb 0%,
+    rgba(255, 253, 251, .9) 5%,
+    rgba(255, 253, 251, 0) 26%,
+    rgba(158, 94, 122, 0) 74%,
+    #9e5e7a 100%);
+}
+.login-shell > .landing-footer {
+  position: relative !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: min(95%, 1300px) !important;
+  height: auto !important;
+  min-height: 0 !important;
+  margin: 0 auto !important;
+  padding: 17px 20px 24px !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  clip-path: none !important;
+}
+.login-shell > .landing-footer small {
+  color: #885a6c !important;
+  letter-spacing: .16em;
+}
