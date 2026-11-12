@@ -7850,3 +7850,11 @@ body:has(.auth-arch-stage) .global-sound-toggle{top:max(16px,env(safe-area-inset
   .login-shell .ready-heart-right p { font-size: clamp(10px, 3.1vw, 14px) !important; }
   .login-shell .ready-heart-right .login-entry-journal { font-size: clamp(10px, 2.8vw, 13px) !important; }
 }
+
+/* Let the idea copy sit directly on the page, like the workflow copy. */
+.login-shell .landing-idea-feature {
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
