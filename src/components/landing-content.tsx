@@ -297,6 +297,7 @@ export function LandingContent() {
           <span className="landing-step-arrow" aria-hidden="true">↗</span>
         </article>)}
       </div>
+      <div className="curtain-invitation" data-reveal>
       <div className="ready-to-begin" data-reveal>
         <Image className="ready-heart-art" src="/images/footer-heart-papers.png" alt="" aria-hidden="true" width={1634} height={1024} />
         <div className="ready-heart-left">
@@ -309,6 +310,7 @@ export function LandingContent() {
           <p>下一頁，換我們一起寫。</p>
           <LoginEntry label="開始使用" />
         </div>
+      </div>
       </div>
     </section>
 

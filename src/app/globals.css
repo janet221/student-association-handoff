@@ -7858,3 +7858,66 @@ body:has(.auth-arch-stage) .global-sound-toggle{top:max(16px,env(safe-area-inset
   box-shadow: none !important;
   transform: none !important;
 }
+
+/* A soft stage curtain fades in before the final invitation card. */
+.login-shell .curtain-invitation {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  place-items: center;
+  width: calc(100% + 2 * clamp(22px, 5vw, 70px));
+  min-height: clamp(580px, 69vw, 790px);
+  margin: clamp(36px, 5vw, 70px) calc(-1 * clamp(22px, 5vw, 70px)) -2px;
+  overflow: hidden;
+  background: #fffdfb;
+}
+.motion-ready .landing-operation .curtain-invitation[data-reveal] {
+  opacity: 1 !important;
+  transform: none !important;
+}
+.login-shell .curtain-invitation::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background: url("/images/footer-rose-curtain.png") center / cover no-repeat;
+  opacity: 0;
+  transform: scale(1.045);
+  transition: opacity 1.45s ease, transform 2.2s ease;
+}
+.login-shell .curtain-invitation.is-visible::before {
+  opacity: 1;
+  transform: scale(1);
+}
+.login-shell .curtain-invitation::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(to bottom, #fffdfb 0%, rgba(255,253,251,.94) 5%, rgba(255,253,251,0) 27%, rgba(255,253,251,0) 78%, #fffdfb 100%);
+  pointer-events: none;
+}
+.login-shell .curtain-invitation > .ready-to-begin {
+  z-index: 1 !important;
+  width: min(86%, 900px) !important;
+  margin: 35px auto 0 !important;
+  transition: opacity .8s ease .35s, translate .9s cubic-bezier(.22,.61,.36,1) .35s !important;
+}
+.motion-ready .landing-operation .curtain-invitation > .ready-to-begin[data-reveal]:not(.is-visible) {
+  opacity: 0 !important;
+  translate: 0 34px;
+}
+.motion-ready .landing-operation .curtain-invitation > .ready-to-begin[data-reveal].is-visible {
+  opacity: 1 !important;
+  translate: 0 0;
+}
+@media (max-width: 700px) {
+  .login-shell .curtain-invitation { min-height: clamp(420px, 85svh, 620px); }
+  .login-shell .curtain-invitation > .ready-to-begin { width: min(94%, 480px) !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .login-shell .curtain-invitation::before,
+  .login-shell .curtain-invitation > .ready-to-begin { transition: none !important; }
+  .login-shell .curtain-invitation::before { opacity: 1; transform: none; }
+  .motion-ready .landing-operation .curtain-invitation > .ready-to-begin[data-reveal] { opacity: 1 !important; translate: none; }
+}
