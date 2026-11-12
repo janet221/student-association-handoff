@@ -298,14 +298,17 @@ export function LandingContent() {
         </article>)}
       </div>
       <div className="ready-to-begin" data-reveal>
-        <div className="ready-note-copy">
-          <h3>把做法留下來，<br /><em>下一屆就接得上。</em></h3>
-          <p>先查找歷屆活動，再建立本屆工作；完成後，把實際做法和結果留在活動紀錄裡。</p>
+        <Image className="ready-heart-art" src="/images/footer-heart-papers.png" alt="" aria-hidden="true" width={1634} height={1024} />
+        <div className="ready-heart-left">
+          <span className="ready-heart-kicker">NCUE IM · OUR NEXT CHAPTER</span>
+          <h3>The Story<br />Continues</h3>
+          <span className="ready-heart-caption">接著寫下去</span>
         </div>
-        <span className="ready-note-signature" aria-hidden="true">NCUE IM<br />STUDENT ASSOCIATION</span>
-        <LoginEntry label="接著寫下去" />
-        <Image className="journal-sticker journal-sticker-one" src="/images/stickers/best-yet.png" alt="" aria-hidden="true" width={460} height={460} />
-        <Image className="journal-sticker journal-sticker-two" src="/images/stickers/pearl-star.svg" alt="" aria-hidden="true" width={128} height={128} />
+        <div className="ready-heart-right">
+          <span className="ready-heart-kicker">LET'S BEGIN</span>
+          <p>下一頁，換我們一起寫。</p>
+          <LoginEntry label="開始使用" />
+        </div>
       </div>
     </section>
 
