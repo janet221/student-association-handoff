@@ -2801,17 +2801,6 @@ body, .login-shell { background: linear-gradient(135deg, var(--princess-champagn
   .landing-nav .login-entry { padding-inline: 19px !important; }
 }
 
-/* Keep the new envelope cutouts visible even when the legacy card rules load later. */
-.login-shell .landing-idea-card-one > .envelope-sticker { content: url('/images/envelopes/pink-swan.png') !important; }
-.login-shell .landing-idea-card-two > .envelope-sticker { content: url('/images/envelopes/cream-heart.png') !important; }
-.login-shell .landing-idea-card-three > .envelope-sticker { content: url('/images/envelopes/white-gold-trimmed.png') !important; }
-.login-shell .landing-idea-card-four > .envelope-sticker { content: url('/images/envelopes/olive-letter.png') !important; }
-.login-shell .landing-operation-step:nth-child(1) > .envelope-sticker { content: url('/images/envelopes/olive-letter.png') !important; }
-.login-shell .landing-operation-step:nth-child(2) > .envelope-sticker { content: url('/images/envelopes/pink-swan.png') !important; }
-.login-shell .landing-operation-step:nth-child(3) > .envelope-sticker { content: url('/images/envelopes/white-gold-trimmed.png') !important; }
-.login-shell .landing-operation-step:nth-child(4) > .envelope-sticker { content: url('/images/envelopes/cream-heart.png') !important; }
-.login-shell .ready-note-index { display: none !important; }
-
 /* Centered fluid hero grid at every zoom level. */
 .login-shell {
   min-height: 100vh;
@@ -5964,9 +5953,6 @@ html { scroll-behavior: smooth; }
   color: #a45e79 !important;
   font-size: 9px !important;
   line-height: 1.2 !important;
-  appearance: none !important;
-  font-family: inherit !important;
-  cursor: pointer !important;
 }
 .landing-envelope-card > .card-letter-copy { display: none !important; }
 .landing-envelope-card.is-expanded {
@@ -6138,7 +6124,7 @@ html { scroll-behavior: smooth; }
   .operation-intro { font-size: 10px !important; line-height: 1.7 !important; }
   .landing-operation-grid { grid-template-columns: repeat(4, minmax(0, 1fr)) !important; gap: 7px !important; }
   .landing-operation-step { min-height: 148px !important; padding: 8px 4px 30px !important; }
-  .landing-envelope-card.is-expanded { grid-column: 1 / -1 !important; width: 100% !important; min-height: 230px !important; }
+  .landing-envelope-card.is-expanded { grid-column: span 2; }
   .ready-to-begin { grid-template-columns: 1fr !important; gap: 10px !important; min-height: 0 !important; margin-top: 52px !important; padding: 22px 20px !important; }
   .ready-to-begin > .login-entry { grid-column: 1 !important; grid-row: auto !important; justify-self: start !important; }
   .ready-note-signature { right: 12px !important; top: 12px !important; }
@@ -6899,11 +6885,6 @@ body:has(.auth-arch-stage) .global-sound-toggle{top:max(16px,env(safe-area-inset
 .handover-activity-card:hover{transform:translateY(-3px);box-shadow:0 12px 22px rgba(132,82,103,.1)}.handover-activity-card small{color:#ac7188;font-size:10px;letter-spacing:.08em}.handover-activity-card h3{margin:9px 0 5px;color:#624852;font:500 20px/1.4 "Noto Serif TC",serif}.handover-activity-card p{margin:0;color:#907b84;font-size:13px;line-height:1.7}.handover-activity-card span{display:block;margin-top:13px;color:#b46784;font-size:12px}
 @media(max-width:700px){.handover-workspace{padding:17px;border-radius:21px 21px 16px 16px}.handover-workspace-topline{align-items:flex-start;flex-direction:column}.handover-note-list,.handover-activity-cards{grid-template-columns:1fr}.handover-welcome-form,.handover-drive-editor,.handover-add-note-form{grid-template-columns:1fr}.handover-welcome-form .handover-soft-button{grid-column:auto;grid-row:auto}.handover-drive-editor>a{grid-column:auto}.handover-workflow-add{grid-template-columns:1fr}.handover-workflow-add .handover-wide-field,.handover-workflow-add button{grid-column:auto}.handover-workflow-row{grid-template-columns:1fr;gap:9px}.handover-workflow-edit{grid-template-columns:1fr}.handover-workflow-edit .handover-wide-field,.handover-workflow-edit .handover-entry-actions{grid-column:auto}.handover-publish-footer{align-items:flex-start;flex-direction:column}.handover-selection-heading{margin-top:8px}}
 
-/* Use the supplied envelope photographs as the eight interactive covers. */
-.landing-envelope-card > .envelope-sticker{width:min(82%,220px);height:132px;object-fit:contain;filter:drop-shadow(0 10px 12px rgba(109,65,78,.16))}
-.landing-idea-card-one > .envelope-sticker{content:url('/images/envelopes/pink-swan.png')}.landing-idea-card-two > .envelope-sticker{content:url('/images/envelopes/cream-heart.png')}.landing-idea-card-three > .envelope-sticker{content:url('/images/envelopes/white-gold-trimmed.png')}.landing-idea-card-four > .envelope-sticker{content:url('/images/envelopes/olive-letter.png')}
-.landing-operation-step:nth-child(1) > .envelope-sticker{content:url('/images/envelopes/olive-letter.png')}.landing-operation-step:nth-child(2) > .envelope-sticker{content:url('/images/envelopes/pink-swan.png')}.landing-operation-step:nth-child(3) > .envelope-sticker{content:url('/images/envelopes/white-gold-trimmed.png')}.landing-operation-step:nth-child(4) > .envelope-sticker{content:url('/images/envelopes/cream-heart.png')}
-@media(max-width:600px){.landing-envelope-card > .envelope-sticker{width:min(88%,150px)!important;height:78px!important}}
 /* Keep the complete landing composition inside the first mobile viewport. */
 @media (max-width: 700px) {
   .login-shell > .landing-page-card {
@@ -7039,1006 +7020,902 @@ body:has(.auth-arch-stage) .global-sound-toggle{top:max(16px,env(safe-area-inset
   .login-shell .landing-envelope-card > .envelope-cover-instructions { animation: none !important; }
 }
 
-/* Uniform envelope gallery and letter unfolding dialog. */
-.login-shell .landing-envelope-card {
-  min-height: 206px !important;
-  justify-content: center !important;
+/* A compact, evenly distributed seamless star field removes the large empty
+   bands that appeared between the previous wallpaper repeats. */
+.login-shell {
+  background-color: #f3eee6 !important;
+  background-image: url("/images/decor/landing-star-wallpaper.svg") !important;
+  background-position: 0 0 !important;
+  background-size: 640px 640px !important;
+  background-repeat: repeat !important;
 }
-.login-shell .landing-envelope-card > .envelope-sticker {
+.login-shell::before { background: none !important; }
+
+/* Share one exact frame width and the same side-stroke geometry. */
+.login-shell > .landing-nav,
+.login-shell > .landing-page-card {
+  box-sizing: border-box !important;
+  width: min(95%, 1300px) !important;
+  max-width: 1300px !important;
+}
+.login-shell > .landing-nav {
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  border-inline: 2px solid #efc0ce !important;
+}
+.login-shell > .landing-page-card {
+  margin-inline: auto !important;
+  border-inline: 2px solid #efc0ce !important;
+}
+
+/* Restore the scrapbook button and outer wallpaper used by the latest landing page. */
+.login-shell > .landing-nav .login-entry,
+.login-shell > .landing-page-card .hero-cta .login-entry {
+  min-height: 48px !important;
+  padding: 12px 28px !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background-color: transparent !important;
+  background-image: url("/images/start-using-grid-paper.png") !important;
+  background-size: 100% 100% !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  color: #805063 !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+.login-shell > .landing-nav .login-entry:hover,
+.login-shell > .landing-nav .login-entry:focus-visible,
+.login-shell > .landing-page-card .hero-cta .login-entry:hover,
+.login-shell > .landing-page-card .hero-cta .login-entry:focus-visible {
+  background-image: url("/images/start-using-grid-paper.png") !important;
+  filter: brightness(1.035) drop-shadow(0 4px 5px rgba(157, 83, 109, .14)) !important;
+}
+
+/* Latest invitation-page composition: envelope hero, compact prose, four envelopes, velvet and hearts. */
+.login-shell {
+  background-color: #f8f3eb !important;
+  background-image: url("/images/outer-cream-burgundy-stars-tile.png") !important;
+  background-size: 540px auto !important;
+  background-position: center top !important;
+  background-repeat: repeat !important;
+}
+.login-shell > .landing-nav {
+  background-color: #f3dfdf !important;
+  background-image: none !important;
+  box-shadow: 0 8px 24px rgba(104, 51, 68, .1) !important;
+}
+.login-shell > .landing-nav::after {
+  background-image: url("/images/header-wave-rosepaper-inverted.svg") !important;
+  background-repeat: repeat-x !important;
+  background-position: bottom center !important;
+}
+.login-shell > .landing-page-card { background: #fffdfb !important; }
+.login-shell > .landing-page-card > .login-story {
+  display: grid !important;
+  grid-template: "edition art" "eyebrow art" "title art" "cta art" / minmax(0, .92fr) minmax(380px, .88fr) !important;
+  align-content: center !important;
+  align-items: center !important;
+  justify-items: start !important;
+  gap: clamp(8px, 1.5vh, 18px) clamp(20px, 4vw, 68px) !important;
+  min-height: min(900px, calc(100svh - 84px)) !important;
+  padding: clamp(36px, 6vh, 72px) clamp(32px, 8vw, 120px) !important;
+  overflow: hidden !important;
+}
+.login-shell > .landing-page-card > .login-story > .hero-edition { grid-area: edition; }
+.login-shell > .landing-page-card > .login-story > .hero-eyebrow { grid-area: eyebrow; }
+.login-shell > .landing-page-card > .login-story > .hero-title { grid-area: title; }
+.login-shell > .landing-page-card > .login-story > .hero-cta { grid-area: cta; }
+.login-shell > .landing-page-card > .login-story > .hero-title > span:first-child { font-size: clamp(52px, 7vw, 94px) !important; }
+.login-shell > .landing-page-card > .login-story > .hero-title > span:last-child { font-size: clamp(16px, 2vw, 24px) !important; }
+.login-shell > .landing-page-card > .login-story > .hero-title > span:first-child {
+  margin: 0 !important;
+  color: #49313b !important;
+  font: 900 clamp(52px, 7vw, 94px)/1.18 "Noto Serif TC", "PMingLiU", serif !important;
+  letter-spacing: .12em !important;
+  white-space: nowrap !important;
+  animation: none !important;
+  opacity: 1 !important;
+  transform: none !important;
+  text-shadow: none !important;
+}
+.login-shell > .landing-page-card > .login-story > .hero-title > span:last-child {
+  margin: 8px 0 0 .1em !important;
+  color: #9b6879 !important;
+  font: 500 clamp(16px, 2vw, 24px)/1.7 "Noto Serif TC", "PMingLiU", serif !important;
+  letter-spacing: .1em !important;
+  animation: none !important;
+  opacity: 1 !important;
+  transform: none !important;
+  text-shadow: none !important;
+}
+.login-shell > .landing-page-card > .login-story > .hero-invitation-art {
+  grid-area: art !important;
+  position: relative !important;
+  inset: auto !important;
+  place-self: center !important;
+  width: min(100%, 510px) !important;
+  height: auto !important;
+  min-height: 0 !important;
+  aspect-ratio: 1125 / 1536 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: visible !important;
+  background: none !important;
+  box-shadow: none !important;
+  transform: rotate(-4deg) !important;
+}
+.login-shell .hero-invitation-art::before,
+.login-shell .hero-invitation-art::after { content: none !important; display: none !important; }
+.login-shell .hero-invitation-art > .hero-invitation-envelope {
+  position: absolute !important;
+  inset: 0 !important;
   display: block !important;
-  width: min(100%, 248px) !important;
-  height: 158px !important;
-  max-width: none !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+  filter: drop-shadow(0 22px 28px rgba(109, 57, 77, .15));
+}
+.login-shell .hero-cta .login-entry { min-width: 230px; }
+.login-shell .landing-about-copy {
+  display: block !important;
+  max-width: 900px !important;
+  margin: 0 auto !important;
+  padding: 0 20px !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+.login-shell .landing-idea-feature {
+  display: block !important;
+  margin: 0 auto 24px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+.login-shell .landing-idea-intro {
+  width: min(100%, 780px) !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  color: #806b70 !important;
+  font-size: clamp(15px, 1.3vw, 18px) !important;
+  line-height: 1.9 !important;
+}
+.login-shell .landing-idea-intro p { margin: 0 0 1em !important; }
+.login-shell .landing-operation-head {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: 10px !important;
+  padding-bottom: 10px !important;
+  text-align: center !important;
+}
+.login-shell .operation-heading-group { width: 100% !important; justify-items: center !important; }
+.login-shell .operation-helper {
+  margin: 0 !important;
+  color: #9b7e87 !important;
+  font: 400 clamp(12px, 1.2vw, 15px)/1.7 "Noto Serif TC", serif !important;
+  letter-spacing: .09em !important;
+}
+.login-shell .landing-operation-grid {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  align-items: start !important;
+  gap: clamp(22px, 3vw, 38px) clamp(28px, 6vw, 72px) !important;
+  width: min(100%, 820px) !important;
+  margin: 8px auto 0 !important;
+}
+.login-shell .landing-operation-step {
+  position: relative !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-items: center !important;
+  align-items: center !important;
+  min-height: 0 !important;
+  padding: 0 10px 8px !important;
+  text-align: center !important;
+}
+.login-shell .landing-operation-step > .landing-step-number {
+  position: relative !important;
+  z-index: 3 !important;
+  display: block !important;
+  min-width: 25px !important;
+  margin: 0 auto 12px !important;
+  padding: 5px 7px 10px !important;
+  border: 1px solid rgba(255,255,255,.9) !important;
+  background: rgba(255,253,252,.86) !important;
+  color: #a8425c !important;
+  font: 500 10px/1 Georgia, serif !important;
+  text-align: center !important;
+  box-shadow: 0 3px 8px rgba(135,78,96,.1) !important;
+  transform: rotate(-3deg) !important;
+}
+.login-shell .landing-operation-step > .landing-step-number::after {
+  content: "" !important;
+  position: absolute !important;
+  left: 50% !important;
+  bottom: -9px !important;
+  width: 1px !important;
+  height: 10px !important;
+  background: rgba(184,111,132,.55) !important;
+}
+.login-shell .landing-operation-step > .landing-step-stamp,
+.login-shell .landing-operation-step > .step-decoration,
+.login-shell .landing-operation-step > .card-micro,
+.login-shell .landing-operation-step > .landing-step-arrow,
+.login-shell .landing-operation-step > .card-open-hint { display: none !important; }
+.login-shell .landing-operation-step > h3 {
+  order: 2 !important;
+  align-self: stretch !important;
+  margin: -1px 0 4px !important;
+  color: #754d5c !important;
+  font: 600 clamp(15px, 1.55vw, 19px)/1.45 "Noto Serif TC", serif !important;
+}
+.login-shell .landing-operation-step > .envelope-sticker {
+  order: 1 !important;
+  width: min(100%, 190px) !important;
+  height: auto !important;
+  aspect-ratio: 1 / 1 !important;
   max-height: none !important;
   object-fit: contain !important;
-  object-position: center !important;
+  filter: drop-shadow(0 10px 12px rgba(93, 61, 62, .13));
 }
-.login-shell .landing-envelope-card > .envelope-cover-instructions {
-  top: 3px !important;
-  right: max(0px, calc(50% - 132px)) !important;
-  border: 1px solid #f2c4d1 !important;
-  border-radius: 999px !important;
-  animation: envelope-badge-pulse 2.8s ease-in-out infinite !important;
+.login-shell .landing-operation-step > .envelope-cover-instructions { display: none !important; }
+.login-shell .landing-operation-step > .envelope-tap-target { position: absolute !important; inset: 0 !important; z-index: 4 !important; }
+.login-shell .landing-operation-step > .card-letter-copy {
+  order: 3 !important;
+  display: block !important;
+  width: min(100%, 420px) !important;
+  margin: 0 auto !important;
+  color: #806b70 !important;
+  font: 400 clamp(10px, .88vw, 12px)/1.75 "Noto Serif TC", serif !important;
+  text-align: left !important;
 }
-@keyframes envelope-badge-pulse {
-  0%, 100% { transform: rotate(8deg) translateY(0) scale(1); }
-  50% { transform: rotate(8deg) translateY(-4px) scale(1.045); }
+.login-shell .landing-operation-step > .card-letter-copy p { margin: 0 !important; }
+.login-shell .landing-operation-step.is-expanded > .card-letter-copy { display: block !important; }
+.login-shell .curtain-invitation {
+  position: relative !important;
+  isolation: isolate !important;
+  left: 50% !important;
+  display: grid !important;
+  place-items: center !important;
+  width: min(95vw, 1300px) !important;
+  min-height: clamp(520px, 62vw, 780px) !important;
+  margin: clamp(40px, 6vw, 76px) 0 0 !important;
+  overflow: hidden !important;
+  background: #6d4058 !important;
+  transform: translateX(-50%) !important;
 }
-@media (max-width: 700px) {
-  .login-shell .landing-envelope-card { min-height: 156px !important; padding: 12px 4px !important; }
-  .login-shell .landing-envelope-card > .envelope-sticker {
-    width: min(100%, 170px) !important;
-    height: 110px !important;
-    max-height: none !important;
-  }
-  .login-shell .landing-envelope-card > .envelope-cover-instructions {
-    top: 1px !important;
-    right: max(-2px, calc(50% - 90px)) !important;
-  }
+.motion-ready .landing-operation .curtain-invitation[data-reveal] { opacity: 1 !important; transform: translateX(-50%) !important; }
+.login-shell .curtain-invitation::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: -2 !important;
+  background: url("/images/footer-rose-curtain-v2.png") center / cover no-repeat !important;
+  opacity: 0 !important;
+  transform: scale(1.045) !important;
+  transition: opacity 1.45s ease, transform 2.2s ease !important;
 }
+.login-shell .curtain-invitation.is-visible::before { opacity: 1 !important; transform: scale(1) !important; }
+.login-shell .curtain-invitation::after {
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: -1 !important;
+  background: linear-gradient(to bottom, #fffdfb 0%, rgba(255,253,251,.88) 6%, rgba(41,20,35,.24) 31%, rgba(30,14,28,.38) 73%, #6d4058 100%) !important;
+  pointer-events: none !important;
+}
+.login-shell .curtain-light {
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 0 !important;
+  display: block !important;
+  background: radial-gradient(ellipse 19% 51% at 23% 29%, rgba(255,221,211,.38), transparent 75%), radial-gradient(ellipse 23% 54% at 51% 22%, rgba(255,231,216,.3), transparent 78%), radial-gradient(ellipse 19% 51% at 78% 31%, rgba(255,221,211,.34), transparent 75%) !important;
+  mix-blend-mode: screen !important;
+  opacity: .7 !important;
+  animation: curtain-spotlight 8s ease-in-out infinite alternate !important;
+  pointer-events: none !important;
+}
+.login-shell .ready-to-begin {
+  position: relative !important;
+  z-index: 1 !important;
+  display: block !important;
+  width: min(86%, 900px) !important;
+  aspect-ratio: 1634 / 1024 !important;
+  min-height: 0 !important;
+  margin: 35px auto 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  transform: none !important;
+  transition: opacity .85s ease .45s, translate 1.05s cubic-bezier(.18,.73,.28,1.12) .45s, scale 1.05s cubic-bezier(.18,.73,.28,1.12) .45s, filter .85s ease .45s !important;
+}
+.login-shell .ready-heart-art { position: absolute !important; inset: 0 !important; width: 100% !important; height: 100% !important; object-fit: contain !important; pointer-events: none !important; }
+.login-shell .ready-heart-left, .login-shell .ready-heart-right { position: absolute !important; top: 25% !important; z-index: 2 !important; display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: center !important; height: 50% !important; text-align: center !important; }
+.login-shell .ready-heart-left { left: 8% !important; width: 39% !important; color: #fff8f2 !important; transform: rotate(-5deg) !important; }
+.login-shell .ready-heart-right { left: 55% !important; width: 37% !important; color: #89566b !important; transform: rotate(5deg) !important; }
+.login-shell .ready-heart-kicker { font: 600 clamp(8px, 1.1vw, 12px)/1.4 Georgia, serif !important; letter-spacing: .17em !important; }
+.login-shell .ready-heart-left h3 { margin: .08em 0 0 !important; color: inherit !important; font: italic 400 clamp(28px, 5.3vw, 62px)/.9 "Edwardian Script ITC", "Bickham Script Pro 3", "Snell Roundhand", "Brush Script MT", cursive !important; letter-spacing: -.035em !important; }
+.login-shell .ready-heart-caption { margin-top: .6em !important; font: 600 clamp(11px, 1.7vw, 18px)/1.4 "Noto Serif TC", serif !important; letter-spacing: .18em !important; }
+.login-shell .ready-heart-right p { margin: .3em 0 .65em !important; color: #89566b !important; font: 700 clamp(13px, 2vw, 21px)/1.5 "Noto Serif TC", serif !important; letter-spacing: .08em !important; }
+.login-shell .ready-heart-right .login-entry-journal { width: auto !important; min-width: 0 !important; min-height: 0 !important; padding: .58em 1.35em !important; border: 1px solid rgba(143,78,101,.32) !important; border-radius: 999px !important; background: #b56f89 !important; color: #fffaf7 !important; font: 700 clamp(12px,1.6vw,17px)/1.35 "Noto Serif TC",serif !important; }
+.login-shell .login-entry-journal > span { display: none !important; }
+.login-shell > .landing-footer {
+  position: relative !important;
+  z-index: 2 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  min-height: 54px !important;
+  margin: 0 !important;
+  padding: 14px 20px !important;
+  border: 0 !important;
+  background: #f4e8e5 !important;
+  color: #805263 !important;
+  text-align: center !important;
+}
+.login-shell > .landing-footer small { color: #805263 !important; font-size: 9px !important; letter-spacing: .12em !important; }
+.login-shell .walking-track { display: none !important; }
+@keyframes curtain-spotlight { from { filter: brightness(.83); transform: translateX(-1.5%) scale(1); } to { filter: brightness(1.18); transform: translateX(1.5%) scale(1.04); } }
+
+/* Match the centered, romantic section headings in the current page reference. */
+.login-shell .landing-title-mark {
+  position: relative !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-items: center !important;
+  width: fit-content !important;
+  margin: 0 auto !important;
+  padding: 0 14px 12px !important;
+  text-align: center !important;
+}
+.login-shell .landing-title-mark::after {
+  content: "" !important;
+  position: absolute !important;
+  right: 26% !important;
+  bottom: 0 !important;
+  left: 26% !important;
+  border-bottom: 1px solid rgba(184, 111, 139, .46) !important;
+}
+.login-shell .landing-title-overline {
+  display: flex !important;
+  justify-content: center !important;
+  width: 100% !important;
+  color: #bd7591 !important;
+}
+.login-shell .landing-title-script {
+  color: #bd7591 !important;
+  font: italic 400 clamp(32px, 4vw, 48px)/.98 "Edwardian Script ITC", "Bickham Script Pro 3", "Snell Roundhand", "Brush Script MT", cursive !important;
+  letter-spacing: -.025em !important;
+  text-shadow: 0 1px 0 rgba(255,255,255,.75) !important;
+}
+.login-shell .landing-title-mark > .landing-editorial-cn {
+  margin: 4px 0 0 !important;
+  color: #694655 !important;
+  font: 700 clamp(25px, 3vw, 34px)/1.25 "Noto Serif TC", "PMingLiU", serif !important;
+  letter-spacing: .16em !important;
+  text-align: center !important;
+}
+.login-shell .landing-about-copy { text-align: center !important; }
+.login-shell .landing-idea-feature { text-align: center !important; }
+.login-shell .landing-idea-intro { width: min(68%, 780px) !important; text-align: left !important; }
+.login-shell .section-rabbit-about-main { top: 92px !important; right: 0 !important; width: min(16vw, 112px) !important; }
+.login-shell .landing-operation-head { gap: 8px !important; }
+.login-shell .landing-operation-head .operation-heading-group { display: grid !important; place-items: center !important; }
+.login-shell .landing-operation-step > h3 { display: block !important; }
+.login-shell .landing-operation-step > .envelope-sticker { width: min(100%, 174px) !important; }
+.login-shell > .landing-nav .login-entry,
+.login-shell > .landing-page-card .hero-cta .login-entry {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background-color: #fff9fa !important;
+  background-image: linear-gradient(rgba(232, 139, 166, .35) 1px, transparent 1px), linear-gradient(90deg, rgba(232, 139, 166, .35) 1px, transparent 1px), linear-gradient(135deg, #fff8fa 0%, #fffdfb 100%) !important;
+  background-size: 14px 14px, 14px 14px, 100% 100% !important;
+  background-repeat: repeat, repeat, no-repeat !important;
+  background-position: center !important;
+  color: #805063 !important;
+}
+.login-shell > .landing-nav .login-entry { width: 118px !important; min-width: 118px !important; min-height: 46px !important; padding: 10px 14px !important; }
+.login-shell > .landing-page-card .hero-cta .login-entry { width: 170px !important; min-width: 170px !important; min-height: 44px !important; padding: 10px 16px !important; }
+.login-shell .login-entry-journal::after { display: none !important; content: none !important; }
+.login-shell .walking-track,
+.login-shell .walking-track-line,
+.login-shell .walking-track-line::before,
+.login-shell .walking-track-line::after { display: none !important; }
+
+/* Let the velvet reach the exact outer card edges and finish on solid fabric. */
+.login-shell .landing-operation { padding-bottom: 0 !important; overflow: visible !important; }
+.login-shell .curtain-invitation {
+  box-sizing: border-box !important;
+  width: calc(100% + 2 * clamp(38px, 5.3vw, 76px)) !important;
+  max-width: 1300px !important;
+  margin-bottom: 0 !important;
+  background-color: #6d4058 !important;
+}
+.login-shell .curtain-invitation::after {
+  background: linear-gradient(to bottom, #fffdfb 0%, rgba(255,253,251,.88) 6%, rgba(41,20,35,.24) 31%, rgba(30,14,28,.38) 73%, #6d4058 100%) !important;
+}
+
+/* Unfold the letter into a generously sized, lace-edged stationery sheet. */
 .letter-modal-overlay {
   position: fixed;
-  z-index: 1000;
   inset: 0;
+  z-index: 10000;
   display: grid;
   place-items: center;
-  padding: 20px;
-  isolation: isolate;
+  overflow-y: auto;
+  padding: clamp(18px, 4vh, 42px) 16px;
+  background: rgba(47, 27, 37, .48);
+  backdrop-filter: blur(5px);
+  animation: letter-overlay-in .28s ease both;
 }
-.letter-modal-backdrop {
-  position: absolute;
-  inset: 0;
-  background: rgba(49, 31, 40, .6);
-  backdrop-filter: blur(7px);
-  animation: letter-backdrop-in .42s ease both;
-}
+.letter-modal-backdrop { position: fixed; inset: 0; background: transparent; }
 .letter-modal {
   position: relative;
-  width: min(100%, 560px);
-  max-height: min(86svh, 760px);
-  perspective: 900px;
+  z-index: 1;
+  width: min(88vw, 650px);
+  height: min(76vh, 650px);
+  min-height: 410px;
+  perspective: 1400px;
+  animation: letter-pop-open .72s cubic-bezier(.18,.78,.22,1.08) both;
 }
 .letter-envelope-shadow {
   position: absolute;
-  z-index: -1;
-  inset: auto 5% -14px;
-  height: 70px;
-  border: 1px solid rgba(180, 108, 130, .4);
-  border-radius: 8px 8px 20px 20px;
-  background: linear-gradient(135deg, #e8b5c5, #f2d8dd);
-  box-shadow: 0 24px 55px rgba(46, 25, 36, .28);
-  animation: letter-envelope-in .46s cubic-bezier(.22,1,.36,1) both;
+  inset: 30% 0 0;
+  border: 1px solid rgba(255, 232, 231, .72);
+  border-radius: 5px 5px 18px 18px;
+  background: linear-gradient(145deg, #d997a2, #b96e83 68%, #a85e76);
+  box-shadow: 0 24px 58px rgba(35, 16, 27, .3);
+  clip-path: polygon(0 0, 50% 34%, 100% 0, 100% 100%, 0 100%);
+  transform: rotate(-2deg) translateY(15px);
 }
 .letter-paper {
   position: relative;
-  max-height: min(86svh, 760px);
-  overflow-y: auto;
-  padding: clamp(28px, 6vw, 52px);
-  border: 1px solid #e9cbd2;
-  border-radius: 5px 5px 13px 13px;
-  background: linear-gradient(155deg, #fffefa, #fff9f8 68%, #fdf0f2);
-  box-shadow: 0 22px 60px rgba(47, 27, 37, .24), inset 0 0 0 7px rgba(255,255,255,.38);
-  color: #5c414a;
-  transform-origin: 50% 95%;
-  animation: letter-unfold .46s cubic-bezier(.18,1.22,.42,1) both;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: 90%;
+  height: 90%;
+  min-height: 0;
+  margin: 0 auto;
+  padding: clamp(34px, 6vw, 66px) clamp(28px, 7vw, 72px) clamp(26px, 5vw, 48px);
+  border: 1px solid rgba(173, 112, 128, .44);
+  background:
+    radial-gradient(circle, rgba(194, 132, 150, .28) 1px, transparent 1.7px) top 13px left 14px / 10px 10px repeat-x,
+    radial-gradient(circle, rgba(194, 132, 150, .28) 1px, transparent 1.7px) bottom 13px left 14px / 10px 10px repeat-x,
+    repeating-linear-gradient(to bottom, transparent 0 39px, rgba(214, 174, 181, .18) 40px 41px),
+    linear-gradient(135deg, #fffdf8 0%, #fff8f4 100%);
+  color: #684954;
+  box-shadow: 0 14px 40px rgba(50, 25, 38, .17), inset 0 0 0 7px rgba(255,255,255,.58);
+  transform-origin: 50% 0;
+  animation: paper-unfold .76s cubic-bezier(.18,.78,.22,1.08) .08s both;
 }
 .letter-paper::before {
   content: "";
   position: absolute;
-  inset: 15px;
-  border: 1px solid rgba(214, 165, 179, .38);
-  border-radius: 2px;
+  inset: 17px;
+  border: 1px solid rgba(199, 151, 164, .32);
   pointer-events: none;
 }
-.letter-paper-topline,
+.letter-paper-topline {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  padding-bottom: 13px;
+  border-bottom: 1px solid rgba(188, 126, 145, .38);
+  color: #a56b80;
+  font: 600 10px/1.4 Georgia, serif;
+  letter-spacing: .15em;
+}
+.letter-paper-index {
+  margin: clamp(32px, 6vh, 54px) 0 12px;
+  color: #bd7890;
+  font: 600 11px/1.4 Georgia, serif;
+  letter-spacing: .19em;
+  text-align: center;
+}
+.letter-paper h2 {
+  max-width: 15em;
+  margin: 0 auto 24px;
+  color: #573c48;
+  font: 700 clamp(25px, 4vw, 36px)/1.6 "Noto Serif TC", "PMingLiU", serif;
+  letter-spacing: .1em;
+  text-align: center;
+}
+.letter-paper-body {
+  width: min(100%, 430px);
+  margin: 0 auto;
+  color: #806d70;
+  font: 400 clamp(15px, 2vw, 17px)/2 "Noto Serif TC", "PMingLiU", serif;
+  letter-spacing: .045em;
+}
+.letter-paper-body p { margin: 0 0 1em; }
 .letter-paper-footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 15px;
+  margin-top: auto;
+  padding-top: 30px;
+  color: #bd7890;
 }
-.letter-paper-topline {
-  padding-bottom: 20px;
-  border-bottom: 1px solid rgba(191, 127, 148, .3);
-  color: #b4788d;
-  font: 700 10px/1.4 Arial, sans-serif;
-  letter-spacing: .18em;
-}
-.letter-paper-index {
-  display: block;
-  margin-top: clamp(28px, 5vw, 44px);
-  color: #bc7890;
-  font: 700 11px/1.4 Arial, sans-serif;
-  letter-spacing: .2em;
-}
-.letter-paper h2 {
-  margin: 14px 0 22px;
-  color: #583b46;
-  font: 700 clamp(23px, 4vw, 34px)/1.45 "Noto Serif TC", serif;
-  letter-spacing: .045em;
-}
-.letter-paper-body {
-  min-height: 110px;
-  color: #725963;
-  font: 400 clamp(15px, 2.6vw, 17px)/1.95 "Noto Serif TC", serif;
-  letter-spacing: .025em;
-}
-.letter-paper-body p { margin: 0 0 1em; }
-.letter-paper-footer {
-  margin-top: 32px;
-  padding-top: 20px;
-  border-top: 1px solid rgba(191, 127, 148, .3);
-  color: #d292a8;
-}
+.letter-paper-footer > span { font-size: 21px; }
 .letter-paper-footer button {
-  display: inline-flex;
-  align-items: center;
-  gap: 13px;
-  min-height: 42px;
-  padding: 9px 19px;
-  border: 1px solid #d59aad;
+  padding: 10px 17px;
+  border: 1px solid rgba(172, 103, 126, .42);
   border-radius: 999px;
-  background: #fff7f9;
-  color: #a75d78;
-  font: 700 13px/1.2 "Noto Serif TC", serif;
+  background: rgba(255,255,255,.72);
+  color: #815365;
+  font: 600 13px/1.3 "Noto Serif TC", serif;
   cursor: pointer;
-  transition: background .2s, color .2s, transform .2s;
+  transition: background .2s ease, transform .2s ease;
 }
 .letter-paper-footer button:hover,
-.letter-paper-footer button:focus-visible {
-  background: #a75d78;
-  color: #fff;
-  transform: translateY(-2px);
+.letter-paper-footer button:focus-visible { background: #f5e2e6; transform: translateY(-2px); }
+.letter-modal-overlay.is-closing .letter-modal { animation: letter-fold-away .42s cubic-bezier(.55,.05,.7,.2) both; }
+.letter-modal-overlay.is-closing { animation: letter-overlay-out .42s ease both; }
+@keyframes letter-overlay-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes letter-overlay-out { to { opacity: 0; } }
+@keyframes letter-pop-open { from { opacity: 0; transform: translateY(36px) scale(.72) rotate(-2deg); } to { opacity: 1; transform: translateY(0) scale(1) rotate(0); } }
+@keyframes paper-unfold { 0% { opacity: .5; transform: rotateX(-24deg) scaleY(.55) translateY(28px); } 72% { transform: rotateX(3deg) scaleY(1.02); } 100% { opacity: 1; transform: rotateX(0) scaleY(1); } }
+@keyframes letter-fold-away { to { opacity: 0; transform: translateY(48px) scale(.62) rotate(3deg); } }
+@media (max-width: 700px) {
+  .login-shell .curtain-invitation { width: calc(100% + 2 * clamp(32px, 5.3vw, 38px)) !important; }
+  .login-shell > .landing-page-card > .login-story { grid-template: "edition" "eyebrow" "title" "art" "cta" / 1fr !important; align-content: start !important; justify-items: center !important; row-gap: 7px !important; min-height: calc(100svh - 84px) !important; padding: 28px 18px 24px !important; }
+  .login-shell > .landing-page-card > .login-story > .hero-edition,
+  .login-shell > .landing-page-card > .login-story > .hero-eyebrow,
+  .login-shell > .landing-page-card > .login-story > .hero-title,
+  .login-shell > .landing-page-card > .login-story > .hero-cta { justify-self: center !important; text-align: center !important; }
+  .login-shell > .landing-page-card > .login-story > .hero-title { align-items: center !important; }
+  .login-shell > .landing-page-card > .login-story > .hero-title > span:first-child { font-size: clamp(38px, 10vw, 48px) !important; white-space: nowrap !important; }
+  .login-shell > .landing-page-card > .login-story > .hero-title > span:last-child { font-size: clamp(13px, 3.7vw, 18px) !important; }
+  .login-shell > .landing-page-card > .login-story > .hero-invitation-art { width: min(78vw, 370px, calc(74svh - 266px)) !important; max-height: 52svh !important; }
+  .login-shell .landing-about { padding: 54px 18px 64px !important; }
+  .login-shell .landing-idea-intro { width: min(100%, 560px) !important; font-size: 14px !important; }
+  .login-shell .section-rabbit-about-main { top: 8px !important; right: 0 !important; width: min(19vw, 90px) !important; }
+  .login-shell .landing-operation { padding: 52px 18px 48px !important; }
+  .login-shell .landing-operation-grid { gap: 20px 10px !important; }
+  .login-shell .landing-operation-step { min-height: 0 !important; padding: 0 2px 10px !important; }
+  .login-shell .landing-operation-step > .envelope-sticker { width: min(100%, 160px) !important; }
+  .login-shell .landing-operation-step > h3 { font-size: clamp(13px, 3.6vw, 17px) !important; }
+  .login-shell .landing-operation-step > .card-letter-copy { font-size: 10px !important; line-height: 1.65 !important; }
+  .login-shell .landing-title-script { font-size: clamp(31px, 9vw, 42px) !important; }
+  .login-shell .landing-title-mark > .landing-editorial-cn { font-size: clamp(24px, 7vw, 30px) !important; }
+  .login-shell .curtain-invitation { min-height: clamp(420px, 85svh, 620px) !important; }
+  .letter-modal { width: min(94vw, 540px); height: min(74svh, 620px); min-height: 400px; }
+  .letter-paper { height: 90%; padding: 30px 24px 24px; }
+  .letter-paper::before { inset: 12px; }
+  .letter-paper-index { margin-top: 30px; }
+  .letter-paper h2 { font-size: clamp(22px, 6vw, 30px); }
+  .letter-paper-body { font-size: 15px; }
+  .login-shell .ready-to-begin { width: min(94%, 480px) !important; }
+  .login-shell .ready-heart-left h3 { font-size: clamp(23px, 7vw, 36px) !important; }
+  .login-shell .ready-heart-kicker { font-size: clamp(6px, 1.7vw, 8px) !important; }
+  .login-shell .ready-heart-caption { font-size: clamp(9px, 2.8vw, 12px) !important; }
+  .login-shell .ready-heart-right p { font-size: clamp(10px, 3.1vw, 14px) !important; }
 }
-.letter-paper-footer button:focus-visible { outline: 3px solid #e8b3c4; outline-offset: 3px; }
-.letter-modal-overlay.is-closing .letter-modal-backdrop { animation: letter-backdrop-out .42s ease both; }
-.letter-modal-overlay.is-closing .letter-paper { animation: letter-fold .42s cubic-bezier(.58,0,.82,.3) both; }
-.letter-modal-overlay.is-closing .letter-envelope-shadow { animation: letter-envelope-out .42s ease both; }
-@keyframes letter-backdrop-in { from { opacity: 0; } to { opacity: 1; } }
-@keyframes letter-backdrop-out { from { opacity: 1; } to { opacity: 0; } }
-@keyframes letter-unfold {
-  from { opacity: 0; transform: translateY(78px) scale(.72) rotateX(-28deg); }
-  to { opacity: 1; transform: translateY(0) scale(1) rotateX(0); }
-}
-@keyframes letter-fold {
-  from { opacity: 1; transform: translateY(0) scale(1) rotateX(0); }
-  to { opacity: 0; transform: translateY(78px) scale(.72) rotateX(-28deg); }
-}
-@keyframes letter-envelope-in { from { opacity: 0; transform: translateY(24px) scale(.8); } to { opacity: 1; transform: none; } }
-@keyframes letter-envelope-out { from { opacity: 1; transform: none; } to { opacity: 0; transform: translateY(24px) scale(.8); } }
-@media (max-width: 520px) {
-  .letter-modal-overlay { padding: 16px; }
-  .letter-paper-topline { font-size: 8px; }
-  .letter-paper { padding: 30px 28px; }
+@media (max-height: 600px) and (min-width: 701px) {
+  .login-shell > .landing-page-card > .login-story {
+    min-height: 0 !important;
+    grid-template: "edition art" "eyebrow art" "title art" "cta art" / minmax(0, 1fr) minmax(0, .9fr) !important;
+    align-content: center !important;
+    gap: 4px 20px !important;
+    padding: 14px 28px !important;
+  }
+  .login-shell > .landing-page-card > .login-story > .hero-edition,
+  .login-shell > .landing-page-card > .login-story > .hero-eyebrow { height: auto !important; min-height: 0 !important; }
+  .login-shell > .landing-page-card > .login-story > .hero-title { width: 100% !important; }
+  .login-shell > .landing-page-card > .login-story > .hero-title > span:first-child { font-size: clamp(40px, 6vw, 58px) !important; }
+  .login-shell > .landing-page-card > .login-story > .hero-title > span:last-child { font-size: clamp(13px, 1.6vw, 17px) !important; }
+  .login-shell > .landing-page-card > .login-story > .hero-invitation-art { width: min(35vw, 250px) !important; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .login-shell .landing-envelope-card > .envelope-cover-instructions,
-  .letter-modal-backdrop,
-  .letter-envelope-shadow,
-  .letter-paper,
-  .letter-modal-overlay.is-closing .letter-modal-backdrop,
-  .letter-modal-overlay.is-closing .letter-envelope-shadow,
-  .letter-modal-overlay.is-closing .letter-paper { animation: none !important; }
+  .login-shell .curtain-light { animation: none !important; }
+  .login-shell .curtain-invitation::before,
+  .login-shell .ready-to-begin { transition: none !important; }
+  .login-shell .curtain-invitation::before { opacity: 1 !important; transform: none !important; }
 }
 
-/* Scrapbook finish for the public landing page. */
-.login-shell .landing-idea-feature {
-  position: relative;
-  padding: clamp(20px, 3vw, 34px) !important;
-  border: 0 !important;
-  border-radius: 5px 18px 8px 14px !important;
-  background:
-    repeating-linear-gradient(0deg, transparent 0 27px, rgba(193,143,158,.09) 28px 29px),
-    linear-gradient(135deg, rgba(255,252,246,.96), rgba(255,245,245,.82)) !important;
-  box-shadow: 0 9px 23px rgba(145,93,111,.08) !important;
-  transform: rotate(-.45deg);
-}
-.login-shell .landing-idea-feature::after {
-  content: "";
-  position: absolute;
-  top: -8px;
-  left: 46%;
-  width: 92px;
-  height: 20px;
-  border: 0;
-  background: rgba(229,185,196,.57);
-  transform: rotate(3deg);
-  pointer-events: none;
-}
-.login-shell .landing-operation-head {
-  border: 0 !important;
-  border-bottom: 1px dashed rgba(180,113,138,.46) !important;
-  box-shadow: none !important;
-  background: transparent !important;
-}
-.login-shell .landing-about > .landing-section-label,
-.login-shell .operation-heading-group > .landing-section-label {
-  width: fit-content;
-  padding: 6px 13px !important;
-  border: 0 !important;
-  border-radius: 3px 10px 4px 8px !important;
-  background: rgba(255,231,238,.75) !important;
-  box-shadow: 2px 3px 0 rgba(188,120,142,.1) !important;
-  transform: rotate(-1.2deg);
-}
-.login-shell .operation-heading-group > .landing-section-label { transform: rotate(1.1deg); }
-.login-shell .ready-to-begin {
-  border: 0 !important;
-  border-radius: 4px 18px 7px 14px !important;
-  background:
-    repeating-linear-gradient(0deg, transparent 0 30px, rgba(185,127,145,.095) 31px 32px),
-    linear-gradient(135deg, #fffaf0, #fff0f4) !important;
-  box-shadow: 0 12px 24px rgba(142,85,105,.1) !important;
-  transform: rotate(-.6deg);
-}
-.login-shell .ready-to-begin::before {
-  content: "";
-  position: absolute;
-  z-index: 3;
-  top: -9px;
-  left: 41%;
-  width: 96px;
-  height: 22px;
-  background: rgba(226,182,195,.65);
-  transform: rotate(2deg);
-  pointer-events: none;
-}
-.login-shell .landing-idea-card-grid,
-.login-shell .landing-operation-grid { align-items: center !important; }
-.login-shell .landing-envelope-card {
-  --scrap-tilt: -1.7deg;
-  transform: rotate(var(--scrap-tilt)) !important;
-  transition: transform .28s cubic-bezier(.2,.8,.2,1) !important;
-}
-.login-shell .landing-envelope-card:nth-child(2) { --scrap-tilt: 2.1deg; }
-.login-shell .landing-envelope-card:nth-child(3) { --scrap-tilt: 1.2deg; }
-.login-shell .landing-envelope-card:nth-child(4) { --scrap-tilt: -2.2deg; }
-.login-shell .landing-envelope-card:hover,
-.login-shell .landing-envelope-card:focus-within {
-  transform: translateY(-5px) rotate(var(--scrap-tilt)) !important;
-}
-.login-shell .landing-envelope-card > .envelope-sticker {
-  filter: drop-shadow(0 11px 10px rgba(108,61,77,.19)) !important;
-}
-.login-shell .landing-envelope-card > .envelope-cover-instructions {
-  top: 0 !important;
-  right: max(0px, calc(50% - 126px)) !important;
-  min-width: 76px !important;
-  padding: 8px 9px !important;
-  border: 0 !important;
-  border-radius: 3px 10px 4px 9px !important;
-  background: #fff0d9 !important;
-  color: #a65e74 !important;
-  box-shadow: 2px 4px 0 rgba(148,90,107,.12), 0 5px 12px rgba(148,90,107,.09) !important;
-  font-family: "Segoe Print", "Comic Sans MS", cursive !important;
-  font-size: 12px !important;
-  font-weight: 700 !important;
-  line-height: 1.1 !important;
-  letter-spacing: .015em !important;
-  text-transform: none !important;
-  animation: journal-tag-bob 2.8s ease-in-out infinite !important;
-}
-.login-shell .landing-envelope-card > .envelope-cover-instructions::before {
-  content: "";
-  position: absolute;
-  top: -7px;
-  left: 24px;
-  width: 28px;
-  height: 11px;
-  background: rgba(222,174,187,.7);
-  transform: rotate(-8deg);
-  pointer-events: none;
-}
-@keyframes journal-tag-bob {
-  0%, 100% { transform: rotate(7deg) translateY(0); }
-  50% { transform: rotate(7deg) translateY(-4px); }
-}
-.login-shell .ready-to-begin > .journal-sticker-one { transform: rotate(8deg) !important; }
-.login-shell .ready-to-begin > .journal-sticker-two { transform: rotate(-9deg) !important; }
-.letter-modal { transform: rotate(-.55deg); }
-.letter-paper {
-  border: 0;
-  border-radius: 3px 13px 6px 11px;
-  background:
-    repeating-linear-gradient(0deg, transparent 0 31px, rgba(194,143,154,.085) 32px 33px),
-    linear-gradient(155deg, #fffefa, #fff8f5 72%, #fdf0ed);
-}
-.letter-paper::before {
-  inset: 14px;
-  border: 1px dashed rgba(185,130,146,.38);
-  border-radius: 3px 10px 5px 8px;
-}
-.letter-paper::after {
-  content: "";
-  position: absolute;
-  top: -1px;
-  left: calc(50% - 41px);
-  width: 82px;
-  height: 17px;
-  background: rgba(229,184,196,.58);
-  transform: rotate(3deg);
-  pointer-events: none;
-}
-.letter-paper-footer button {
-  border: 0;
-  border-radius: 3px 11px 4px 9px;
-  background: #fbe2e9;
-  box-shadow: 3px 4px 0 rgba(164,100,121,.14);
-  transform: rotate(1.5deg);
-}
-.letter-paper-footer button:hover,
-.letter-paper-footer button:focus-visible { transform: rotate(1.5deg) translateY(-2px); }
-@media (max-width: 700px) {
-  .login-shell .landing-envelope-card > .envelope-cover-instructions {
-    right: max(-4px, calc(50% - 86px)) !important;
-    min-width: 61px !important;
-    padding: 6px 6px !important;
-    font-size: 9px !important;
-  }
-  .login-shell .landing-idea-feature { transform: rotate(-.25deg); }
-  .login-shell .ready-to-begin { transform: rotate(-.25deg); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .login-shell .landing-envelope-card,
-  .login-shell .landing-envelope-card:hover,
-  .login-shell .landing-envelope-card:focus-within { transition: none !important; }
-  .login-shell .landing-envelope-card > .envelope-cover-instructions { animation: none !important; }
-}
-
-/* Mobile envelope touch and white-gold scale correction. */
-.login-shell .landing-envelope-card { position: relative !important; }
-.login-shell .landing-envelope-card > .envelope-tap-target {
-  position: absolute !important;
-  z-index: 8 !important;
-  inset: 0 !important;
-  display: block !important;
-  width: 100% !important;
-  height: 100% !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  border: 0 !important;
-  background: transparent !important;
-  cursor: pointer;
-  touch-action: manipulation;
-  -webkit-tap-highlight-color: transparent;
-}
-.login-shell .landing-envelope-card > .envelope-tap-target:focus-visible {
-  outline: 3px solid #d38ba4 !important;
-  outline-offset: 2px !important;
-  border-radius: 8px !important;
-}
-.login-shell .landing-envelope-card > .envelope-cover-instructions {
-  z-index: 9 !important;
-  pointer-events: auto !important;
-  touch-action: manipulation;
-}
-.login-shell .landing-idea-card-three > .envelope-sticker,
-.login-shell .landing-operation-step:nth-child(3) > .envelope-sticker {
-  transform: scale(1.32) !important;
-}
-.login-shell .landing-idea-card-three:hover > .envelope-sticker,
-.login-shell .landing-operation-step:nth-child(3):hover > .envelope-sticker {
-  transform: translateY(-4px) scale(1.36) !important;
-}
-
-/* Text-free scalloped paper shape from the supplied reference. */
-.login-shell .login-entry-journal,
-.login-shell > .landing-nav .login-entry-journal,
-.login-shell .hero-cta .login-entry-journal {
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  width: 174px !important;
-  height: 60px !important;
-  min-height: 60px !important;
-  padding: 0 12px 3px !important;
-  border: 0 !important;
-  border-radius: 0 !important;
-  background: url("/images/start-using-scallop.svg") center / 100% 100% no-repeat !important;
-  box-shadow: none !important;
-  color: #493b42 !important;
-  font: 800 17px/1 "Noto Serif TC", "Microsoft JhengHei", serif !important;
-  letter-spacing: .1em !important;
-  text-shadow: 0 1px 0 #fff !important;
-  text-align: center !important;
-  white-space: nowrap;
-  cursor: pointer;
-  transition: transform .2s ease, filter .2s ease !important;
-}
-.login-shell .hero-cta .login-entry-journal {
-  width: 218px !important;
-  height: 76px !important;
-  min-height: 76px !important;
-  font-size: 22px !important;
-}
-.login-shell .login-entry-journal::before,
-.login-shell .login-entry-journal::after {
-  content: none !important;
-  display: none !important;
-}
-.login-shell .login-entry-journal:hover,
-.login-shell .login-entry-journal:focus-visible {
-  transform: translateY(-2px) rotate(-1deg) !important;
-  filter: drop-shadow(0 7px 7px rgba(166,91,119,.18)) !important;
-  color: #493b42 !important;
-}
-.login-shell .login-entry-journal:focus-visible {
-  outline: 3px solid #c67b9b !important;
-  outline-offset: 4px !important;
-}
-@media (max-width: 700px) {
-  .login-shell > .landing-nav .login-entry-journal {
-    width: 138px !important;
-    height: 49px !important;
-    min-height: 49px !important;
-    font-size: 14px !important;
-  }
-  .login-shell .hero-cta .login-entry-journal {
-    width: 190px !important;
-    height: 66px !important;
-    min-height: 66px !important;
-    font-size: 19px !important;
-  }
-}
-/* The photographs share one uncropped image frame. */
-.login-shell .landing-idea-card > .envelope-sticker,
-.login-shell .landing-operation-step > .envelope-sticker {
-  display: block !important;
-  width: 248px !important;
-  height: 158px !important;
-  max-width: 100% !important;
-  max-height: none !important;
-  object-fit: contain !important;
-  object-position: center !important;
-}
-.login-shell .landing-idea-card-three > .envelope-sticker,
-.login-shell .landing-operation-step:nth-child(3) > .envelope-sticker {
-  transform: none !important;
-}
-.login-shell .landing-idea-card-three:hover > .envelope-sticker,
-.login-shell .landing-operation-step:nth-child(3):hover > .envelope-sticker {
-  transform: translateY(-4px) scale(1.03) !important;
-}
-@media (max-width: 700px) {
-  .login-shell .landing-idea-card > .envelope-sticker,
-  .login-shell .landing-operation-step > .envelope-sticker {
-    width: 170px !important;
-    height: 110px !important;
-    max-width: 100% !important;
-  }
-}
-
-/* Grid-paper button from the cleaned reference image. */
-.login-shell .login-entry-journal,
-.login-shell > .landing-nav .login-entry-journal,
-.login-shell .hero-cta .login-entry-journal {
-  width: 188px !important;
-  height: 47px !important;
-  min-height: 47px !important;
-  padding: 0 14px 1px !important;
-  background: url("/images/start-using-grid-paper.png") center / 100% 100% no-repeat !important;
-  font-size: 16px !important;
-}
-.login-shell .hero-cta .login-entry-journal {
-  width: 248px !important;
-  height: 61px !important;
-  min-height: 61px !important;
-  font-size: 21px !important;
-}
-@media (max-width: 700px) {
-  .login-shell > .landing-nav .login-entry-journal {
-    width: 152px !important;
-    height: 38px !important;
-    min-height: 38px !important;
-    font-size: 13px !important;
-  }
-  .login-shell .hero-cta .login-entry-journal {
-    width: 212px !important;
-    height: 53px !important;
-    min-height: 53px !important;
-    font-size: 18px !important;
-  }
-}
-
-/* Hero badge clearance and pastel grid paper. */
-.login-shell > .landing-page-card > .login-story > .login-art.hero-art > .hero-sticker {
-  left: -8% !important;
-  top: 29% !important;
-  right: auto !important;
-  pointer-events: none;
-}
-.login-shell > .landing-page-card > .login-story > .login-art.hero-art > span:not(.hero-art-layer) {
-  right: -10% !important;
-  top: 12% !important;
-  left: auto !important;
-  pointer-events: none;
-}
-@media (max-width: 700px) {
-  .login-shell > .landing-page-card > .login-story > .login-art.hero-art > .hero-sticker {
-    left: -11% !important;
-    top: 43% !important;
-  }
-  .login-shell > .landing-page-card > .login-story > .login-art.hero-art > span:not(.hero-art-layer) {
-    right: -11% !important;
-    top: 10% !important;
-    padding: 9px 7px !important;
-    font-size: 9px !important;
-  }
-}
-.login-shell .login-entry-journal,
-.login-shell > .landing-nav .login-entry-journal,
-.login-shell .hero-cta .login-entry-journal {
-  position: relative !important;
-  isolation: isolate;
-  background: transparent !important;
-  color: #86546c !important;
-  text-shadow: 0 1px 0 rgba(255,255,255,.8) !important;
-}
-.login-shell .login-entry-journal::before,
-.login-shell .login-entry-journal::after {
-  content: "" !important;
-  display: block !important;
-  position: absolute !important;
-  inset: 0 !important;
-  width: 100% !important;
-  height: 100% !important;
-  border: 0 !important;
-  border-radius: 0 !important;
-  transform: none !important;
-  pointer-events: none !important;
-}
-.login-shell .login-entry-journal::before {
-  z-index: -2 !important;
-  background: url("/images/start-using-grid-paper.png") center / 100% 100% no-repeat !important;
-  filter: sepia(.48) saturate(1.55) hue-rotate(300deg) brightness(1.06);
-}
-.login-shell .login-entry-journal::after {
-  z-index: -1 !important;
-  background: linear-gradient(120deg, rgba(255,219,232,.4), rgba(255,243,247,.25)) !important;
-  -webkit-mask: url("/images/start-using-grid-paper.png") center / 100% 100% no-repeat;
-  mask: url("/images/start-using-grid-paper.png") center / 100% 100% no-repeat;
-}
-.login-shell .login-entry-journal:hover,
-.login-shell .login-entry-journal:focus-visible { color: #75425a !important; }
-
-/* Compact landing navigation with preserved wave. */
+/* Reference image 1: a compact single-row header and larger, level heart cards. */
 .login-shell > .landing-nav {
-  height: 84px !important;
-  padding-block: 6px !important;
+  box-sizing: border-box !important;
+  grid-template-columns: minmax(260px, 1fr) minmax(300px, 1.08fr) minmax(480px, 1.65fr) !important;
+  gap: 16px !important;
+  height: 118px !important;
+  min-height: 118px !important;
+  padding: 8px 0 8px 40px !important;
+  background-color: #f2dfe1 !important;
 }
-.login-shell { padding-top: 84px !important; }
+.login-shell { padding-top: 118px !important; }
 .login-shell > .landing-nav::after {
-  content: "" !important;
-  display: block !important;
-  bottom: -11px !important;
-  height: 12px !important;
-  background: url("/images/header-wave.svg") left bottom / 82px 12px repeat-x !important;
+  inset: auto 0 -21px !important;
+  height: 22px !important;
+  background-image: url("/images/header-wave-rosepaper-inverted.svg") !important;
+  background-size: 100px 22px !important;
 }
-@media (max-width: 900px) {
+.login-shell > .landing-nav > .brand-lockup { gap: 12px !important; white-space: nowrap !important; }
+.login-shell > .landing-nav .brand-copy { min-width: max-content !important; white-space: nowrap !important; }
+.login-shell > .landing-nav .brand-copy strong { font-size: 20px !important; white-space: nowrap !important; }
+.login-shell > .landing-nav .brand-copy small { font-size: 8px !important; white-space: nowrap !important; }
+.login-shell > .landing-nav > .time-sticker { width: min(100%, 323px) !important; }
+.login-shell > .landing-nav > nav { gap: 20px !important; white-space: nowrap !important; }
+.login-shell > .landing-nav .login-entry { width: 286px !important; min-width: 286px !important; min-height: 78px !important; padding: 16px 30px !important; font-size: 22px !important; }
+.login-shell .ready-to-begin {
+  width: min(92%, 1060px) !important;
+  max-width: 1060px !important;
+  margin-top: 28px !important;
+}
+.login-shell .ready-heart-left,
+.login-shell .ready-heart-right { transform: none !important; }
+.login-shell .ready-heart-left h3 { font-size: clamp(38px, 6.1vw, 74px) !important; }
+.login-shell .ready-heart-right p { font-size: clamp(16px, 2.15vw, 25px) !important; }
+.login-shell .ready-heart-right .login-entry-journal {
+  min-height: 0 !important;
+  padding: .72em 1.9em !important;
+  font-size: clamp(17px, 2.25vw, 27px) !important;
+  line-height: 1.3 !important;
+  transform: none !important;
+}
+@media (max-width: 900px) and (min-width: 701px) {
   .login-shell > .landing-nav {
-    height: 72px !important;
-    padding-block: 6px !important;
+    grid-template-columns: minmax(220px, 1fr) minmax(160px, .9fr) auto !important;
+    gap: 10px !important;
+    padding: 8px 14px 8px 24px !important;
   }
-  .login-shell { padding-top: 72px !important; }
+  .login-shell > .landing-nav > .brand-lockup > img { width: 54px !important; height: 54px !important; }
+  .login-shell > .landing-nav .brand-copy strong { font-size: 17px !important; }
+  .login-shell > .landing-nav .brand-copy small { font-size: 7px !important; }
+  .login-shell > .landing-nav > .nav .login-entry,
+  .login-shell > .landing-nav .login-entry { width: 138px !important; min-width: 138px !important; min-height: 54px !important; padding: 10px 14px !important; font-size: 15px !important; }
+  .login-shell > .landing-nav > nav { gap: 10px !important; }
+  .login-shell > .landing-nav > nav > a:not(.login-entry) { font-size: 10px !important; }
 }
 @media (max-width: 700px) {
   .login-shell > .landing-nav {
     grid-template-columns: minmax(0, 1fr) auto !important;
-    grid-template-rows: 1fr !important;
-    height: 64px !important;
-    min-height: 64px !important;
-    padding: 7px 16px !important;
-    gap: 8px !important;
+    grid-template-rows: 54px 28px !important;
+    height: 94px !important;
+    min-height: 94px !important;
+    padding: 5px 16px 12px !important;
   }
-  .login-shell > .landing-nav > .brand-lockup {
-    grid-column: 1 !important;
-    grid-row: 1 !important;
-  }
-  .login-shell > .landing-nav > .time-sticker {
-    display: none !important;
-  }
-  .login-shell > .landing-nav > nav {
-    grid-column: 2 !important;
-    grid-row: 1 !important;
-  }
-  .login-shell { padding-top: 64px !important; }
-  .login-shell > .landing-page-card > .login-story {
-    min-height: calc(100svh - 64px) !important;
-  }
+  .login-shell { padding-top: 94px !important; }
+  .login-shell > .landing-nav > .brand-lockup > img { width: 46px !important; height: 46px !important; }
+  .login-shell > .landing-nav .brand-copy strong { font-size: 14px !important; }
+  .login-shell > .landing-nav .brand-copy small { font-size: 6px !important; }
+  .login-shell > .landing-nav .login-entry { width: 118px !important; min-width: 118px !important; min-height: 38px !important; padding: 8px 12px !important; font-size: 12px !important; }
+  .login-shell .ready-to-begin { width: min(94%, 480px) !important; margin-top: 28px !important; }
+  .login-shell .ready-heart-left,
+  .login-shell .ready-heart-right { transform: none !important; }
+  .login-shell .ready-heart-left h3 { font-size: clamp(23px, 7vw, 36px) !important; }
+  .login-shell .ready-heart-right p { font-size: clamp(10px, 3.1vw, 14px) !important; }
+  .login-shell .ready-heart-right .login-entry-journal { padding: .58em 1.25em !important; font-size: clamp(12px, 3.6vw, 16px) !important; }
 }
 
-/* Blank pink title plaque with live Chinese headings. */
-.login-shell .landing-idea-feature > h2.landing-editorial-cn,
-.login-shell .operation-heading-group > h2.landing-editorial-cn {
-  position: relative !important;
-  z-index: 2 !important;
-  display: grid !important;
-  place-items: center !important;
-  justify-self: start !important;
-  align-self: start !important;
+/* Final envelope reference sizing and reveal behavior. */
+.login-shell > .landing-page-card { background: #f8f3eb !important; }
+.login-shell .landing-operation-grid {
   width: min(100%, 520px) !important;
-  height: auto !important;
-  min-height: 0 !important;
-  aspect-ratio: 2022 / 778;
-  box-sizing: border-box !important;
-  margin: 0 0 14px !important;
-  padding: clamp(28px, 4vw, 48px) clamp(18px, 3vw, 36px) 0 !important;
-  border: 0 !important;
-  background: url("/images/title-plaque-blank.png") center / 100% 100% no-repeat !important;
-  box-shadow: none !important;
-  color: #825066 !important;
-  font: 700 clamp(26px, 3vw, 40px)/1.2 "Noto Serif TC", "PMingLiU", serif !important;
-  letter-spacing: .14em !important;
-  text-align: center !important;
-  text-shadow: 0 1px 0 rgba(255,255,255,.8) !important;
-  white-space: nowrap;
-  transform: none !important;
-}
-.login-shell .landing-idea-feature::after { display: none !important; }
-@media (max-width: 700px) {
-  .login-shell .landing-idea-feature > h2.landing-editorial-cn,
-  .login-shell .operation-heading-group > h2.landing-editorial-cn {
-    width: min(100%, 370px) !important;
-    margin-bottom: 10px !important;
-    font-size: clamp(25px, 7vw, 32px) !important;
-  }
-}
-
-/* Keep the plaque centered like a scrapbook label, with softer ink. */
-.login-shell .landing-idea-feature {
-  grid-template-columns: minmax(0, 1fr) !important;
-  grid-template-areas: "lead" "copy" "signature" !important;
-  gap: 0 !important;
-}
-.login-shell .landing-idea-feature > h2.landing-editorial-cn,
-.login-shell .operation-heading-group > h2.landing-editorial-cn {
-  isolation: isolate;
-  justify-self: center !important;
-  width: min(100%, 430px) !important;
-  margin: 0 auto 12px !important;
-  padding-top: clamp(24px, 3vw, 39px) !important;
-  background: none !important;
-  color: #81586a !important;
-  font-size: clamp(24px, 2.4vw, 32px) !important;
-  letter-spacing: .09em !important;
-}
-.login-shell .landing-idea-feature > h2.landing-editorial-cn::before,
-.login-shell .operation-heading-group > h2.landing-editorial-cn::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background: url("/images/title-plaque-blank.png") center / 100% 100% no-repeat;
-  filter: hue-rotate(-19deg) saturate(.72) brightness(1.01);
-  pointer-events: none;
-}
-.login-shell .landing-idea-feature > .idea-card-signature {
-  justify-self: end !important;
-  margin: 8px 0 0 !important;
-}
-@media (max-width: 700px) {
-  .login-shell .landing-idea-feature > h2.landing-editorial-cn,
-  .login-shell .operation-heading-group > h2.landing-editorial-cn {
-    width: min(100%, 350px) !important;
-    font-size: clamp(22px, 6vw, 27px) !important;
-    padding-top: 27px !important;
-  }
-}
-
-/* Give the workflow plaque its own centered row so the copy cannot crowd it. */
-.login-shell .landing-operation-head {
-  grid-template-columns: minmax(0, 1fr) !important;
-  gap: clamp(12px, 2vw, 24px) !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   align-items: start !important;
+  gap: clamp(28px, 4vw, 42px) clamp(26px, 5vw, 54px) !important;
+  margin: 24px auto 0 !important;
 }
-.login-shell .operation-heading-group {
-  width: 100%;
-  grid-template-columns: minmax(0, 1fr);
-  gap: clamp(12px, 2vw, 22px) !important;
+.login-shell .landing-operation-step,
+.login-shell .landing-operation-step.is-expanded {
+  position: relative !important; display: flex !important; min-width: 0 !important;
+  min-height: 184px !important; padding: 0 4px 8px !important; overflow: visible !important;
+  border: 0 !important; border-radius: 0 !important; background: transparent !important;
+  box-shadow: none !important; transform: none !important; cursor: pointer !important;
 }
-.login-shell .operation-heading-group > h2.landing-editorial-cn {
-  font-size: clamp(23px, 2.2vw, 29px) !important;
-  letter-spacing: .08em !important;
-  margin-bottom: 0 !important;
+.login-shell .landing-operation-step > .landing-step-number { margin-bottom: 10px !important; }
+.login-shell .landing-operation-step > .envelope-sticker {
+  position: relative !important; inset: auto !important; flex: 0 0 auto !important;
+  width: min(100%, 176px) !important; height: 122px !important; max-height: none !important;
+  margin: 0 auto !important; aspect-ratio: auto !important; object-fit: fill !important;
+  filter: drop-shadow(0 7px 8px rgba(93,61,62,.14)) !important;
+  transition: width .42s cubic-bezier(.2,.8,.2,1), height .42s cubic-bezier(.2,.8,.2,1), transform .42s cubic-bezier(.2,.8,.2,1), margin .42s ease !important;
 }
-.login-shell .operation-heading-group > h2.landing-editorial-cn::before {
-  filter: hue-rotate(-23deg) saturate(.68) brightness(1.02);
+.login-shell .landing-operation-step > h3,
+.login-shell .landing-operation-step > .card-letter-copy { display: none !important; }
+.login-shell .landing-operation-step.is-expanded > .envelope-sticker {
+  align-self: flex-end !important; width: 92px !important; height: 62px !important;
+  margin: 0 8px 5px auto !important; transform: rotate(1deg) !important;
 }
-.login-shell .operation-intro {
-  width: min(100%, 780px);
-  max-width: none !important;
-  justify-self: center;
-  align-self: start;
-  padding: 0 !important;
-  font-size: clamp(15px, 1.3vw, 18px) !important;
-  line-height: 1.85 !important;
+.login-shell .landing-operation-step.is-expanded > h3 {
+  display: block !important; order: 2 !important; align-self: stretch !important;
+  margin: 0 0 5px !important; color: #754d5c !important;
+  font: 600 clamp(14px,1.4vw,17px)/1.45 "Noto Serif TC",serif !important; text-align: center !important;
+}
+.login-shell .landing-operation-step.is-expanded > .card-letter-copy {
+  display: block !important; order: 3 !important; width: 100% !important;
+  margin: 0 auto !important; color: #806b70 !important;
+  font: 400 clamp(10px,.82vw,11px)/1.7 "Noto Serif TC",serif !important; text-align: left !important;
+}
+.login-shell .landing-operation-step.is-expanded > .card-letter-copy p { margin: 0 !important; }
+.login-shell .landing-operation-step:focus-visible { outline: 1px dashed rgba(173,105,128,.6) !important; outline-offset: 5px !important; }
+@media (max-width: 700px) {
+  .login-shell .landing-operation-grid { width: min(100%,500px) !important; gap: 22px 12px !important; margin-top: 18px !important; }
+  .login-shell .landing-operation-step,
+  .login-shell .landing-operation-step.is-expanded { min-height: 158px !important; padding: 0 2px 6px !important; }
+  .login-shell .landing-operation-step > .landing-step-number { margin-bottom: 7px !important; }
+  .login-shell .landing-operation-step > .envelope-sticker { width: min(100%,160px) !important; height: 110px !important; }
+  .login-shell .landing-operation-step.is-expanded > .envelope-sticker { width: 78px !important; height: 53px !important; margin-right: 4px !important; }
+  .login-shell .landing-operation-step.is-expanded > h3 { font-size: 13px !important; }
+  .login-shell .landing-operation-step.is-expanded > .card-letter-copy { font-size: 10px !important; }
+}
+.login-shell .landing-operation-step.is-expanded { grid-column: auto !important; }
+
+/* Compact the masthead and keep its wave the same opaque rose paper tone. */
+.login-shell > .landing-nav {
+  box-sizing: border-box !important;
+  align-items: center !important;
+  height: 102px !important;
+  min-height: 102px !important;
+  padding: 4px 0 10px 32px !important;
+  background-color: #f2dfe1 !important;
+  background-image: none !important;
+}
+.login-shell { padding-top: 102px !important; }
+.login-shell > .landing-nav::after {
+  inset: auto 0 -18px !important;
+  height: 19px !important;
+  background-image: url("/images/header-wave-rosepaper-inverted.svg") !important;
+  background-size: 100px 19px !important;
+  background-position: left bottom !important;
+  background-repeat: repeat-x !important;
+  opacity: 1 !important;
+}
+@media (max-width: 900px) and (min-width: 701px) {
+  .login-shell > .landing-nav { height: 96px !important; min-height: 96px !important; padding: 4px 14px 8px 24px !important; }
+  .login-shell { padding-top: 96px !important; }
+  .login-shell > .landing-nav::after { inset: auto 0 -16px !important; height: 17px !important; background-size: 90px 17px !important; }
 }
 @media (max-width: 700px) {
-  .login-shell .operation-heading-group > h2.landing-editorial-cn {
-    font-size: clamp(21px, 5.6vw, 25px) !important;
+  .login-shell > .landing-nav {
+    height: 88px !important;
+    min-height: 88px !important;
+    padding: 3px 16px 9px !important;
+  }
+  .login-shell { padding-top: 88px !important; }
+  .login-shell > .landing-nav::after {
+    inset: auto 0 -13px !important;
+    height: 14px !important;
+    background-size: 82px 14px !important;
+  }
+}
+@media (max-width: 700px) {
+  .login-shell > .landing-nav {
+    grid-template-rows: 50px 24px !important;
+    padding: 3px 16px 8px !important;
   }
 }
 
-/* Two hand-cut hearts replace the footer quotation with a direct entry point. */
-.login-shell .ready-to-begin {
-  position: relative !important;
-  display: block !important;
-  width: min(100%, 940px) !important;
-  min-height: 0 !important;
-  aspect-ratio: 1634 / 1024;
-  margin: clamp(34px, 5vw, 72px) auto 8px !important;
-  padding: 0 !important;
-  border: 0 !important;
-  border-radius: 0 !important;
-  background: none !important;
-  box-shadow: none !important;
-  transform: none !important;
+/* Requested artwork scale-up: hero envelope 1.5x, workflow envelopes 2x. */
+.login-shell > .landing-page-card > .login-story {
+  overflow: visible !important;
 }
-.login-shell .ready-to-begin::before { display: none !important; }
-.login-shell .ready-heart-art {
-  position: absolute;
-  inset: 0;
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  pointer-events: none;
+.login-shell > .landing-page-card > .login-story > .hero-invitation-art {
+  width: min(150%, 765px) !important;
+  max-width: none !important;
+  z-index: 2 !important;
+}
+.login-shell .landing-operation-grid {
+  width: min(100%, 1040px) !important;
+  gap: clamp(34px, 4vw, 52px) clamp(36px, 5vw, 72px) !important;
+}
+.login-shell .landing-operation-step,
+.login-shell .landing-operation-step.is-expanded {
+  min-height: 282px !important;
+}
+.login-shell .landing-operation-step > .envelope-sticker {
+  width: min(100%, 352px) !important;
+  height: 244px !important;
+}
+@media (max-width: 700px) {
+  .login-shell > .landing-page-card > .login-story {
+    overflow: visible !important;
+  }
+  .login-shell > .landing-page-card > .login-story > .hero-invitation-art {
+    width: min(117vw, 555px, calc(111svh - 399px)) !important;
+    max-width: none !important;
+    max-height: 78svh !important;
+  }
+  .login-shell .landing-operation-grid {
+    width: min(100%, 360px) !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 28px !important;
+  }
+  .login-shell .landing-operation-step,
+  .login-shell .landing-operation-step.is-expanded {
+    min-height: 270px !important;
+  }
+  .login-shell .landing-operation-step > .envelope-sticker {
+    width: min(100%, 320px) !important;
+    height: 220px !important;
+  }
+}
+
+/* Shrink the header by one third while keeping the logo and controls legible. */
+.login-shell > .landing-nav {
+  height: 68px !important;
+  min-height: 68px !important;
+  padding: 2px 0 5px 32px !important;
+}
+.login-shell { padding-top: 68px !important; }
+.login-shell > .landing-nav > .brand-lockup > img { width: 48px !important; height: 48px !important; }
+.login-shell > .landing-nav > nav > a:not(.login-entry) { padding: 10px 0 8px !important; }
+.login-shell > .landing-nav .login-entry {
+  min-height: 52px !important;
+  padding: 8px 22px !important;
+  font-size: 18px !important;
+}
+.login-shell > .landing-nav > .time-sticker { min-height: 26px !important; padding-block: 4px !important; }
+.login-shell > .landing-nav::after {
+  inset: auto 0 -12px !important;
+  height: 13px !important;
+  background-size: 100px 13px !important;
+}
+.login-shell .curtain-invitation {
+  min-height: clamp(780px, 93vw, 1170px) !important;
+  overflow: visible !important;
+}
+.login-shell .ready-to-begin {
+  width: min(138%, 1590px) !important;
+  max-width: none !important;
+  margin-top: 42px !important;
 }
 .login-shell .ready-heart-left,
 .login-shell .ready-heart-right {
-  position: absolute;
-  top: 25%;
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 50%;
-  text-align: center;
-}
-.login-shell .ready-heart-left { left: 8%; width: 39%; color: #fff8f2; transform: rotate(-5deg); }
-.login-shell .ready-heart-right { left: 55%; width: 37%; color: #89566b; transform: rotate(5deg); }
-.login-shell .ready-heart-kicker {
-  font: 600 clamp(8px, 1.1vw, 12px)/1.4 Georgia, serif;
-  letter-spacing: .17em;
-}
-.login-shell .ready-heart-left h3 {
-  margin: .08em 0 0 !important;
-  color: inherit !important;
-  font: italic 400 clamp(28px, 5.3vw, 62px)/.9 "Edwardian Script ITC", "Bickham Script Pro 3", "Snell Roundhand", "Brush Script MT", cursive !important;
-  letter-spacing: -.035em !important;
-  text-shadow: 0 1px 2px rgba(103, 52, 73, .16);
-}
-.login-shell .ready-heart-caption {
-  margin-top: .6em;
-  font: 600 clamp(11px, 1.7vw, 18px)/1.4 "Noto Serif TC", serif;
-  letter-spacing: .18em;
-}
-.login-shell .ready-heart-right p {
-  margin: .3em 0 .65em !important;
-  color: #89566b !important;
-  font: 700 clamp(13px, 2vw, 21px)/1.5 "Noto Serif TC", serif !important;
-  letter-spacing: .08em;
-}
-.login-shell .ready-heart-right .login-entry-wrap { display: block; }
-.login-shell .ready-heart-right .login-entry-journal {
-  width: auto !important;
-  min-width: 0 !important;
-  min-height: 0 !important;
-  padding: .58em 1.35em !important;
-  border: 1px solid rgba(143, 78, 101, .32) !important;
-  border-radius: 999px !important;
-  background: #b56f89 !important;
-  box-shadow: 0 4px 10px rgba(143, 78, 101, .16) !important;
-  color: #fffaf7 !important;
-  font: 700 clamp(12px, 1.6vw, 17px)/1.35 "Noto Serif TC", serif !important;
-  letter-spacing: .1em;
-  transform: none !important;
-}
-.login-shell .ready-heart-right .login-entry-journal::before,
-.login-shell .ready-heart-right .login-entry-journal::after { display: none !important; }
-.login-shell .ready-heart-right .login-entry-journal:hover,
-.login-shell .ready-heart-right .login-entry-journal:focus-visible {
-  background: #a85f7a !important;
-  color: #fffaf7 !important;
-}
-@media (max-width: 700px) {
-  .login-shell .ready-to-begin { width: min(100%, 480px) !important; }
-  .login-shell .ready-heart-left h3 { font-size: clamp(23px, 7vw, 36px) !important; }
-  .login-shell .ready-heart-kicker { font-size: clamp(6px, 1.7vw, 8px); }
-  .login-shell .ready-heart-caption { font-size: clamp(9px, 2.8vw, 12px); }
-  .login-shell .ready-heart-right p { font-size: clamp(10px, 3.1vw, 14px) !important; }
-  .login-shell .ready-heart-right .login-entry-journal { font-size: clamp(10px, 2.8vw, 13px) !important; }
-}
-
-/* Let the idea copy sit directly on the page, like the workflow copy. */
-.login-shell .landing-idea-feature {
-  border-radius: 0 !important;
-  background: transparent !important;
-  box-shadow: none !important;
-  transform: none !important;
-}
-
-/* A soft stage curtain fades in before the final invitation card. */
-.login-shell .curtain-invitation {
-  position: relative;
-  isolation: isolate;
-  display: grid;
-  place-items: center;
-  width: calc(100% + 2 * clamp(22px, 5vw, 70px));
-  min-height: clamp(580px, 69vw, 790px);
-  margin: clamp(36px, 5vw, 70px) calc(-1 * clamp(22px, 5vw, 70px)) -2px;
-  overflow: hidden;
-  background: #fffdfb;
-}
-.motion-ready .landing-operation .curtain-invitation[data-reveal] {
-  opacity: 1 !important;
-  transform: none !important;
-}
-.login-shell .curtain-invitation::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -2;
-  background: url("/images/footer-rose-curtain.png") center / cover no-repeat;
-  opacity: 0;
-  transform: scale(1.045);
-  transition: opacity 1.45s ease, transform 2.2s ease;
-}
-.login-shell .curtain-invitation.is-visible::before {
-  opacity: 1;
-  transform: scale(1);
-}
-.login-shell .curtain-invitation::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background: linear-gradient(to bottom, #fffdfb 0%, rgba(255,253,251,.94) 5%, rgba(255,253,251,0) 27%, rgba(255,253,251,0) 78%, #fffdfb 100%);
-  pointer-events: none;
-}
-.login-shell .curtain-invitation > .ready-to-begin {
-  z-index: 1 !important;
-  width: min(86%, 900px) !important;
-  margin: 35px auto 0 !important;
-  transition: opacity .8s ease .35s, translate .9s cubic-bezier(.22,.61,.36,1) .35s !important;
-}
-.motion-ready .landing-operation .curtain-invitation > .ready-to-begin[data-reveal]:not(.is-visible) {
-  opacity: 0 !important;
-  translate: 0 34px;
-}
-.motion-ready .landing-operation .curtain-invitation > .ready-to-begin[data-reveal].is-visible {
-  opacity: 1 !important;
-  translate: 0 0;
-}
-@media (max-width: 700px) {
-  .login-shell .curtain-invitation { min-height: clamp(420px, 85svh, 620px); }
-  .login-shell .curtain-invitation > .ready-to-begin { width: min(94%, 480px) !important; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .login-shell .curtain-invitation::before,
-  .login-shell .curtain-invitation > .ready-to-begin { transition: none !important; }
-  .login-shell .curtain-invitation::before { opacity: 1; transform: none; }
-  .motion-ready .landing-operation .curtain-invitation > .ready-to-begin[data-reveal] { opacity: 1 !important; translate: none; }
-}
-
-/* Align the stage with the white page edges and finish with opaque velvet. */
-.login-shell .landing-operation {
-  padding-bottom: 0 !important;
-  overflow: visible !important;
-}
-.login-shell .curtain-invitation {
-  left: 50%;
-  width: min(95vw, 1300px);
-  margin: clamp(36px, 5vw, 70px) 0 0;
-  background: #9e5e7a;
-  transform: translateX(-50%) !important;
-}
-.motion-ready .landing-operation .curtain-invitation[data-reveal] {
-  transform: translateX(-50%) !important;
-}
-.login-shell .curtain-invitation::after {
-  background: linear-gradient(to bottom,
-    #fffdfb 0%,
-    rgba(255, 253, 251, .9) 5%,
-    rgba(255, 253, 251, 0) 26%,
-    rgba(158, 94, 122, 0) 74%,
-    #9e5e7a 100%);
-}
-.login-shell > .landing-footer {
-  position: relative !important;
-  display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  width: min(95%, 1300px) !important;
-  height: auto !important;
-  min-height: 0 !important;
-  margin: 0 auto !important;
-  padding: 17px 20px 24px !important;
-  border: 0 !important;
-  background: transparent !important;
-  box-shadow: none !important;
-  clip-path: none !important;
-}
-.login-shell > .landing-footer small {
-  color: #885a6c !important;
-  letter-spacing: .16em;
-}
-
-/* Editorial title marks: the section index, scripted English and Chinese title. */
-.login-shell .landing-idea-feature > .landing-title-mark {
-  grid-area: lead !important;
-}
-.login-shell .landing-title-mark {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-self: center;
-  width: fit-content;
-  max-width: 100%;
-  margin: 0 auto clamp(20px, 3vw, 34px);
-  padding: 0 16px 14px;
-  background: none;
-  text-align: center;
-}
-.login-shell .landing-title-mark::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 27%;
-  width: 46%;
-  border-bottom: 1px solid rgba(174, 106, 133, .42);
-}
-.login-shell .landing-title-overline {
-  display: flex;
-  align-items: baseline;
-  justify-content: center;
-  gap: clamp(8px, 1.4vw, 18px);
-  color: #ae6885;
-  white-space: nowrap;
-}
-.login-shell .landing-title-number {
-  font: 500 clamp(13px, 1.4vw, 18px)/1 Georgia, serif;
-  letter-spacing: .12em;
-}
-.login-shell .landing-title-script {
-  font: italic 400 clamp(42px, 5.2vw, 70px)/.95 "Edwardian Script ITC", "Bickham Script Pro 3", "Snell Roundhand", "Brush Script MT", cursive;
-  letter-spacing: -.025em;
-}
-.login-shell .landing-title-mark > h2.landing-editorial-cn {
-  display: block !important;
-  width: auto !important;
-  height: auto !important;
-  min-height: 0 !important;
-  aspect-ratio: auto !important;
-  margin: 3px 0 0 !important;
-  padding: 0 !important;
-  border: 0 !important;
-  background: none !important;
-  box-shadow: none !important;
-  color: #694655 !important;
-  font: 700 clamp(34px, 4vw, 54px)/1.18 "Noto Serif TC", "PMingLiU", serif !important;
-  letter-spacing: .19em !important;
-  text-shadow: none !important;
+  text-align: center !important;
   transform: none !important;
 }
-.login-shell .landing-title-mark > h2.landing-editorial-cn::before { display: none !important; }
-.login-shell .operation-heading-group { gap: 0 !important; }
-.login-shell .landing-idea-feature > p:not(.landing-editorial-cn) {
-  justify-self: center;
-  max-width: 760px !important;
-  font-size: clamp(15px, 1.25vw, 18px) !important;
-  line-height: 1.9 !important;
-  text-align: center;
+.login-shell .ready-heart-left h3,
+.login-shell .ready-heart-caption,
+.login-shell .ready-heart-right p,
+.login-shell .ready-heart-right .login-entry-journal {
+  align-self: center !important;
+  text-align: center !important;
+}
+@media (max-width: 900px) and (min-width: 701px) {
+  .login-shell > .landing-nav { height: 64px !important; min-height: 64px !important; padding: 2px 14px 4px 24px !important; }
+  .login-shell { padding-top: 64px !important; }
+  .login-shell > .landing-nav > .brand-lockup > img { width: 38px !important; height: 38px !important; }
+  .login-shell > .landing-nav .login-entry { min-height: 36px !important; padding: 6px 14px !important; font-size: 14px !important; }
+  .login-shell > .landing-nav > .time-sticker { min-height: 24px !important; padding-block: 3px !important; }
+  .login-shell > .landing-nav::after { inset: auto 0 -10px !important; height: 11px !important; background-size: 90px 11px !important; }
+  .login-shell .ready-to-begin { width: min(138%, 1590px) !important; }
 }
 @media (max-width: 700px) {
-  .login-shell .landing-title-mark { margin-bottom: 18px; }
-  .login-shell .landing-title-script { font-size: clamp(39px, 11vw, 54px); }
-  .login-shell .landing-title-mark > h2.landing-editorial-cn {
-    font-size: clamp(30px, 8vw, 40px) !important;
+  .login-shell > .landing-nav {
+    grid-template-rows: 36px 16px !important;
+    height: 59px !important;
+    min-height: 59px !important;
+    padding: 2px 12px 3px !important;
   }
+  .login-shell { padding-top: 59px !important; }
+  .login-shell > .landing-nav > .brand-lockup > img { width: 32px !important; height: 32px !important; }
+  .login-shell > .landing-nav .brand-copy strong { font-size: 11px !important; }
+  .login-shell > .landing-nav .brand-copy small { font-size: 5px !important; }
+  .login-shell > .landing-nav > .time-sticker { min-height: 14px !important; padding: 1px 4px !important; font-size: 7px !important; }
+  .login-shell > .landing-nav .login-entry { min-height: 28px !important; padding: 5px 10px !important; font-size: 10px !important; }
+  .login-shell > .landing-nav::after { inset: auto 0 -8px !important; height: 9px !important; background-size: 82px 9px !important; }
+  .login-shell .curtain-invitation { min-height: clamp(630px, 127.5svh, 930px) !important; overflow: visible !important; }
+  .login-shell .ready-to-begin { width: min(141%, 720px) !important; margin-top: 32px !important; }
+  .login-shell .ready-heart-left,
+  .login-shell .ready-heart-right { transform: none !important; }
 }
+
 
 /* Carry the same romantic handwriting through the English landing copy. */
 .login-shell {

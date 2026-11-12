@@ -10,7 +10,7 @@ function SubmitButton({ children, className, pendingLabel }: { children: React.R
   return <button type="submit" className={className} disabled={pending} aria-busy={pending}>{pending ? pendingLabel : children}</button>;
 }
 
-export function LoginEntry({ error, message, label = "開始使用", showNotice = false }: { error?: string; message?: string; label?: string; showNotice?: boolean }) {
+export function LoginEntry({ error, message, label = "開始使用", showNotice = false, className = "" }: { error?: string; message?: string; label?: string; showNotice?: boolean; className?: string }) {
   const [open, setOpen] = useState(showNotice && Boolean(error || message));
   const [mode, setMode] = useState<"login" | "signup">("login");
   const dialog = useRef<HTMLElement>(null);
@@ -37,7 +37,7 @@ export function LoginEntry({ error, message, label = "開始使用", showNotice 
 
   return <>
     <span className="login-entry-wrap">
-      <button type="button" className={"login-entry" + (label === "開始使用" ? " login-entry-journal" : "")} onClick={() => setOpen(true)}>{label}{label !== "開始使用" && <span aria-hidden="true">→</span>}</button>
+      <button className={`login-entry ${className}`.trim()} onClick={() => setOpen(true)}>{label} <span>→</span></button>
     </span>
     {open && typeof document !== "undefined" && createPortal(<section ref={dialog} className="auth-overlay auth-arch-stage" aria-labelledby={`${id}-title`} role="dialog" aria-modal="true">
       <button type="button" className="auth-back" onClick={() => setOpen(false)}><span aria-hidden="true">←</span> 返回首頁</button>

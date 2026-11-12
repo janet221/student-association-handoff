@@ -29,10 +29,10 @@ export default async function LoginPage({
       <header className="landing-nav" id="site-header">
         <a href="#top" className="brand-lockup">
           <Image src="/images/winged-cat-heart-logo-deep-rose.png" alt="深粉色抱心飛天貓手繪標誌" width={72} height={72} priority />
-          <span className="brand-copy"><strong>NCUE IM</strong><small>Student Association</small></span>
+          <span className="brand-copy"><strong>NCUE IM</strong><small>STUDENT ASSOCIATION</small></span>
         </a>
         <TimeSticker />
-        <nav aria-label="首頁導覽"><a href="#about">專案理念</a><a href="#operation">如何運作</a><LoginEntry error={notice.error} message={notice.message} showNotice /></nav>
+        <nav aria-label="首頁導覽"><a href="#about">專案理念</a><a href="#operation">如何運作</a><LoginEntry error={notice.error} message={notice.message} showNotice className="login-entry-journal" /></nav>
       </header>
       <div className="landing-page-card">
         <section className="login-story" id="top">
@@ -56,24 +56,10 @@ export default async function LoginPage({
             <span>資管系學會</span>
             <span>跨股協作與換屆交接平台</span>
           </h1>
-          <div className="hero-cta hero-reveal nitro-burst"><LoginEntry error={notice.error} message={notice.message} label="開始使用" /></div>
-          <div className="login-art hero-art nitro-burst" aria-hidden="true">
-            <span className="hero-art-layer hero-art-fountain"><Image src="/images/hero-fountain-only.png" alt="" width={1163} height={1352} priority /></span>
-            <span className="hero-art-layer hero-art-rabbit-left"><Image src="/images/hero-rabbit-left.png" alt="" width={1163} height={1352} /></span>
-            <span className="hero-art-layer hero-art-rabbit-right"><Image src="/images/hero-rabbit-right.png" alt="" width={1163} height={1352} /></span>
-            <span>留下做法<br />接著處理</span>
-            <i className="hero-star hero-star-one" />
-            <i className="hero-star hero-star-two" />
-            <i className="sculpture-sparkle sculpture-sparkle-one" />
-            <i className="sculpture-sparkle sculpture-sparkle-two" />
-            <i className="sculpture-sparkle sculpture-sparkle-three" />
-            <i className="hero-sticker">OPEN<br /><b>25—26</b></i>
+          <div className="hero-cta hero-reveal nitro-burst"><LoginEntry error={notice.error} message={notice.message} label="開始使用" className="login-entry-journal" /></div>
+          <div className="login-art hero-art hero-invitation-art" aria-label="粉玫瑰色信封與邀請信">
+            <Image className="hero-invitation-envelope" src="/images/hero-theatre-invitation-letter.webp" alt="粉玫瑰色信封、邀請信紙與火漆印" width={1125} height={1536} priority />
           </div>
-          <div className="hero-poster-note" aria-hidden="true">KEEP IT<br /><em>in the story</em></div>
-          <a className="scroll-guidance" href="#about" aria-label="往下查看平台說明">
-            <span>往下查看 <b aria-hidden="true">🎀</b></span>
-            <i aria-hidden="true">↓</i>
-          </a>
         </section>
         <LandingContent />
       </div>
