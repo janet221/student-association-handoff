@@ -7964,3 +7964,78 @@ body:has(.auth-arch-stage) .global-sound-toggle{top:max(16px,env(safe-area-inset
   color: #885a6c !important;
   letter-spacing: .16em;
 }
+
+/* Editorial title marks: the section index, scripted English and Chinese title. */
+.login-shell .landing-idea-feature > .landing-title-mark {
+  grid-area: lead !important;
+}
+.login-shell .landing-title-mark {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-self: center;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto clamp(20px, 3vw, 34px);
+  padding: 0 16px 14px;
+  background: none;
+  text-align: center;
+}
+.login-shell .landing-title-mark::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 27%;
+  width: 46%;
+  border-bottom: 1px solid rgba(174, 106, 133, .42);
+}
+.login-shell .landing-title-overline {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: clamp(8px, 1.4vw, 18px);
+  color: #ae6885;
+  white-space: nowrap;
+}
+.login-shell .landing-title-number {
+  font: 500 clamp(13px, 1.4vw, 18px)/1 Georgia, serif;
+  letter-spacing: .12em;
+}
+.login-shell .landing-title-script {
+  font: italic 400 clamp(42px, 5.2vw, 70px)/.95 "Edwardian Script ITC", "Bickham Script Pro 3", "Snell Roundhand", "Brush Script MT", cursive;
+  letter-spacing: -.025em;
+}
+.login-shell .landing-title-mark > h2.landing-editorial-cn {
+  display: block !important;
+  width: auto !important;
+  height: auto !important;
+  min-height: 0 !important;
+  aspect-ratio: auto !important;
+  margin: 3px 0 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: none !important;
+  box-shadow: none !important;
+  color: #694655 !important;
+  font: 700 clamp(34px, 4vw, 54px)/1.18 "Noto Serif TC", "PMingLiU", serif !important;
+  letter-spacing: .19em !important;
+  text-shadow: none !important;
+  transform: none !important;
+}
+.login-shell .landing-title-mark > h2.landing-editorial-cn::before { display: none !important; }
+.login-shell .operation-heading-group { gap: 0 !important; }
+.login-shell .landing-idea-feature > p:not(.landing-editorial-cn) {
+  justify-self: center;
+  max-width: 760px !important;
+  font-size: clamp(15px, 1.25vw, 18px) !important;
+  line-height: 1.9 !important;
+  text-align: center;
+}
+@media (max-width: 700px) {
+  .login-shell .landing-title-mark { margin-bottom: 18px; }
+  .login-shell .landing-title-script { font-size: clamp(39px, 11vw, 54px); }
+  .login-shell .landing-title-mark > h2.landing-editorial-cn {
+    font-size: clamp(30px, 8vw, 40px) !important;
+  }
+}

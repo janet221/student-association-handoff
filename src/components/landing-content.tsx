@@ -240,10 +240,12 @@ export function LandingContent() {
       <span className="section-rabbit section-rabbit-about-main" aria-hidden="true" />
       <span className="section-rabbit section-rabbit-about-small" aria-hidden="true" />
       <Image className="section-star-glow section-star-glow-about" src="/images/decor/pink-star-glow.png" alt="" width={1402} height={1122} aria-hidden="true" />
-      <div className="landing-section-label reveal-label" data-reveal><span>01</span><i /> PROJECT IDEA</div>
       <div className="landing-about-copy" data-reveal>
         <header className="landing-idea-feature" data-reveal>
-          <h2 className="landing-editorial-cn">理念說明</h2>
+          <div className="landing-title-mark">
+            <span className="landing-title-overline"><span className="landing-title-number">01</span><span className="landing-title-script">Project Idea</span></span>
+            <h2 className="landing-editorial-cn">理念說明</h2>
+          </div>
           <p>把活動、工作項目和期限放在同一處，也讓歷屆留下的做法在下一次需要時找得到。</p>
           <span className="idea-card-signature">HANDOVER TO ACTIVE</span>
         </header>
@@ -277,7 +279,12 @@ export function LandingContent() {
       <span className="section-rabbit section-rabbit-operation-small" aria-hidden="true" />
       <Image className="section-star-glow section-star-glow-operation" src="/images/decor/pink-star-glow.png" alt="" width={1402} height={1122} aria-hidden="true" />
       <header className="landing-operation-head">
-        <div className="operation-heading-group" data-reveal><div className="landing-section-label"><span>02</span><i /> WORKFLOW</div><h2 className="landing-editorial-cn">如何運作</h2></div>
+        <div className="operation-heading-group" data-reveal>
+          <div className="landing-title-mark">
+            <span className="landing-title-overline"><span className="landing-title-number">02</span><span className="landing-title-script">Workflow</span></span>
+            <h2 className="landing-editorial-cn">如何運作</h2>
+          </div>
+        </div>
         <div className="operation-intro" data-reveal>
           <p>本屆工作用來管理正在進行的活動、工作階段、負責人和期限；交接紀錄則留下已完成活動的工作內容與執行筆記。</p>
           <p>建立活動時，可以參考歷屆架構，再依今年的人員、日期和進度調整。</p>
