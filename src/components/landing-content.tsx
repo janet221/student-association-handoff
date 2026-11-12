@@ -243,11 +243,11 @@ export function LandingContent() {
       <div className="landing-about-copy" data-reveal>
         <header className="landing-idea-feature" data-reveal>
           <div className="landing-title-mark">
-            <span className="landing-title-overline"><span className="landing-title-number">01</span><span className="landing-title-script">Project Idea</span></span>
+            <span className="landing-title-overline"><span className="landing-title-script">Project Idea</span></span>
             <h2 className="landing-editorial-cn">理念說明</h2>
           </div>
           <p>把活動、工作項目和期限放在同一處，也讓歷屆留下的做法在下一次需要時找得到。</p>
-          <span className="idea-card-signature">HANDOVER TO ACTIVE</span>
+          <span className="idea-card-signature">Handover to Active</span>
         </header>
         <div className="landing-idea-card-grid">
           <article className={`landing-envelope-card landing-idea-card landing-idea-card-one nitro-burst ${expandedCards.has("idea-01") ? "is-expanded" : ""} ${revealedCards.has("idea-01") ? "is-visible" : ""}`} data-reveal data-card-id="idea-01" role="button" tabIndex={0} aria-expanded={expandedCards.has("idea-01")} aria-label="查看歷屆活動資料。點擊展開或收起內容" onClick={() => toggleCard("idea-01")} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); toggleCard("idea-01"); } }}>
@@ -281,7 +281,7 @@ export function LandingContent() {
       <header className="landing-operation-head">
         <div className="operation-heading-group" data-reveal>
           <div className="landing-title-mark">
-            <span className="landing-title-overline"><span className="landing-title-number">02</span><span className="landing-title-script">Workflow</span></span>
+            <span className="landing-title-overline"><span className="landing-title-script">Workflow</span></span>
             <h2 className="landing-editorial-cn">如何運作</h2>
           </div>
         </div>
@@ -305,15 +305,16 @@ export function LandingContent() {
         </article>)}
       </div>
       <div className="curtain-invitation" data-reveal>
+      <span className="curtain-light" aria-hidden="true" />
       <div className="ready-to-begin" data-reveal>
         <Image className="ready-heart-art" src="/images/footer-heart-papers.png" alt="" aria-hidden="true" width={1634} height={1024} />
         <div className="ready-heart-left">
-          <span className="ready-heart-kicker">NCUE IM · OUR NEXT CHAPTER</span>
+          <span className="ready-heart-kicker">NCUE IM · Our Next Chapter</span>
           <h3>The Story<br />Continues</h3>
           <span className="ready-heart-caption">接著寫下去</span>
         </div>
         <div className="ready-heart-right">
-          <span className="ready-heart-kicker">LET'S BEGIN</span>
+          <span className="ready-heart-kicker">Let&apos;s Begin</span>
           <p>下一頁，換我們一起寫。</p>
           <LoginEntry label="開始使用" />
         </div>

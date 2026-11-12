@@ -29,7 +29,7 @@ export default async function LoginPage({
       <header className="landing-nav" id="site-header">
         <a href="#top" className="brand-lockup">
           <Image src="/images/winged-cat-heart-logo-deep-rose.png" alt="深粉色抱心飛天貓手繪標誌" width={72} height={72} priority />
-          <span className="brand-copy"><strong>NCUE IM</strong><small>STUDENT ASSOCIATION</small></span>
+          <span className="brand-copy"><strong>NCUE IM</strong><small>Student Association</small></span>
         </a>
         <TimeSticker />
         <nav aria-label="首頁導覽"><a href="#about">專案理念</a><a href="#operation">如何運作</a><LoginEntry error={notice.error} message={notice.message} showNotice /></nav>
@@ -51,7 +51,7 @@ export default async function LoginPage({
             </svg>
           </div>
           <div className="edition hero-reveal hero-edition">{handoverLabel.includes("➔") ? <><span>{handoverLabel.split(" ➔ ")[0]}</span><b className="handover-arrow" aria-label="交接至" /><span>{handoverLabel.split(" ➔ ")[1]}</span></> : <span>{handoverLabel}</span>}</div>
-          <p className="eyebrow hero-reveal hero-eyebrow">HANDOVER &amp; ACTIVE SYSTEM</p>
+          <p className="eyebrow hero-reveal hero-eyebrow">Handover &amp; Active System</p>
           <h1 className="hero-title">
             <span>資管系學會</span>
             <span>跨股協作與換屆交接平台</span>

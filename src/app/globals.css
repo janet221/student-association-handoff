@@ -8039,3 +8039,93 @@ body:has(.auth-arch-stage) .global-sound-toggle{top:max(16px,env(safe-area-inset
     font-size: clamp(30px, 8vw, 40px) !important;
   }
 }
+
+/* Carry the same romantic handwriting through the English landing copy. */
+.login-shell {
+  --landing-romance-script: "Edwardian Script ITC", "Bickham Script Pro 3", "Snell Roundhand", "Brush Script MT", cursive;
+}
+.login-shell > .landing-nav .brand-copy strong,
+.login-shell > .landing-nav .brand-copy small,
+.login-shell .login-story .hero-eyebrow,
+.login-shell .landing-title-script,
+.login-shell .landing-envelope-card > .card-micro,
+.login-shell .landing-envelope-card > .envelope-cover-instructions,
+.login-shell .landing-idea-feature > .idea-card-signature,
+.login-shell .ready-heart-kicker,
+.login-shell .ready-heart-left h3,
+.login-shell .pearl-timeline-label small,
+.login-shell .time-sticker-live b,
+.login-shell > .landing-footer small {
+  font-family: var(--landing-romance-script) !important;
+  font-weight: 400 !important;
+  font-style: italic !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+}
+.login-shell > .landing-nav .brand-copy strong { font-size: clamp(19px, 2vw, 27px) !important; }
+.login-shell > .landing-nav .brand-copy small { font-size: clamp(11px, 1vw, 15px) !important; }
+.login-shell .login-story .hero-eyebrow { font-size: clamp(18px, 2.25vw, 28px) !important; }
+.login-shell .landing-envelope-card > .card-micro { font-size: clamp(12px, 1.5vw, 17px) !important; }
+.login-shell .landing-envelope-card > .envelope-cover-instructions {
+  min-width: 76px !important;
+  padding: 6px 11px !important;
+  font-size: clamp(18px, 2vw, 23px) !important;
+  line-height: .9 !important;
+  white-space: nowrap;
+}
+.login-shell .landing-idea-feature > .idea-card-signature { font-size: clamp(13px, 1.5vw, 19px) !important; }
+.login-shell .ready-heart-kicker { font-size: clamp(11px, 1.5vw, 18px) !important; }
+.login-shell .pearl-timeline-label small,
+.login-shell .time-sticker-live b { font-size: clamp(11px, 1vw, 15px) !important; }
+.login-shell > .landing-footer small { font-size: clamp(14px, 1.5vw, 20px) !important; }
+@media (max-width: 700px) {
+  .login-shell > .landing-nav .brand-copy strong { font-size: 18px !important; }
+  .login-shell > .landing-nav .brand-copy small { font-size: 9px !important; }
+  .login-shell .login-story .hero-eyebrow { font-size: 17px !important; }
+  .login-shell .landing-envelope-card > .envelope-cover-instructions { font-size: 18px !important; }
+  .login-shell .landing-idea-feature > .idea-card-signature { font-size: 12px !important; }
+  .login-shell .ready-heart-kicker { font-size: clamp(10px, 2.5vw, 13px) !important; }
+}
+
+/* Keep the scripted wordmark on two intentional lines in the compact header. */
+.login-shell > .landing-nav .brand-copy { width: max-content !important; min-width: 128px; }
+.login-shell > .landing-nav .brand-copy strong,
+.login-shell > .landing-nav .brand-copy small { white-space: nowrap !important; }
+.login-shell > .landing-nav .brand-copy strong { font-size: 17px !important; }
+.login-shell > .landing-nav .brand-copy small { font-size: 8px !important; }
+@media (max-width: 700px) {
+  .login-shell > .landing-nav .brand-copy { min-width: 88px; }
+  .login-shell > .landing-nav .brand-copy strong { font-size: 15px !important; }
+  .login-shell > .landing-nav .brand-copy small { font-size: 7px !important; }
+}
+
+/* Sharper velvet folds with a slow stage-light shimmer. */
+.login-shell .curtain-invitation::before {
+  background-image: url("/images/footer-rose-curtain-v2.png");
+  background-position: center;
+  background-size: cover;
+}
+.login-shell .curtain-light {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: block;
+  pointer-events: none;
+  opacity: 0;
+  background:
+    radial-gradient(ellipse 19% 51% at 23% 29%, rgba(255, 221, 211, .38), transparent 75%),
+    radial-gradient(ellipse 23% 54% at 51% 22%, rgba(255, 231, 216, .3), transparent 78%),
+    radial-gradient(ellipse 19% 51% at 78% 31%, rgba(255, 221, 211, .34), transparent 75%);
+  mix-blend-mode: screen;
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 22%, #000 67%, transparent 100%);
+  transition: opacity 1.5s ease .15s;
+  animation: curtain-spotlight 8s ease-in-out infinite alternate;
+}
+.login-shell .curtain-invitation.is-visible .curtain-light { opacity: .75; }
+@keyframes curtain-spotlight {
+  from { filter: brightness(.83); transform: translateX(-1.5%) scale(1); }
+  to { filter: brightness(1.18); transform: translateX(1.5%) scale(1.04); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .login-shell .curtain-light { animation: none; transition: none; }
+}
